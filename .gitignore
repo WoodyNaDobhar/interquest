@@ -30,3 +30,4 @@ Thumbs.db
 /app/Config/core.php
 /.project
 /.settings
+/app/Config/email.php

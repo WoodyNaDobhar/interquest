@@ -69,7 +69,9 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('Users');
+CakePlugin::load('Users', array(
+	'routes' => true
+));
 CakePlugin::load('Migrations');
 
 /**
@@ -113,4 +115,13 @@ CakeLog::config('error', array(
 	'engine' => 'File',
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
+));
+
+
+/**
+ * User roles
+ */
+Configure::write('Users.roles', array(
+	'admin' => 'Admin',
+	'registered' => 'Registered'
 ));
