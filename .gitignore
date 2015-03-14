@@ -28,3 +28,5 @@ Thumbs.db
 /.buildpath
 /.gitattributes
 /app/Config/core.php
+/.project
+/.settings
