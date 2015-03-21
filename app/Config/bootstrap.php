@@ -122,6 +122,8 @@ CakeLog::config('error', array(
  * User roles
  */
 Configure::write('Users.roles', array(
-	'admin' => 'Admin',
-	'registered' => 'Registered'
+	'admin'		=> 'Admin',
+	'player'	=> 'Player',
+	'mapkeeper'	=> 'MapKeeper'
 ));
+Configure::write('Users.defaultRole', 'player');
