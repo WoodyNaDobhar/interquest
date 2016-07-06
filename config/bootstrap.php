@@ -192,6 +192,23 @@ Request::addDetector('tablet', function ($request) {
 
 Plugin::load('Migrations');
 
+//users
+Configure::write('Users.config', ['users']);
+Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
+Configure::write('Users.Social.login', true); //to enable social login
+
+//facebook
+Configure::write('OAuth.providers.facebook.options.clientId', 'YOUR APP ID');
+Configure::write('OAuth.providers.facebook.options.clientSecret', 'YOUR APP SECRET');
+
+//recaptcha
+Configure::write('Users.reCaptcha.key', '6LeGXiQTAAAAAHjFg6nvV9-Q7xHNloDC1VJUGMiB');
+Configure::write('Users.reCaptcha.secret', '6LeGXiQTAAAAAEcXCmFwuWmg2K5nzP490SmbrQG5');
+Configure::write('Users.reCaptcha.registration', true); //enable on registration
+
+//email username
+Configure::write('Auth.authenticate.Form.fields.username', 'email');
+
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
 if (Configure::read('debug')) {
