@@ -1,17 +1,5 @@
 <?php
 
-/**
- * Copyright 2010 - 2015, Cake Development Corporation (http://cakedc.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright 2010 - 2015, Cake Development Corporation (http://cakedc.com)
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-use Cake\Core\Configure;
-use Cake\Routing\Router;
-
 $config = [
     'Users' => [
         //Table used to manage users
@@ -112,42 +100,6 @@ $config = [
             'CakeDC/Users.SimpleRbac',
         ],
     ],
-    'OAuth' => [
-        'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => false],
-        'providers' => [
-            'facebook' => [
-                'className' => 'League\OAuth2\Client\Provider\Facebook',
-                'options' => [
-                    'graphApiVersion' => 'v2.5',
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/facebook',
-                ]
-            ],
-            'twitter' => [
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/twitter',
-                ]
-            ],
-            'linkedIn' => [
-                'className' => 'League\OAuth2\Client\Provider\LinkedIn',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/linkedIn',
-                ]
-            ],
-            'instagram' => [
-                'className' => 'League\OAuth2\Client\Provider\Instagram',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/instagram',
-                ]
-            ],
-            'google' => [
-                'className' => 'League\OAuth2\Client\Provider\Google',
-                'options' => [
-                    'userFields' => ['url', 'aboutMe'],
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/google',
-                ]
-            ],
-        ],
-    ]
 ];
 
 return $config;
