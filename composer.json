@@ -16,7 +16,8 @@
         "league/oauth2-google": "@stable",
         "league/oauth2-linkedin": "@stable",
         "league/oauth1-client": "@stable",
-        "google/recaptcha": "@stable"
+        "google/recaptcha": "@stable",
+        "pgbi/cakephp3-soft-delete": "~1.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

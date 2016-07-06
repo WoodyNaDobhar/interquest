@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "652a6f6c94e2d35af14aa77b1be67c8e",
-    "content-hash": "5aea302155ecb2515cc58e64a3ba68a8",
+    "hash": "adeb5f1d20e34237a9cb1face8559569",
+    "content-hash": "5aac2cf981ef59277ecb766931de49a9",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -1244,6 +1244,50 @@
                 "php mobile detect"
             ],
             "time": "2016-04-24 09:47:16"
+        },
+        {
+            "name": "pgbi/cakephp3-soft-delete",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PGBI/cakephp3-soft-delete.git",
+                "reference": "3326dc72af78f1d87117f0ad13666d10b8d1a5bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PGBI/cakephp3-soft-delete/zipball/3326dc72af78f1d87117f0ad13666d10b8d1a5bd",
+                "reference": "3326dc72af78f1d87117f0ad13666d10b8d1a5bd",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "cakephp/plugin-installer": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "SoftDelete\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "SoftDelete plugin for CakePHP",
+            "homepage": "https://github.com/pgbi/cakephp3-soft-delete",
+            "keywords": [
+                "cakephp",
+                "cakephp 3",
+                "deletable",
+                "delete",
+                "plugin",
+                "soft"
+            ],
+            "time": "2015-10-18 01:46:04"
         },
         {
             "name": "psr/http-message",

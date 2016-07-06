@@ -192,14 +192,17 @@ Request::addDetector('tablet', function ($request) {
 
 Plugin::load('Migrations');
 
+//soft delete
+Plugin::load('SoftDelete');
+
 //users
 Configure::write('Users.config', ['users']);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Configure::write('Users.Social.login', true); //to enable social login
 
 //facebook
-Configure::write('OAuth.providers.facebook.options.clientId', 'YOUR APP ID');
-Configure::write('OAuth.providers.facebook.options.clientSecret', 'YOUR APP SECRET');
+Configure::write('OAuth.providers.facebook.options.clientId', '532570076926463');
+Configure::write('OAuth.providers.facebook.options.clientSecret', '2c31d17c05e6d51bf670eb7478eae61b');
 
 //recaptcha
 Configure::write('Users.reCaptcha.key', '6LeGXiQTAAAAAHjFg6nvV9-Q7xHNloDC1VJUGMiB');
