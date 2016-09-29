@@ -38,6 +38,8 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     <?= $this->Html->meta('icon') ?>
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('bootstrap.css') ?>
+    <?= $this->Html->css('bootstrap-theme.css') ?>
 </head>
 <body class="home">
     <header>
@@ -245,4 +247,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
         </div>
     </div>
 </body>
+    <?= $this->Html->script('jquery-3.1.1.js') ?>
+    <?= $this->Html->script('bootstrap.js') ?>
 </html>
