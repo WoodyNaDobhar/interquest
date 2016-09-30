@@ -73,8 +73,8 @@ $this->end();
     </div>
     <table class="table table-striped" cellpadding="0" cellspacing="0">
         <tr>
-            <td><?= __('User Id') ?></td>
-            <td><?= h($persona->user_id) ?></td>
+            <td><?= __('User') ?></td>
+            <td><?= $persona->has('user') ? $this->Html->link($persona->user->id, ['controller' => 'Users', 'action' => 'view', $persona->user->id]) : '' ?></td>
         </tr>
         <tr>
             <td><?= __('Name') ?></td>

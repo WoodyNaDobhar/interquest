@@ -80,7 +80,7 @@ $this->end();
     <legend><?= __('Edit {0}', ['Persona']) ?></legend>
     <?php
     echo $this->Form->input('orkID');
-    echo $this->Form->input('user_id');
+    echo $this->Form->input('user_id', ['options' => $users]);
     echo $this->Form->input('name');
     echo $this->Form->input('long_name');
     echo $this->Form->input('image');

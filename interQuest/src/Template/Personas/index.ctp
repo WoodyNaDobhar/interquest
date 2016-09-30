@@ -47,7 +47,9 @@ $this->start('tb_actions');
         <tr>
             <td><?= $this->Number->format($persona->id) ?></td>
             <td><?= $this->Number->format($persona->orkID) ?></td>
-            <td><?= h($persona->user_id) ?></td>
+            <td>
+                <?= $persona->has('user') ? $this->Html->link($persona->user->id, ['controller' => 'Users', 'action' => 'view', $persona->user->id]) : '' ?>
+            </td>
             <td><?= h($persona->name) ?></td>
             <td><?= h($persona->long_name) ?></td>
             <td><?= h($persona->image) ?></td>

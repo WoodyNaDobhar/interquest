@@ -34,7 +34,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $modified
  * @property \Cake\I18n\Time $deceased
  *
- * @property \App\Model\Entity\User $user
+ * @property \CakeDC\Users\Model\Entity\User $user
  * @property \App\Model\Entity\Vocation $vocation
  * @property \App\Model\Entity\Monster $monster
  * @property \App\Model\Entity\Npc $npc

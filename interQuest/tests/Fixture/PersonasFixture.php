@@ -77,7 +77,7 @@ class PersonasFixture extends TestFixture
         [
             'id' => 1,
             'orkID' => 1,
-            'user_id' => '8620534c-e9eb-41c8-bace-8483a9aa6113',
+            'user_id' => 'a76bbfcd-16ff-4757-b955-78f0a55104c7',
             'name' => 'Lorem ipsum dolor sit amet',
             'long_name' => 'Lorem ipsum dolor sit amet',
             'image' => 'Lorem ipsum dolor sit amet',
@@ -98,10 +98,10 @@ class PersonasFixture extends TestFixture
             'is_rebel' => 1,
             'is_monarch' => 1,
             'fiefs_assigned' => 1,
-            'shattered' => '2016-09-30 00:42:58',
-            'created' => '2016-09-30 00:42:58',
-            'modified' => '2016-09-30 00:42:58',
-            'deceased' => '2016-09-30 00:42:58'
+            'shattered' => '2016-09-30 01:12:06',
+            'created' => '2016-09-30 01:12:06',
+            'modified' => '2016-09-30 01:12:06',
+            'deceased' => '2016-09-30 01:12:06'
         ],
     ];
 }
