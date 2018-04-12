@@ -1,3 +1,8 @@
-/.settings
+/vendor/*
+/config/app.php
 /etc
+/tmp/*
+/logs/*
+/.buildpath
 /.project
+.settings
