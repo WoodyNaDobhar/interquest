@@ -1,49 +1,56 @@
 {
-    "name": "cakephp/app",
-    "description": "CakePHP skeleton app",
-    "homepage": "http://cakephp.org",
-    "type": "project",
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "cakephp/cakephp": "3.3.*",
-        "mobiledetect/mobiledetectlib": "2.*",
-        "cakephp/migrations": "~1.0",
-        "cakephp/plugin-installer": "*",
-        "friendsofcake/bootstrap-ui": "^0.5.1",
-        "cakedc/users": "^3.2",
-        "league/oauth2-facebook": "@stable",
-        "league/oauth2-instagram": "@stable",
-        "league/oauth2-google": "@stable",
-        "league/oauth2-linkedin": "@stable",
-        "league/oauth1-client": "@stable"
+        "laravel/framework": "5.2.*",
+        "laravel/socialite": "2.*",
+	    "infyomlabs/laravel-generator": "5.2.x-dev",
+	    "laravelcollective/html": "5.2.*",
+	    "infyomlabs/adminlte-templates": "5.2.x-dev",
+	    "doctrine/dbal": "~2.3",
+	    "yajra/laravel-datatables-oracle": "6.*"
     },
     "require-dev": {
-        "psy/psysh": "@stable",
-        "cakephp/debug_kit": "~3.2",
-        "cakephp/bake": "~1.1"
-    },
-    "suggest": {
-        "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
-        "phpunit/phpunit": "Allows automated tests to be run without system-wide install.",
-        "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP."
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "symfony/css-selector": "2.8.*|3.0.*",
+        "symfony/dom-crawler": "2.8.*|3.0.*"
     },
     "autoload": {
+        "classmap": [
+            "database"
+        ],
         "psr-4": {
-            "App\\": "src"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "App\\Test\\": "tests",
-            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
-        }
+        "classmap": [
+            "tests/TestCase.php"
+        ]
     },
     "scripts": {
-        "post-install-cmd": "App\\Console\\Installer::postInstall",
-        "post-create-project-cmd": "App\\Console\\Installer::postInstall",
-        "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ],
+        "post-install-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan optimize"
+        ]
     },
-    "minimum-stability": "beta",
-    "prefer-stable": true
+    "config": {
+        "preferred-install": "dist"
+    }
 }
