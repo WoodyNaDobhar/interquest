@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\revisions;
+use App\Models\Revision;
 
 class CreaterevisionsRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreaterevisionsRequest extends Request
      */
     public function rules()
     {
-        return revisions::$rules;
+        return Revision::$rules;
     }
 }

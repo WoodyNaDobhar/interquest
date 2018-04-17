@@ -55,7 +55,7 @@ class territoriesController extends AppBaseController
 
         $territories = $this->territoriesRepository->create($input);
 
-        Flash::success('Territories saved successfully.');
+        Flash::success('Territory saved successfully.');
 
         return redirect(route('territories.index'));
     }
@@ -72,12 +72,12 @@ class territoriesController extends AppBaseController
         $territories = $this->territoriesRepository->findWithoutFail($id);
 
         if (empty($territories)) {
-            Flash::error('Territories not found');
+            Flash::error('Territory not found');
 
             return redirect(route('territories.index'));
         }
 
-        return view('territories.show')->with('territories', $territories);
+        return view('territories.show')->with('territory', $territories);
     }
 
     /**
@@ -92,12 +92,12 @@ class territoriesController extends AppBaseController
         $territories = $this->territoriesRepository->findWithoutFail($id);
 
         if (empty($territories)) {
-            Flash::error('Territories not found');
+            Flash::error('Territory not found');
 
             return redirect(route('territories.index'));
         }
 
-        return view('territories.edit')->with('territories', $territories);
+        return view('territories.edit')->with('territory', $territories);
     }
 
     /**
@@ -113,14 +113,14 @@ class territoriesController extends AppBaseController
         $territories = $this->territoriesRepository->findWithoutFail($id);
 
         if (empty($territories)) {
-            Flash::error('Territories not found');
+            Flash::error('Territory not found');
 
             return redirect(route('territories.index'));
         }
 
         $territories = $this->territoriesRepository->update($request->all(), $id);
 
-        Flash::success('Territories updated successfully.');
+        Flash::success('Territory updated successfully.');
 
         return redirect(route('territories.index'));
     }
@@ -137,14 +137,14 @@ class territoriesController extends AppBaseController
         $territories = $this->territoriesRepository->findWithoutFail($id);
 
         if (empty($territories)) {
-            Flash::error('Territories not found');
+            Flash::error('Territory not found');
 
             return redirect(route('territories.index'));
         }
 
         $this->territoriesRepository->delete($id);
 
-        Flash::success('Territories deleted successfully.');
+        Flash::success('Territory deleted successfully.');
 
         return redirect(route('territories.index'));
     }

@@ -55,7 +55,7 @@ class fievesController extends AppBaseController
 
         $fieves = $this->fievesRepository->create($input);
 
-        Flash::success('Fieves saved successfully.');
+        Flash::success('Fief saved successfully.');
 
         return redirect(route('fieves.index'));
     }
@@ -72,12 +72,12 @@ class fievesController extends AppBaseController
         $fieves = $this->fievesRepository->findWithoutFail($id);
 
         if (empty($fieves)) {
-            Flash::error('Fieves not found');
+            Flash::error('Fief not found');
 
             return redirect(route('fieves.index'));
         }
 
-        return view('fieves.show')->with('fieves', $fieves);
+        return view('fieves.show')->with('fief', $fieves);
     }
 
     /**
@@ -92,12 +92,12 @@ class fievesController extends AppBaseController
         $fieves = $this->fievesRepository->findWithoutFail($id);
 
         if (empty($fieves)) {
-            Flash::error('Fieves not found');
+            Flash::error('Fief not found');
 
             return redirect(route('fieves.index'));
         }
 
-        return view('fieves.edit')->with('fieves', $fieves);
+        return view('fieves.edit')->with('fief', $fieves);
     }
 
     /**
@@ -113,14 +113,14 @@ class fievesController extends AppBaseController
         $fieves = $this->fievesRepository->findWithoutFail($id);
 
         if (empty($fieves)) {
-            Flash::error('Fieves not found');
+            Flash::error('Fief not found');
 
             return redirect(route('fieves.index'));
         }
 
         $fieves = $this->fievesRepository->update($request->all(), $id);
 
-        Flash::success('Fieves updated successfully.');
+        Flash::success('Fief updated successfully.');
 
         return redirect(route('fieves.index'));
     }
@@ -137,14 +137,14 @@ class fievesController extends AppBaseController
         $fieves = $this->fievesRepository->findWithoutFail($id);
 
         if (empty($fieves)) {
-            Flash::error('Fieves not found');
+            Flash::error('Fief not found');
 
             return redirect(route('fieves.index'));
         }
 
         $this->fievesRepository->delete($id);
 
-        Flash::success('Fieves deleted successfully.');
+        Flash::success('Fief deleted successfully.');
 
         return redirect(route('fieves.index'));
     }

@@ -1,0 +1,79 @@
+/*
+* Wherever
+*/
+.deleteMe{
+	cursor: pointer;
+}
+
+/*
+* Top
+*/
+.logo img {
+    margin-top: -4px;
+}
+.mkToggle{
+	float: right;
+}
+
+/*
+* Sidebar
+*/
+.main-header .logo {
+	padding: 0px;
+}
+
+/*
+* Profile
+*/
+.personaImage {
+	width: 100%;
+}
+.overlayKnight {
+    position: absolute;
+    max-height: 25%;
+    bottom: 5%;
+    right: 5%;
+}
+.overlayMonarch {
+    position: absolute;
+    max-width: 25%;
+	left: 5%;
+	top: 2.5%;
+}
+.overlayMapkeeper {
+    position: absolute;
+    max-height: 25%;
+    bottom: 5%;
+    left: 5%;
+}
+.overlayDeceased {
+    position: absolute;
+    max-width: 25%;
+	right: 3%;
+	top: 5%;
+}
+.underlayRebel {
+    position: absolute;
+	max-width: 100%
+}
+.rebelContainerWrap {
+    width: 37%;
+    float: left;
+}
+.rebelContainer {
+    position: relative;
+}
+.rebelContents {
+    position: absolute;
+    width: 65%;
+    left: 15%;
+    top: 30%;
+}
+.personaLinks{
+    float: right;
+    width: 50px;
+    margin-left: 10px;
+}
+.personaLinks > a > img{
+	margin-bottom: 10px;
+}

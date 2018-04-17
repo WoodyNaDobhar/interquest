@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\races;
+use App\Models\Race;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class racesDataTable extends DataTable
      */
     public function query()
     {
-        $races = races::query();
+        $races = Race::query();
 
         return $this->applyScopes($races);
     }

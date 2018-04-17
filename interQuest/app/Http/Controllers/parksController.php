@@ -55,7 +55,7 @@ class parksController extends AppBaseController
 
         $parks = $this->parksRepository->create($input);
 
-        Flash::success('Parks saved successfully.');
+        Flash::success('Park saved successfully.');
 
         return redirect(route('parks.index'));
     }
@@ -72,12 +72,12 @@ class parksController extends AppBaseController
         $parks = $this->parksRepository->findWithoutFail($id);
 
         if (empty($parks)) {
-            Flash::error('Parks not found');
+            Flash::error('Park not found');
 
             return redirect(route('parks.index'));
         }
 
-        return view('parks.show')->with('parks', $parks);
+        return view('parks.show')->with('park', $parks);
     }
 
     /**
@@ -92,12 +92,12 @@ class parksController extends AppBaseController
         $parks = $this->parksRepository->findWithoutFail($id);
 
         if (empty($parks)) {
-            Flash::error('Parks not found');
+            Flash::error('Park not found');
 
             return redirect(route('parks.index'));
         }
 
-        return view('parks.edit')->with('parks', $parks);
+        return view('parks.edit')->with('park', $parks);
     }
 
     /**
@@ -113,14 +113,14 @@ class parksController extends AppBaseController
         $parks = $this->parksRepository->findWithoutFail($id);
 
         if (empty($parks)) {
-            Flash::error('Parks not found');
+            Flash::error('Park not found');
 
             return redirect(route('parks.index'));
         }
 
         $parks = $this->parksRepository->update($request->all(), $id);
 
-        Flash::success('Parks updated successfully.');
+        Flash::success('Park updated successfully.');
 
         return redirect(route('parks.index'));
     }
@@ -137,14 +137,14 @@ class parksController extends AppBaseController
         $parks = $this->parksRepository->findWithoutFail($id);
 
         if (empty($parks)) {
-            Flash::error('Parks not found');
+            Flash::error('Park not found');
 
             return redirect(route('parks.index'));
         }
 
         $this->parksRepository->delete($id);
 
-        Flash::success('Parks deleted successfully.');
+        Flash::success('Park deleted successfully.');
 
         return redirect(route('parks.index'));
     }

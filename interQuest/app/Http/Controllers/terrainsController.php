@@ -55,7 +55,7 @@ class terrainsController extends AppBaseController
 
         $terrains = $this->terrainsRepository->create($input);
 
-        Flash::success('Terrains saved successfully.');
+        Flash::success('Terrain saved successfully.');
 
         return redirect(route('terrains.index'));
     }
@@ -72,12 +72,12 @@ class terrainsController extends AppBaseController
         $terrains = $this->terrainsRepository->findWithoutFail($id);
 
         if (empty($terrains)) {
-            Flash::error('Terrains not found');
+            Flash::error('Terrain not found');
 
             return redirect(route('terrains.index'));
         }
 
-        return view('terrains.show')->with('terrains', $terrains);
+        return view('terrains.show')->with('terrain', $terrains);
     }
 
     /**
@@ -92,12 +92,12 @@ class terrainsController extends AppBaseController
         $terrains = $this->terrainsRepository->findWithoutFail($id);
 
         if (empty($terrains)) {
-            Flash::error('Terrains not found');
+            Flash::error('Terrain not found');
 
             return redirect(route('terrains.index'));
         }
 
-        return view('terrains.edit')->with('terrains', $terrains);
+        return view('terrains.edit')->with('terrain', $terrains);
     }
 
     /**
@@ -113,14 +113,14 @@ class terrainsController extends AppBaseController
         $terrains = $this->terrainsRepository->findWithoutFail($id);
 
         if (empty($terrains)) {
-            Flash::error('Terrains not found');
+            Flash::error('Terrain not found');
 
             return redirect(route('terrains.index'));
         }
 
         $terrains = $this->terrainsRepository->update($request->all(), $id);
 
-        Flash::success('Terrains updated successfully.');
+        Flash::success('Terrain updated successfully.');
 
         return redirect(route('terrains.index'));
     }
@@ -137,14 +137,14 @@ class terrainsController extends AppBaseController
         $terrains = $this->terrainsRepository->findWithoutFail($id);
 
         if (empty($terrains)) {
-            Flash::error('Terrains not found');
+            Flash::error('Terrain not found');
 
             return redirect(route('terrains.index'));
         }
 
         $this->terrainsRepository->delete($id);
 
-        Flash::success('Terrains deleted successfully.');
+        Flash::success('Terrain deleted successfully.');
 
         return redirect(route('terrains.index'));
     }

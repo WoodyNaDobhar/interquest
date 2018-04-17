@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\personas;
+use App\Models\Persona;
 
 class UpdatepersonasRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdatepersonasRequest extends Request
      */
     public function rules()
     {
-        return personas::$rules;
+        return Persona::$rules;
     }
 }

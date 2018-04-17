@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\personas;
+use App\Models\Persona;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -50,6 +50,6 @@ class personasRepository extends BaseRepository
      **/
     public function model()
     {
-        return personas::class;
+        return Persona::class;
     }
 }

@@ -1,60 +1,60 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $users->id !!}</p>
+    <p>{!! $user->id !!}</p>
 </div>
 
 <!-- Name Field -->
 <div class="form-group">
     {!! Form::label('name', 'Name:') !!}
-    <p>{!! $users->name !!}</p>
+    <p>{!! $user->name !!}</p>
 </div>
 
 <!-- Email Field -->
 <div class="form-group">
     {!! Form::label('email', 'Email:') !!}
-    <p>{!! $users->email !!}</p>
+    <p>{!! $user->email !!}</p>
 </div>
 
 <!-- Password Field -->
 <div class="form-group">
     {!! Form::label('password', 'Password:') !!}
-    <p>{!! $users->password !!}</p>
+    <p>{!! $user->password !!}</p>
 </div>
 
 <!-- Remember Token Field -->
 <div class="form-group">
     {!! Form::label('remember_token', 'Remember Token:') !!}
-    <p>{!! $users->remember_token !!}</p>
+    <p>{!! $user->remember_token !!}</p>
 </div>
 
 <!-- Is Mapkeeper Field -->
 <div class="form-group">
     {!! Form::label('is_mapkeeper', 'Is Mapkeeper:') !!}
-    <p>{!! $users->is_mapkeeper !!}</p>
+    <p>{!! $user->is_mapkeeper !!}</p>
 </div>
 
 <!-- Is Admin Field -->
 <div class="form-group">
     {!! Form::label('is_admin', 'Is Admin:') !!}
-    <p>{!! $users->is_admin !!}</p>
+    <p>{!! $user->is_admin !!}</p>
 </div>
 
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $users->created_at !!}</p>
+    <p>{!! $user->created_at !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $users->updated_at !!}</p>
+    <p>{!! $user->updated_at !!}</p>
 </div>
 
 <!-- Deleted At Field -->
 <div class="form-group">
     {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $users->deleted_at !!}</p>
+    <p>{!! $user->deleted_at !!}</p>
 </div>
 

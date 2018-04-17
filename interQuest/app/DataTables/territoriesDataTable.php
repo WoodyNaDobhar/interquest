@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\territories;
+use App\Models\Territory;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class territoriesDataTable extends DataTable
      */
     public function query()
     {
-        $territories = territories::query();
+        $territories = Territory::query();
 
         return $this->applyScopes($territories);
     }
@@ -73,7 +73,6 @@ class territoriesDataTable extends DataTable
     {
         return [
             'name' => ['name' => 'name', 'data' => 'name'],
-            'sector_id' => ['name' => 'sector_id', 'data' => 'sector_id'],
             'row' => ['name' => 'row', 'data' => 'row'],
             'column' => ['name' => 'column', 'data' => 'column'],
             'terrain_id' => ['name' => 'terrain_id', 'data' => 'terrain_id'],

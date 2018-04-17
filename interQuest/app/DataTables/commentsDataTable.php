@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\comments;
+use App\Models\Comment;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class commentsDataTable extends DataTable
      */
     public function query()
     {
-        $comments = comments::query();
+        $comments = Comment::query();
 
         return $this->applyScopes($comments);
     }

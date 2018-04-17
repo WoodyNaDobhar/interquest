@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\revisions;
+use App\Models\Revision;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -29,6 +29,6 @@ class revisionsRepository extends BaseRepository
      **/
     public function model()
     {
-        return revisions::class;
+        return Revision::class;
     }
 }

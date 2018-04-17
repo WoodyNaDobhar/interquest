@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\buildings;
+use App\Models\Building;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class buildingsDataTable extends DataTable
      */
     public function query()
     {
-        $buildings = buildings::query();
+        $buildings = Building::query();
 
         return $this->applyScopes($buildings);
     }

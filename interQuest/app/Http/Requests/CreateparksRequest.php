@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\parks;
+use App\Models\Park;
 
 class CreateparksRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreateparksRequest extends Request
      */
     public function rules()
     {
-        return parks::$rules;
+        return Park::$rules;
     }
 }

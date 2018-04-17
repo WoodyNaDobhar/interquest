@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\personas;
+use App\Models\Persona;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class personasDataTable extends DataTable
      */
     public function query()
     {
-        $personas = personas::query();
+        $personas = Persona::query();
 
         return $this->applyScopes($personas);
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\equipments;
+use App\Models\Equipment;
 
 class CreateequipmentsRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreateequipmentsRequest extends Request
      */
     public function rules()
     {
-        return equipments::$rules;
+        return Equipment$rules;
     }
 }

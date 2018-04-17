@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\users;
+use App\Models\User;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -33,6 +33,6 @@ class usersRepository extends BaseRepository
      **/
     public function model()
     {
-        return users::class;
+        return User::class;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\buildings;
+use App\Models\Building;
 
 class UpdatebuildingsRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdatebuildingsRequest extends Request
      */
     public function rules()
     {
-        return buildings::$rules;
+        return Building::$rules;
     }
 }

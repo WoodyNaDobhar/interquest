@@ -55,7 +55,7 @@ class titlesController extends AppBaseController
 
         $titles = $this->titlesRepository->create($input);
 
-        Flash::success('Titles saved successfully.');
+        Flash::success('Title saved successfully.');
 
         return redirect(route('titles.index'));
     }
@@ -72,12 +72,12 @@ class titlesController extends AppBaseController
         $titles = $this->titlesRepository->findWithoutFail($id);
 
         if (empty($titles)) {
-            Flash::error('Titles not found');
+            Flash::error('Title not found');
 
             return redirect(route('titles.index'));
         }
 
-        return view('titles.show')->with('titles', $titles);
+        return view('titles.show')->with('title', $titles);
     }
 
     /**
@@ -92,12 +92,12 @@ class titlesController extends AppBaseController
         $titles = $this->titlesRepository->findWithoutFail($id);
 
         if (empty($titles)) {
-            Flash::error('Titles not found');
+            Flash::error('Title not found');
 
             return redirect(route('titles.index'));
         }
 
-        return view('titles.edit')->with('titles', $titles);
+        return view('titles.edit')->with('title', $titles);
     }
 
     /**
@@ -113,14 +113,14 @@ class titlesController extends AppBaseController
         $titles = $this->titlesRepository->findWithoutFail($id);
 
         if (empty($titles)) {
-            Flash::error('Titles not found');
+            Flash::error('Title not found');
 
             return redirect(route('titles.index'));
         }
 
         $titles = $this->titlesRepository->update($request->all(), $id);
 
-        Flash::success('Titles updated successfully.');
+        Flash::success('Title updated successfully.');
 
         return redirect(route('titles.index'));
     }
@@ -137,14 +137,14 @@ class titlesController extends AppBaseController
         $titles = $this->titlesRepository->findWithoutFail($id);
 
         if (empty($titles)) {
-            Flash::error('Titles not found');
+            Flash::error('Title not found');
 
             return redirect(route('titles.index'));
         }
 
         $this->titlesRepository->delete($id);
 
-        Flash::success('Titles deleted successfully.');
+        Flash::success('Title deleted successfully.');
 
         return redirect(route('titles.index'));
     }

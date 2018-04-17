@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\parks;
+use App\Models\Park;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class parksDataTable extends DataTable
      */
     public function query()
     {
-        $parks = parks::query();
+        $parks = Park::query();
 
         return $this->applyScopes($parks);
     }
@@ -75,7 +75,8 @@ class parksDataTable extends DataTable
             'orkID' => ['name' => 'orkID', 'data' => 'orkID'],
             'name' => ['name' => 'name', 'data' => 'name'],
             'rank' => ['name' => 'rank', 'data' => 'rank'],
-            'sector_id' => ['name' => 'sector_id', 'data' => 'sector_id'],
+            'lat' => ['name' => 'lat', 'data' => 'lat'],
+            'lon' => ['name' => 'lon', 'data' => 'lon'],
             'midreign' => ['name' => 'midreign', 'data' => 'midreign'],
             'coronation' => ['name' => 'coronation', 'data' => 'coronation']
         ];

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\equipments;
+use App\Models\Equipment;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class equipmentsDataTable extends DataTable
      */
     public function query()
     {
-        $equipments = equipments::query();
+        $equipments = Equipmentsquery();
 
         return $this->applyScopes($equipments);
     }

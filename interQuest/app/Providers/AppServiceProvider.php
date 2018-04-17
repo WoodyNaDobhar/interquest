@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {

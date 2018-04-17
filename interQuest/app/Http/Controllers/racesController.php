@@ -55,7 +55,7 @@ class racesController extends AppBaseController
 
         $races = $this->racesRepository->create($input);
 
-        Flash::success('Races saved successfully.');
+        Flash::success('Race saved successfully.');
 
         return redirect(route('races.index'));
     }
@@ -72,12 +72,12 @@ class racesController extends AppBaseController
         $races = $this->racesRepository->findWithoutFail($id);
 
         if (empty($races)) {
-            Flash::error('Races not found');
+            Flash::error('Race not found');
 
             return redirect(route('races.index'));
         }
 
-        return view('races.show')->with('races', $races);
+        return view('races.show')->with('race', $races);
     }
 
     /**
@@ -92,12 +92,12 @@ class racesController extends AppBaseController
         $races = $this->racesRepository->findWithoutFail($id);
 
         if (empty($races)) {
-            Flash::error('Races not found');
+            Flash::error('Race not found');
 
             return redirect(route('races.index'));
         }
 
-        return view('races.edit')->with('races', $races);
+        return view('races.edit')->with('race', $races);
     }
 
     /**
@@ -113,14 +113,14 @@ class racesController extends AppBaseController
         $races = $this->racesRepository->findWithoutFail($id);
 
         if (empty($races)) {
-            Flash::error('Races not found');
+            Flash::error('Race not found');
 
             return redirect(route('races.index'));
         }
 
         $races = $this->racesRepository->update($request->all(), $id);
 
-        Flash::success('Races updated successfully.');
+        Flash::success('Race updated successfully.');
 
         return redirect(route('races.index'));
     }
@@ -137,14 +137,14 @@ class racesController extends AppBaseController
         $races = $this->racesRepository->findWithoutFail($id);
 
         if (empty($races)) {
-            Flash::error('Races not found');
+            Flash::error('Race not found');
 
             return redirect(route('races.index'));
         }
 
         $this->racesRepository->delete($id);
 
-        Flash::success('Races deleted successfully.');
+        Flash::success('Race deleted successfully.');
 
         return redirect(route('races.index'));
     }

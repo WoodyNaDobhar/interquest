@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\vocations;
+use App\Models\Vocation;
 
 class UpdatevocationsRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdatevocationsRequest extends Request
      */
     public function rules()
     {
-        return vocations::$rules;
+        return Vocation::$rules;
     }
 }

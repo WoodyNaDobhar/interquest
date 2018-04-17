@@ -55,7 +55,7 @@ class buildingsController extends AppBaseController
 
         $buildings = $this->buildingsRepository->create($input);
 
-        Flash::success('Buildings saved successfully.');
+        Flash::success('Building saved successfully.');
 
         return redirect(route('buildings.index'));
     }
@@ -72,12 +72,12 @@ class buildingsController extends AppBaseController
         $buildings = $this->buildingsRepository->findWithoutFail($id);
 
         if (empty($buildings)) {
-            Flash::error('Buildings not found');
+            Flash::error('Building not found');
 
             return redirect(route('buildings.index'));
         }
 
-        return view('buildings.show')->with('buildings', $buildings);
+        return view('buildings.show')->with('building', $buildings);
     }
 
     /**
@@ -92,12 +92,12 @@ class buildingsController extends AppBaseController
         $buildings = $this->buildingsRepository->findWithoutFail($id);
 
         if (empty($buildings)) {
-            Flash::error('Buildings not found');
+            Flash::error('Building not found');
 
             return redirect(route('buildings.index'));
         }
 
-        return view('buildings.edit')->with('buildings', $buildings);
+        return view('buildings.edit')->with('building', $buildings);
     }
 
     /**
@@ -113,14 +113,14 @@ class buildingsController extends AppBaseController
         $buildings = $this->buildingsRepository->findWithoutFail($id);
 
         if (empty($buildings)) {
-            Flash::error('Buildings not found');
+            Flash::error('Building not found');
 
             return redirect(route('buildings.index'));
         }
 
         $buildings = $this->buildingsRepository->update($request->all(), $id);
 
-        Flash::success('Buildings updated successfully.');
+        Flash::success('Building updated successfully.');
 
         return redirect(route('buildings.index'));
     }
@@ -137,14 +137,14 @@ class buildingsController extends AppBaseController
         $buildings = $this->buildingsRepository->findWithoutFail($id);
 
         if (empty($buildings)) {
-            Flash::error('Buildings not found');
+            Flash::error('Building not found');
 
             return redirect(route('buildings.index'));
         }
 
         $this->buildingsRepository->delete($id);
 
-        Flash::success('Buildings deleted successfully.');
+        Flash::success('Building deleted successfully.');
 
         return redirect(route('buildings.index'));
     }

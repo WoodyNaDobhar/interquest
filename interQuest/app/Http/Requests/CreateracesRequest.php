@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\races;
+use App\Models\Race;
 
 class CreateracesRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreateracesRequest extends Request
      */
     public function rules()
     {
-        return races::$rules;
+        return Race::$rules;
     }
 }

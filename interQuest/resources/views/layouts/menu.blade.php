@@ -15,7 +15,7 @@
 </li>
 
 <li class="{{ Request::is('fiefdoms*') ? 'active' : '' }}">
-    <a href="{!! route('fiefdoms.index') !!}"><i class="fa fa-edit"></i><span>Fiefdoms</span></a>
+    <a href="{!! route('fiefdoms.index') !!}"><i class="fa fa-edit"></i><span>Fiefdom</span></a>
 </li>
 
 <li class="{{ Request::is('fieves*') ? 'active' : '' }}">

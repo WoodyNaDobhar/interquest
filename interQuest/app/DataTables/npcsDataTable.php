@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\npcs;
+use App\Models\Npc;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class npcsDataTable extends DataTable
      */
     public function query()
     {
-        $npcs = npcs::query();
+        $npcs = Npc::query();
 
         return $this->applyScopes($npcs);
     }

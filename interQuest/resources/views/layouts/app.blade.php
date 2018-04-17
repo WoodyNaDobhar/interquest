@@ -21,8 +21,13 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/_all.css">
 
+    <!-- select2 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
 
+    <!-- Customization -->
+    <link rel="stylesheet" href="/css/custom.css">
+    
+    <!-- Datatables and Localized Customization -->
     @yield('css')
 </head>
 
@@ -34,14 +39,14 @@
 
             <!-- Logo -->
             <a href="#" class="logo">
-            	<img src="img/InterQuestLogo.png" height="50">
+            	<img src="/img/InterQuestLogo.png" height="50">
                 <b>InterQuest</b>
             </a>
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
                 <!-- Navbar Right Menu -->
@@ -69,7 +74,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{!! $persona->id ? '/personas/' . $persona->id : '#' !!}" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat">Sign out</a>
@@ -124,7 +129,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    <li><a href="redirect"><img src="img/loginFacebook.png" width="160px"></a></li>
+                    <li><a href="redirect"><img src="/img/loginFacebook.png" width="160px"></a></li>
                 </ul>
             </div>
         </div>
@@ -150,6 +155,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
+    <!-- Other -->
+    <script src="/js/custom_common.js"></script>
     @yield('scripts')
 </body>
 </html>

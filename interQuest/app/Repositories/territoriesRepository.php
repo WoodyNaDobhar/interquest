@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\territories;
+use App\Models\Territory;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -21,7 +21,6 @@ class territoriesRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'sector_id',
         'row',
         'column',
         'terrain_id',
@@ -38,6 +37,6 @@ class territoriesRepository extends BaseRepository
      **/
     public function model()
     {
-        return territories::class;
+        return Territory::class;
     }
 }

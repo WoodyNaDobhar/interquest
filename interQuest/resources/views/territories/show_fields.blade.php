@@ -10,12 +10,6 @@
     <p>{!! $territories->name !!}</p>
 </div>
 
-<!-- Sector Id Field -->
-<div class="form-group">
-    {!! Form::label('sector_id', 'Sector Id:') !!}
-    <p>{!! $territories->sector_id !!}</p>
-</div>
-
 <!-- Row Field -->
 <div class="form-group">
     {!! Form::label('row', 'Row:') !!}

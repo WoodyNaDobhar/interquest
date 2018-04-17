@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\vocations;
+use App\Models\Vocation;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -30,6 +30,6 @@ class vocationsRepository extends BaseRepository
      **/
     public function model()
     {
-        return vocations::class;
+        return Vocation::class;
     }
 }

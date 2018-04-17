@@ -1,162 +1,343 @@
+<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">{!! $persona->race->name !!} {!! $persona->vocation->name !!}</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i></button>
+								<ul class="dropdown-menu" role="menu">
+									@if($persona->user->is_admin)
+									<li><a href="/users/{!! $persona->user_id !!}/edit">User {!! $persona->user_id !!}</a></li>
+									@endif
+									@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+									<li><a href="#" class="mkToggle">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
+									@endif
+									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
+								</ul>
+							</div>
+							@endif
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="personaLinks">
+									@if($persona->orkID)
+									<a href="https://amtgard.com/ork/orkui/?Route=Player/index/{!! $persona->orkID !!}">
+										<img src="/img/linkORK.png" width="50" height="50" alt="Online Record Keeper">
+									</a>
+									@endif
+									@if($persona->user->social->provider_user_id)
+									<a href="http://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}">
+										<img src="/img/linkFacebook.png" width="50" height="50" alt="Facebook">
+									</a>
+									@endif
+									@if($persona->park)
+									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $persona->park->orkID !!}">
+										<img src="{!! is_array(getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $persona->park->orkID) . '.jpg')) ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $persona->park->orkID) . '.jpg' : 'asdf' !!}" width="50" alt="{!! $persona->park->name !!}">
+									</a>
+									@endif
+								</div>
+								@if($persona->is_rebel)
+									<div class="rebelContainerWrap">
+										<div class="rebelContainer">
+											<img class="underlayRebel" src="/img/underlayRebel.png">
+											<div class="rebelContents">
+												<img class="personaImage" src="{!! $persona->image !!}">
+												@if($persona->is_knight)
+												<img class="overlayKnight" src="/img/overlay{!! $persona->vocation->id == 4 ? 'Paladin' : ($persona->vocation->id == 5 ? 'AntiPaladin' : 'SudoPaladin') !!}.png">
+												@endif
+												@if($persona->is_monarch)
+												<img class="overlayMonarch" src="/img/overlayMonarch.png">
+												@endif
+												@if($persona->user->is_mapkeeper)
+												<img class="overlayMapkeeper" src="/img/overlayMapkeeper.png">
+												@endif
+												@if($persona->deceased)
+												<img class="overlayDeceased" src="/img/overlayDeceased.png">
+												@endif
+											</div>
+										</div>
+									</div>
+								@else
+									<img class="personaImage {!! $persona->is_rebel ? 'rebel' : '' !!}" src="{!! $persona->image !!}">
+									@if($persona->is_knight)
+									<img class="overlayKnight" src="/img/overlay{!! $persona->vocation->id == 4 ? 'Paladin' : ($persona->vocation->id == 5 ? 'AntiPaladin' : 'SudoPaladin') !!}.png">
+									@endif
+									@if($persona->is_monarch)
+									<img class="overlayMonarch" src="/img/overlayMonarch.png">
+									@endif
+									@if($persona->user->is_mapkeeper)
+									<img class="overlayMapkeeper" src="/img/overlayMapkeeper.png">
+									@endif
+									@if($persona->deceased)
+									<img class="overlayDeceased" src="/img/overlayDeceased.png">
+									@endif
+								@endif
+								{!! $persona->background_public !!}
+								@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+								<h4>{!! $persona->name !!}'s Secrets</h4>{!! $persona->background_private !!}
+								@endif
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+@if($persona->titles->count() > 0)
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">Fiefdoms - {!! $persona->fievesRuling->count() !!} Fiefs of {!! $persona->fievesAvailable !!} available</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i></button>
+								<ul class="dropdown-menu" role="menu">
+									@if($persona->fievesRuling->count() < $persona->fievesAvailable)
+									<li><a href="/fieves/create">Add Fief</a></li>
+									@endif
+								</ul>
+							</div>
+							@endif
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-5">
+								<div class="box-group" id="accordion">
+								@foreach($persona->fiefdoms as $i => $fiefdom)
+									<div class="panel box box-primary">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed">
+													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs->count() !!})
+												</a>
+											</h4>
+										</div>
+										<div id="collapse{!! $i !!}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+											<div class="box-body">
+											@foreach($fiefdom->fiefs as $fief)
+												<h3>{!! $fief->name !!} <i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol !!}" data-zoom="{!! $fiefdom->zoom !!}"></i><i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i></h3>
+											@endforeach
+											</div>
+										</div>
+									</div>
+								@endforeach
+								</div>
+				fiefdom name ((fief count)) (5 cols)(click shows on map & opens fief list)
+					fieves (hover highlights on map)
+							</div>
+							<div class="col-md-7">
+				map div (5 cols)(territory controls on hover)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+@endif
+
+(MK+/Self)Dailies
+	(shattered?) 
+		In Repose Since: shattered
+	:
+		Home: homeTerritory->territory->fief? fief, fiefdom : territory coords, park->name
+	Default Action: actionDefault
+	Actions
+		(date select) (display action by selected date)
+	Banked Resources
+		(one row, total<br>icon)
+		Gold
+		Iron
+		Timber
+		Stone
+		Grain
+	Equipment
+		(x rows, count<br>icon)
+	Created: created_at (4col) (MK+) Updated: updated_at (4col) (+) Deleted: deleted_at (4col)
+Comments
+	Add Comment (plus sign, right side)
+	comments (!show_mapkeepers ? self, + : self, mk+)
+
+@section('scripts')
+    <script src="/js/custom_profile.js"></script>
+@endsection
+
+
+
+
+
+
+
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $personas->id !!}</p>
+    <p>{!! $persona->id !!}</p>
 </div>
 
 <!-- Orkid Field -->
 <div class="form-group">
     {!! Form::label('orkID', 'Orkid:') !!}
-    <p>{!! $personas->orkID !!}</p>
+    <p>{!! $persona->orkID !!}</p>
 </div>
 
 <!-- User Id Field -->
 <div class="form-group">
     {!! Form::label('user_id', 'User Id:') !!}
-    <p>{!! $personas->user_id !!}</p>
+    <p>{!! $persona->user_id !!}</p>
 </div>
 
 <!-- Name Field -->
 <div class="form-group">
     {!! Form::label('name', 'Name:') !!}
-    <p>{!! $personas->name !!}</p>
+    <p>{!! $persona->name !!}</p>
 </div>
 
 <!-- Long Name Field -->
 <div class="form-group">
     {!! Form::label('long_name', 'Long Name:') !!}
-    <p>{!! $personas->long_name !!}</p>
+    <p>{!! $persona->long_name !!}</p>
 </div>
 
 <!-- Image Field -->
 <div class="form-group">
     {!! Form::label('image', 'Image:') !!}
-    <p>{!! $personas->image !!}</p>
+    <p>{!! $persona->image !!}</p>
 </div>
 
 <!-- Vocation Id Field -->
 <div class="form-group">
     {!! Form::label('vocation_id', 'Vocation Id:') !!}
-    <p>{!! $personas->vocation_id !!}</p>
+    <p>{!! $persona->vocation_id !!}</p>
 </div>
 
 <!-- Race Id Field -->
 <div class="form-group">
     {!! Form::label('race_id', 'Race Id:') !!}
-    <p>{!! $personas->race_id !!}</p>
+    <p>{!! $persona->race_id !!}</p>
 </div>
 
 <!-- Background Public Field -->
 <div class="form-group">
     {!! Form::label('background_public', 'Background Public:') !!}
-    <p>{!! $personas->background_public !!}</p>
+    <p>{!! $persona->background_public !!}</p>
 </div>
 
 <!-- Background Private Field -->
 <div class="form-group">
     {!! Form::label('background_private', 'Background Private:') !!}
-    <p>{!! $personas->background_private !!}</p>
+    <p>{!! $persona->background_private !!}</p>
 </div>
 
 <!-- Park Id Field -->
 <div class="form-group">
     {!! Form::label('park_id', 'Park Id:') !!}
-    <p>{!! $personas->park_id !!}</p>
+    <p>{!! $persona->park_id !!}</p>
 </div>
 
 <!-- Territory Id Field -->
 <div class="form-group">
     {!! Form::label('territory_id', 'Territory Id:') !!}
-    <p>{!! $personas->territory_id !!}</p>
+    <p>{!! $persona->territory_id !!}</p>
 </div>
 
 <!-- Gold Field -->
 <div class="form-group">
     {!! Form::label('gold', 'Gold:') !!}
-    <p>{!! $personas->gold !!}</p>
+    <p>{!! $persona->gold !!}</p>
 </div>
 
 <!-- Iron Field -->
 <div class="form-group">
     {!! Form::label('iron', 'Iron:') !!}
-    <p>{!! $personas->iron !!}</p>
+    <p>{!! $persona->iron !!}</p>
 </div>
 
 <!-- Timber Field -->
 <div class="form-group">
     {!! Form::label('timber', 'Timber:') !!}
-    <p>{!! $personas->timber !!}</p>
+    <p>{!! $persona->timber !!}</p>
 </div>
 
 <!-- Stone Field -->
 <div class="form-group">
     {!! Form::label('stone', 'Stone:') !!}
-    <p>{!! $personas->stone !!}</p>
+    <p>{!! $persona->stone !!}</p>
 </div>
 
 <!-- Grain Field -->
 <div class="form-group">
     {!! Form::label('grain', 'Grain:') !!}
-    <p>{!! $personas->grain !!}</p>
+    <p>{!! $persona->grain !!}</p>
 </div>
 
 <!-- Action Id Field -->
 <div class="form-group">
     {!! Form::label('action_id', 'Action Id:') !!}
-    <p>{!! $personas->action_id !!}</p>
+    <p>{!! $persona->action_id !!}</p>
 </div>
 
 <!-- Is Knight Field -->
 <div class="form-group">
     {!! Form::label('is_knight', 'Is Knight:') !!}
-    <p>{!! $personas->is_knight !!}</p>
+    <p>{!! $persona->is_knight !!}</p>
 </div>
 
 <!-- Is Rebel Field -->
 <div class="form-group">
     {!! Form::label('is_rebel', 'Is Rebel:') !!}
-    <p>{!! $personas->is_rebel !!}</p>
+    <p>{!! $persona->is_rebel !!}</p>
 </div>
 
 <!-- Is Monarch Field -->
 <div class="form-group">
     {!! Form::label('is_monarch', 'Is Monarch:') !!}
-    <p>{!! $personas->is_monarch !!}</p>
+    <p>{!! $persona->is_monarch !!}</p>
 </div>
 
 <!-- Fiefs Assigned Field -->
 <div class="form-group">
     {!! Form::label('fiefs_assigned', 'Fiefs Assigned:') !!}
-    <p>{!! $personas->fiefs_assigned !!}</p>
+    <p>{!! $persona->fiefs_assigned !!}</p>
 </div>
 
 <!-- Shattered Field -->
 <div class="form-group">
     {!! Form::label('shattered', 'Shattered:') !!}
-    <p>{!! $personas->shattered !!}</p>
+    <p>{!! $persona->shattered !!}</p>
 </div>
 
 <!-- Deceased Field -->
 <div class="form-group">
     {!! Form::label('deceased', 'Deceased:') !!}
-    <p>{!! $personas->deceased !!}</p>
+    <p>{!! $persona->deceased !!}</p>
 </div>
 
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $personas->created_at !!}</p>
+    <p>{!! $persona->created_at !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $personas->updated_at !!}</p>
+    <p>{!! $persona->updated_at !!}</p>
 </div>
 
 <!-- Deleted At Field -->
 <div class="form-group">
     {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $personas->deleted_at !!}</p>
+    <p>{!! $persona->deleted_at !!}</p>
 </div>
 

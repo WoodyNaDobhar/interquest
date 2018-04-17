@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\territories;
+use App\Models\Territory;
 
 class CreateterritoriesRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreateterritoriesRequest extends Request
      */
     public function rules()
     {
-        return territories::$rules;
+        return Territory::$rules;
     }
 }

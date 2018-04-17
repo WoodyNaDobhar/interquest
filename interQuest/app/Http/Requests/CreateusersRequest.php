@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\users;
+use App\Models\User;
 
 class CreateusersRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreateusersRequest extends Request
      */
     public function rules()
     {
-        return users::$rules;
+        return User::$rules;
     }
 }

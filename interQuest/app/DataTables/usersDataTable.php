@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\users;
+use App\Models\User;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class usersDataTable extends DataTable
      */
     public function query()
     {
-        $users = users::query();
+        $users = User::query();
 
         return $this->applyScopes($users);
     }

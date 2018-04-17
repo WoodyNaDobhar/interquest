@@ -3,7 +3,7 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\User as ProviderUser;
-use App\Models\personas as Persona;
+use App\Models\Persona as Persona;
 
 class SocialAccountService
 {

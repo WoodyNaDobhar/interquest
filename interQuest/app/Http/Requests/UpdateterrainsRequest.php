@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\terrains;
+use App\Models\Terrain;
 
 class UpdateterrainsRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdateterrainsRequest extends Request
      */
     public function rules()
     {
-        return terrains::$rules;
+        return Terrain::$rules;
     }
 }

@@ -4,12 +4,6 @@
     {!! Form::number('name', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Sector Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('sector_id', 'Sector Id:') !!}
-    {!! Form::number('sector_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Row Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('row', 'Row:') !!}

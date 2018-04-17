@@ -55,7 +55,7 @@ class npcsController extends AppBaseController
 
         $npcs = $this->npcsRepository->create($input);
 
-        Flash::success('Npcs saved successfully.');
+        Flash::success('Npc saved successfully.');
 
         return redirect(route('npcs.index'));
     }
@@ -72,12 +72,12 @@ class npcsController extends AppBaseController
         $npcs = $this->npcsRepository->findWithoutFail($id);
 
         if (empty($npcs)) {
-            Flash::error('Npcs not found');
+            Flash::error('Npc not found');
 
             return redirect(route('npcs.index'));
         }
 
-        return view('npcs.show')->with('npcs', $npcs);
+        return view('npcs.show')->with('npc', $npcs);
     }
 
     /**
@@ -92,12 +92,12 @@ class npcsController extends AppBaseController
         $npcs = $this->npcsRepository->findWithoutFail($id);
 
         if (empty($npcs)) {
-            Flash::error('Npcs not found');
+            Flash::error('Npc not found');
 
             return redirect(route('npcs.index'));
         }
 
-        return view('npcs.edit')->with('npcs', $npcs);
+        return view('npcs.edit')->with('npc', $npcs);
     }
 
     /**
@@ -113,14 +113,14 @@ class npcsController extends AppBaseController
         $npcs = $this->npcsRepository->findWithoutFail($id);
 
         if (empty($npcs)) {
-            Flash::error('Npcs not found');
+            Flash::error('Npc not found');
 
             return redirect(route('npcs.index'));
         }
 
         $npcs = $this->npcsRepository->update($request->all(), $id);
 
-        Flash::success('Npcs updated successfully.');
+        Flash::success('Npc updated successfully.');
 
         return redirect(route('npcs.index'));
     }
@@ -137,14 +137,14 @@ class npcsController extends AppBaseController
         $npcs = $this->npcsRepository->findWithoutFail($id);
 
         if (empty($npcs)) {
-            Flash::error('Npcs not found');
+            Flash::error('Npc not found');
 
             return redirect(route('npcs.index'));
         }
 
         $this->npcsRepository->delete($id);
 
-        Flash::success('Npcs deleted successfully.');
+        Flash::success('Npc deleted successfully.');
 
         return redirect(route('npcs.index'));
     }

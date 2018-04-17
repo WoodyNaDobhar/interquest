@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\fiefdoms;
+use App\Models\Fiefdom;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -30,6 +30,6 @@ class fiefdomsRepository extends BaseRepository
      **/
     public function model()
     {
-        return fiefdoms::class;
+        return Fiefdom::class;
     }
 }

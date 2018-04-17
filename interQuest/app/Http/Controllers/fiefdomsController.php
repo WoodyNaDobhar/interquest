@@ -55,7 +55,7 @@ class fiefdomsController extends AppBaseController
 
         $fiefdoms = $this->fiefdomsRepository->create($input);
 
-        Flash::success('Fiefdoms saved successfully.');
+        Flash::success('Fiefdom saved successfully.');
 
         return redirect(route('fiefdoms.index'));
     }
@@ -72,12 +72,12 @@ class fiefdomsController extends AppBaseController
         $fiefdoms = $this->fiefdomsRepository->findWithoutFail($id);
 
         if (empty($fiefdoms)) {
-            Flash::error('Fiefdoms not found');
+            Flash::error('Fiefdom not found');
 
             return redirect(route('fiefdoms.index'));
         }
 
-        return view('fiefdoms.show')->with('fiefdoms', $fiefdoms);
+        return view('fiefdoms.show')->with('fiefdom', $fiefdoms);
     }
 
     /**
@@ -92,12 +92,12 @@ class fiefdomsController extends AppBaseController
         $fiefdoms = $this->fiefdomsRepository->findWithoutFail($id);
 
         if (empty($fiefdoms)) {
-            Flash::error('Fiefdoms not found');
+            Flash::error('Fiefdom not found');
 
             return redirect(route('fiefdoms.index'));
         }
 
-        return view('fiefdoms.edit')->with('fiefdoms', $fiefdoms);
+        return view('fiefdoms.edit')->with('fiefdom', $fiefdoms);
     }
 
     /**
@@ -113,14 +113,14 @@ class fiefdomsController extends AppBaseController
         $fiefdoms = $this->fiefdomsRepository->findWithoutFail($id);
 
         if (empty($fiefdoms)) {
-            Flash::error('Fiefdoms not found');
+            Flash::error('Fiefdom not found');
 
             return redirect(route('fiefdoms.index'));
         }
 
         $fiefdoms = $this->fiefdomsRepository->update($request->all(), $id);
 
-        Flash::success('Fiefdoms updated successfully.');
+        Flash::success('Fiefdom updated successfully.');
 
         return redirect(route('fiefdoms.index'));
     }
@@ -137,14 +137,14 @@ class fiefdomsController extends AppBaseController
         $fiefdoms = $this->fiefdomsRepository->findWithoutFail($id);
 
         if (empty($fiefdoms)) {
-            Flash::error('Fiefdoms not found');
+            Flash::error('Fiefdom not found');
 
             return redirect(route('fiefdoms.index'));
         }
 
         $this->fiefdomsRepository->delete($id);
 
-        Flash::success('Fiefdoms deleted successfully.');
+        Flash::success('Fiefdom deleted successfully.');
 
         return redirect(route('fiefdoms.index'));
     }

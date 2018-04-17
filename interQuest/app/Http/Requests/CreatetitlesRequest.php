@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\titles;
+use App\Models\Title;
 
 class CreatetitlesRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreatetitlesRequest extends Request
      */
     public function rules()
     {
-        return titles::$rules;
+        return Title::$rules;
     }
 }

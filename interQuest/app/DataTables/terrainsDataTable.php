@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\terrains;
+use App\Models\Terrain;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class terrainsDataTable extends DataTable
      */
     public function query()
     {
-        $terrains = terrains::query();
+        $terrains = Terrain::query();
 
         return $this->applyScopes($terrains);
     }

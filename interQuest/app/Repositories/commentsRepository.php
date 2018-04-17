@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\comments;
+use App\Models\Comment;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -33,6 +33,6 @@ class commentsRepository extends BaseRepository
      **/
     public function model()
     {
-        return comments::class;
+        return Comment::class;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\actions;
+use App\Models\Action;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class actionsDataTable extends DataTable
      */
     public function query()
     {
-        $actions = actions::query();
+        $actions = Action::query();
 
         return $this->applyScopes($actions);
     }

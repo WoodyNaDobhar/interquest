@@ -55,7 +55,7 @@ class personasController extends AppBaseController
 
         $personas = $this->personasRepository->create($input);
 
-        Flash::success('Personas saved successfully.');
+        Flash::success('Persona saved successfully.');
 
         return redirect(route('personas.index'));
     }
@@ -72,12 +72,12 @@ class personasController extends AppBaseController
         $personas = $this->personasRepository->findWithoutFail($id);
 
         if (empty($personas)) {
-            Flash::error('Personas not found');
+            Flash::error('Persona not found');
 
             return redirect(route('personas.index'));
         }
 
-        return view('personas.show')->with('personas', $personas);
+        return view('personas.show')->with('persona', $personas);
     }
 
     /**
@@ -92,12 +92,12 @@ class personasController extends AppBaseController
         $personas = $this->personasRepository->findWithoutFail($id);
 
         if (empty($personas)) {
-            Flash::error('Personas not found');
+            Flash::error('Persona not found');
 
             return redirect(route('personas.index'));
         }
 
-        return view('personas.edit')->with('personas', $personas);
+        return view('personas.edit')->with('persona', $personas);
     }
 
     /**
@@ -113,14 +113,14 @@ class personasController extends AppBaseController
         $personas = $this->personasRepository->findWithoutFail($id);
 
         if (empty($personas)) {
-            Flash::error('Personas not found');
+            Flash::error('Persona not found');
 
             return redirect(route('personas.index'));
         }
 
         $personas = $this->personasRepository->update($request->all(), $id);
 
-        Flash::success('Personas updated successfully.');
+        Flash::success('Persona updated successfully.');
 
         return redirect(route('personas.index'));
     }
@@ -137,14 +137,14 @@ class personasController extends AppBaseController
         $personas = $this->personasRepository->findWithoutFail($id);
 
         if (empty($personas)) {
-            Flash::error('Personas not found');
+            Flash::error('Persona not found');
 
             return redirect(route('personas.index'));
         }
 
         $this->personasRepository->delete($id);
 
-        Flash::success('Personas deleted successfully.');
+        Flash::success('Persona deleted successfully.');
 
         return redirect(route('personas.index'));
     }

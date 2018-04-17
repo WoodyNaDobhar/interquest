@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\vocations;
+use App\Models\Vocation;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class vocationsDataTable extends DataTable
      */
     public function query()
     {
-        $vocations = vocations::query();
+        $vocations = Vocation::query();
 
         return $this->applyScopes($vocations);
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\fiefdoms;
+use App\Models\Fiefdom;
 
 class CreatefiefdomsRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreatefiefdomsRequest extends Request
      */
     public function rules()
     {
-        return fiefdoms::$rules;
+        return Fiefdom::$rules;
     }
 }

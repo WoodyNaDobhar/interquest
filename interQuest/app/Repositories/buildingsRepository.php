@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\buildings;
+use App\Models\Building;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -40,6 +40,6 @@ class buildingsRepository extends BaseRepository
      **/
     public function model()
     {
-        return buildings::class;
+        return Building::class;
     }
 }

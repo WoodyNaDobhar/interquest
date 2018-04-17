@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\fieves;
+use App\Models\Fief;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -34,6 +34,6 @@ class fievesRepository extends BaseRepository
      **/
     public function model()
     {
-        return fieves::class;
+        return Fief::class;
     }
 }

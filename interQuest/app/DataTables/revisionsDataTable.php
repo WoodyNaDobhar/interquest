@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\revisions;
+use App\Models\Revision;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class revisionsDataTable extends DataTable
      */
     public function query()
     {
-        $revisions = revisions::query();
+        $revisions = Revision::query();
 
         return $this->applyScopes($revisions);
     }

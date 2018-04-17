@@ -55,7 +55,7 @@ class vocationsController extends AppBaseController
 
         $vocations = $this->vocationsRepository->create($input);
 
-        Flash::success('Vocations saved successfully.');
+        Flash::success('Vocation saved successfully.');
 
         return redirect(route('vocations.index'));
     }
@@ -72,12 +72,12 @@ class vocationsController extends AppBaseController
         $vocations = $this->vocationsRepository->findWithoutFail($id);
 
         if (empty($vocations)) {
-            Flash::error('Vocations not found');
+            Flash::error('Vocation not found');
 
             return redirect(route('vocations.index'));
         }
 
-        return view('vocations.show')->with('vocations', $vocations);
+        return view('vocations.show')->with('vocation', $vocations);
     }
 
     /**
@@ -92,12 +92,12 @@ class vocationsController extends AppBaseController
         $vocations = $this->vocationsRepository->findWithoutFail($id);
 
         if (empty($vocations)) {
-            Flash::error('Vocations not found');
+            Flash::error('Vocation not found');
 
             return redirect(route('vocations.index'));
         }
 
-        return view('vocations.edit')->with('vocations', $vocations);
+        return view('vocations.edit')->with('vocation', $vocations);
     }
 
     /**
@@ -113,14 +113,14 @@ class vocationsController extends AppBaseController
         $vocations = $this->vocationsRepository->findWithoutFail($id);
 
         if (empty($vocations)) {
-            Flash::error('Vocations not found');
+            Flash::error('Vocation not found');
 
             return redirect(route('vocations.index'));
         }
 
         $vocations = $this->vocationsRepository->update($request->all(), $id);
 
-        Flash::success('Vocations updated successfully.');
+        Flash::success('Vocation updated successfully.');
 
         return redirect(route('vocations.index'));
     }
@@ -137,14 +137,14 @@ class vocationsController extends AppBaseController
         $vocations = $this->vocationsRepository->findWithoutFail($id);
 
         if (empty($vocations)) {
-            Flash::error('Vocations not found');
+            Flash::error('Vocation not found');
 
             return redirect(route('vocations.index'));
         }
 
         $this->vocationsRepository->delete($id);
 
-        Flash::success('Vocations deleted successfully.');
+        Flash::success('Vocation deleted successfully.');
 
         return redirect(route('vocations.index'));
     }

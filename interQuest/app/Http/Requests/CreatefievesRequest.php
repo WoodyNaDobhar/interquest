@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\fieves;
+use App\Models\Fief;
 
 class CreatefievesRequest extends Request
 {
@@ -25,6 +25,6 @@ class CreatefievesRequest extends Request
      */
     public function rules()
     {
-        return fieves::$rules;
+        return Fief::$rules;
     }
 }

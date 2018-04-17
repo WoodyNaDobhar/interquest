@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\fieves;
+use App\Models\Fief;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class fievesDataTable extends DataTable
      */
     public function query()
     {
-        $fieves = fieves::query();
+        $fieves = Fief::query();
 
         return $this->applyScopes($fieves);
     }

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\fiefdoms;
+use App\Models\Fiefdom;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class fiefdomsDataTable extends DataTable
      */
     public function query()
     {
-        $fiefdoms = fiefdoms::query();
+        $fiefdoms = Fiefdom::query();
 
         return $this->applyScopes($fiefdoms);
     }

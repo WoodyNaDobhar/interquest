@@ -55,7 +55,7 @@ class actionsController extends AppBaseController
 
         $actions = $this->actionsRepository->create($input);
 
-        Flash::success('Actions saved successfully.');
+        Flash::success('Action saved successfully.');
 
         return redirect(route('actions.index'));
     }
@@ -72,12 +72,12 @@ class actionsController extends AppBaseController
         $actions = $this->actionsRepository->findWithoutFail($id);
 
         if (empty($actions)) {
-            Flash::error('Actions not found');
+            Flash::error('Action not found');
 
             return redirect(route('actions.index'));
         }
 
-        return view('actions.show')->with('actions', $actions);
+        return view('actions.show')->with('action', $actions);
     }
 
     /**
@@ -92,12 +92,12 @@ class actionsController extends AppBaseController
         $actions = $this->actionsRepository->findWithoutFail($id);
 
         if (empty($actions)) {
-            Flash::error('Actions not found');
+            Flash::error('Action not found');
 
             return redirect(route('actions.index'));
         }
 
-        return view('actions.edit')->with('actions', $actions);
+        return view('actions.edit')->with('action', $actions);
     }
 
     /**
@@ -113,14 +113,14 @@ class actionsController extends AppBaseController
         $actions = $this->actionsRepository->findWithoutFail($id);
 
         if (empty($actions)) {
-            Flash::error('Actions not found');
+            Flash::error('Action not found');
 
             return redirect(route('actions.index'));
         }
 
         $actions = $this->actionsRepository->update($request->all(), $id);
 
-        Flash::success('Actions updated successfully.');
+        Flash::success('Action updated successfully.');
 
         return redirect(route('actions.index'));
     }
@@ -137,14 +137,14 @@ class actionsController extends AppBaseController
         $actions = $this->actionsRepository->findWithoutFail($id);
 
         if (empty($actions)) {
-            Flash::error('Actions not found');
+            Flash::error('Action not found');
 
             return redirect(route('actions.index'));
         }
 
         $this->actionsRepository->delete($id);
 
-        Flash::success('Actions deleted successfully.');
+        Flash::success('Action deleted successfully.');
 
         return redirect(route('actions.index'));
     }

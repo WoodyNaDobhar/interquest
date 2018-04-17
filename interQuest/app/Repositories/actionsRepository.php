@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\actions;
+use App\Models\Action;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -32,6 +32,6 @@ class actionsRepository extends BaseRepository
      **/
     public function model()
     {
-        return actions::class;
+        return Action::class;
     }
 }

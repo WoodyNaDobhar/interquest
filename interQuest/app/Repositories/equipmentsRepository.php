@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\equipments;
+use App\Models\Equipment;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -42,6 +42,6 @@ class equipmentsRepository extends BaseRepository
      **/
     public function model()
     {
-        return equipments::class;
+        return Equipmentsclass;
     }
 }

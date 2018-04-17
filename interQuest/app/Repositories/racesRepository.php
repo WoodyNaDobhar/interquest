@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\races;
+use App\Models\Race;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -30,6 +30,6 @@ class racesRepository extends BaseRepository
      **/
     public function model()
     {
-        return races::class;
+        return Race::class;
     }
 }

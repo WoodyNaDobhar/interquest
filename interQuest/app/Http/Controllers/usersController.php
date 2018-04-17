@@ -55,7 +55,7 @@ class usersController extends AppBaseController
 
         $users = $this->usersRepository->create($input);
 
-        Flash::success('Users saved successfully.');
+        Flash::success('User saved successfully.');
 
         return redirect(route('users.index'));
     }
@@ -72,12 +72,12 @@ class usersController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            Flash::error('Users not found');
+            Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
-        return view('users.show')->with('users', $users);
+        return view('users.show')->with('user', $users);
     }
 
     /**
@@ -92,12 +92,12 @@ class usersController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            Flash::error('Users not found');
+            Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('users', $users);
+        return view('users.edit')->with('user', $users);
     }
 
     /**
@@ -113,14 +113,14 @@ class usersController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            Flash::error('Users not found');
+            Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
         $users = $this->usersRepository->update($request->all(), $id);
 
-        Flash::success('Users updated successfully.');
+        Flash::success('User updated successfully.');
 
         return redirect(route('users.index'));
     }
@@ -137,14 +137,14 @@ class usersController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            Flash::error('Users not found');
+            Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
         $this->usersRepository->delete($id);
 
-        Flash::success('Users deleted successfully.');
+        Flash::success('User deleted successfully.');
 
         return redirect(route('users.index'));
     }

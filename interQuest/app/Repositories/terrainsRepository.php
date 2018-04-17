@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\terrains;
+use App\Models\Terrain;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -32,6 +32,6 @@ class terrainsRepository extends BaseRepository
      **/
     public function model()
     {
-        return terrains::class;
+        return Terrain::class;
     }
 }

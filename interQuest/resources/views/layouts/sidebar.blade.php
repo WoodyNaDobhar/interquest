@@ -6,13 +6,13 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="" class="img-circle" alt=""/>
+                <img src="{!! $persona->image ? $persona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}"/>
             </div>
             <div class="pull-left info">
                 @if (Auth::guest())
                 <p>InterQuest</p>
                 @else
-                    <p>asdf</p>
+                <p>{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}</p>
                 @endif
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -31,7 +31,7 @@
         </form>
         <!-- Sidebar Menu -->
 
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" data-widget="tree">
             @include('layouts.menu')
         </ul>
         <!-- /.sidebar-menu -->

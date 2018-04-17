@@ -55,7 +55,7 @@ class equipmentsController extends AppBaseController
 
         $equipments = $this->equipmentsRepository->create($input);
 
-        Flash::success('Equipments saved successfully.');
+        Flash::success('Equipment saved successfully.');
 
         return redirect(route('equipments.index'));
     }
@@ -72,12 +72,12 @@ class equipmentsController extends AppBaseController
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
         if (empty($equipments)) {
-            Flash::error('Equipments not found');
+            Flash::error('Equipment not found');
 
             return redirect(route('equipments.index'));
         }
 
-        return view('equipments.show')->with('equipments', $equipments);
+        return view('equipments.show')->with('equipment', $equipments);
     }
 
     /**
@@ -92,12 +92,12 @@ class equipmentsController extends AppBaseController
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
         if (empty($equipments)) {
-            Flash::error('Equipments not found');
+            Flash::error('Equipment not found');
 
             return redirect(route('equipments.index'));
         }
 
-        return view('equipments.edit')->with('equipments', $equipments);
+        return view('equipments.edit')->with('equipment', $equipments);
     }
 
     /**
@@ -113,14 +113,14 @@ class equipmentsController extends AppBaseController
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
         if (empty($equipments)) {
-            Flash::error('Equipments not found');
+            Flash::error('Equipment not found');
 
             return redirect(route('equipments.index'));
         }
 
         $equipments = $this->equipmentsRepository->update($request->all(), $id);
 
-        Flash::success('Equipments updated successfully.');
+        Flash::success('Equipment updated successfully.');
 
         return redirect(route('equipments.index'));
     }
@@ -137,14 +137,14 @@ class equipmentsController extends AppBaseController
         $equipments = $this->equipmentsRepository->findWithoutFail($id);
 
         if (empty($equipments)) {
-            Flash::error('Equipments not found');
+            Flash::error('Equipment not found');
 
             return redirect(route('equipments.index'));
         }
 
         $this->equipmentsRepository->delete($id);
 
-        Flash::success('Equipments deleted successfully.');
+        Flash::success('Equipment deleted successfully.');
 
         return redirect(route('equipments.index'));
     }

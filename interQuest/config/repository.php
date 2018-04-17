@@ -94,7 +94,7 @@ return [
 
             /*
               |--------------------------------------------------------------------------
-              | Actions in Repository
+              | Action in Repository
               |--------------------------------------------------------------------------
               |
               | create : Clear Cache on create Entry in repository

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\parks;
+use App\Models\Park;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -23,7 +23,8 @@ class parksRepository extends BaseRepository
         'orkID',
         'name',
         'rank',
-        'sector_id',
+        'lat',
+        'lon',
         'midreign',
         'coronation'
     ];
@@ -33,6 +34,6 @@ class parksRepository extends BaseRepository
      **/
     public function model()
     {
-        return parks::class;
+        return Park::class;
     }
 }

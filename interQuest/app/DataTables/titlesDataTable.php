@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\titles;
+use App\Models\Title;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
@@ -27,7 +27,7 @@ class titlesDataTable extends DataTable
      */
     public function query()
     {
-        $titles = titles::query();
+        $titles = Title::query();
 
         return $this->applyScopes($titles);
     }

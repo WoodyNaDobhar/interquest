@@ -55,7 +55,7 @@ class commentsController extends AppBaseController
 
         $comments = $this->commentsRepository->create($input);
 
-        Flash::success('Comments saved successfully.');
+        Flash::success('Comment saved successfully.');
 
         return redirect(route('comments.index'));
     }
@@ -72,12 +72,12 @@ class commentsController extends AppBaseController
         $comments = $this->commentsRepository->findWithoutFail($id);
 
         if (empty($comments)) {
-            Flash::error('Comments not found');
+            Flash::error('Comment not found');
 
             return redirect(route('comments.index'));
         }
 
-        return view('comments.show')->with('comments', $comments);
+        return view('comments.show')->with('comment', $comments);
     }
 
     /**
@@ -92,12 +92,12 @@ class commentsController extends AppBaseController
         $comments = $this->commentsRepository->findWithoutFail($id);
 
         if (empty($comments)) {
-            Flash::error('Comments not found');
+            Flash::error('Comment not found');
 
             return redirect(route('comments.index'));
         }
 
-        return view('comments.edit')->with('comments', $comments);
+        return view('comments.edit')->with('comment', $comments);
     }
 
     /**
@@ -113,14 +113,14 @@ class commentsController extends AppBaseController
         $comments = $this->commentsRepository->findWithoutFail($id);
 
         if (empty($comments)) {
-            Flash::error('Comments not found');
+            Flash::error('Comment not found');
 
             return redirect(route('comments.index'));
         }
 
         $comments = $this->commentsRepository->update($request->all(), $id);
 
-        Flash::success('Comments updated successfully.');
+        Flash::success('Comment updated successfully.');
 
         return redirect(route('comments.index'));
     }
@@ -137,14 +137,14 @@ class commentsController extends AppBaseController
         $comments = $this->commentsRepository->findWithoutFail($id);
 
         if (empty($comments)) {
-            Flash::error('Comments not found');
+            Flash::error('Comment not found');
 
             return redirect(route('comments.index'));
         }
 
         $this->commentsRepository->delete($id);
 
-        Flash::success('Comments deleted successfully.');
+        Flash::success('Comment deleted successfully.');
 
         return redirect(route('comments.index'));
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\npcs;
+use App\Models\Npc;
 
 class UpdatenpcsRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdatenpcsRequest extends Request
      */
     public function rules()
     {
-        return npcs::$rules;
+        return Npc::$rules;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\comments;
+use App\Models\Comment;
 
 class UpdatecommentsRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdatecommentsRequest extends Request
      */
     public function rules()
     {
-        return comments::$rules;
+        return Comment::$rules;
     }
 }

@@ -55,7 +55,7 @@ class revisionsController extends AppBaseController
 
         $revisions = $this->revisionsRepository->create($input);
 
-        Flash::success('Revisions saved successfully.');
+        Flash::success('Revision saved successfully.');
 
         return redirect(route('revisions.index'));
     }
@@ -72,12 +72,12 @@ class revisionsController extends AppBaseController
         $revisions = $this->revisionsRepository->findWithoutFail($id);
 
         if (empty($revisions)) {
-            Flash::error('Revisions not found');
+            Flash::error('Revision not found');
 
             return redirect(route('revisions.index'));
         }
 
-        return view('revisions.show')->with('revisions', $revisions);
+        return view('revisions.show')->with('revision', $revisions);
     }
 
     /**
@@ -92,12 +92,12 @@ class revisionsController extends AppBaseController
         $revisions = $this->revisionsRepository->findWithoutFail($id);
 
         if (empty($revisions)) {
-            Flash::error('Revisions not found');
+            Flash::error('Revision not found');
 
             return redirect(route('revisions.index'));
         }
 
-        return view('revisions.edit')->with('revisions', $revisions);
+        return view('revisions.edit')->with('revision', $revisions);
     }
 
     /**
@@ -113,14 +113,14 @@ class revisionsController extends AppBaseController
         $revisions = $this->revisionsRepository->findWithoutFail($id);
 
         if (empty($revisions)) {
-            Flash::error('Revisions not found');
+            Flash::error('Revision not found');
 
             return redirect(route('revisions.index'));
         }
 
         $revisions = $this->revisionsRepository->update($request->all(), $id);
 
-        Flash::success('Revisions updated successfully.');
+        Flash::success('Revision updated successfully.');
 
         return redirect(route('revisions.index'));
     }
@@ -137,14 +137,14 @@ class revisionsController extends AppBaseController
         $revisions = $this->revisionsRepository->findWithoutFail($id);
 
         if (empty($revisions)) {
-            Flash::error('Revisions not found');
+            Flash::error('Revision not found');
 
             return redirect(route('revisions.index'));
         }
 
         $this->revisionsRepository->delete($id);
 
-        Flash::success('Revisions deleted successfully.');
+        Flash::success('Revision deleted successfully.');
 
         return redirect(route('revisions.index'));
     }

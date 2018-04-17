@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\npcs;
+use App\Models\Npc;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -42,6 +42,6 @@ class npcsRepository extends BaseRepository
      **/
     public function model()
     {
-        return npcs::class;
+        return Npc::class;
     }
 }

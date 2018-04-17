@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\titles;
+use App\Models\Title;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -30,6 +30,6 @@ class titlesRepository extends BaseRepository
      **/
     public function model()
     {
-        return titles::class;
+        return Title::class;
     }
 }
