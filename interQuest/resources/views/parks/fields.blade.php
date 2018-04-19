@@ -18,14 +18,14 @@
 
 <!-- Lat Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('lat', 'Latitude:') !!}
-    {!! Form::text('lat', null, ['class' => 'form-control']) !!}
+    {!! Form::label('row', 'Map Row:') !!}
+    {!! Form::text('row', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Lon Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('lon', 'Longitude:') !!}
-    {!! Form::text('lon', null, ['class' => 'form-control']) !!}
+    {!! Form::label('column', 'Map Column:') !!}
+    {!! Form::text('column', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Midreign Field -->

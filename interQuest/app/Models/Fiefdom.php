@@ -57,6 +57,44 @@ class Fiefdom extends Model
     ];
 
     /**
+     * Accessors & Mutators
+     */
+    public function getCapitolAttribute()
+    {
+    	return $this->fiefs
+    		->sortByDesc(function($fief) { 
+				return $fief->territory->castle_strength;
+			})
+			->sortBy('created_at')
+			->first();
+    }
+    
+    public function getZoomAttribute()
+    {
+    	
+    	//set borders
+    	$xMin = 3500;
+    	$xMax = 0;
+    	$yMin = 7500;
+    	$yMax = 0;
+    	
+    	//determine x and y ranges
+    	foreach($this->fiefs as $fief){
+    		$xMin = $fief->territory->row < $xMin ? $fief->territory->row : $xMin;
+    		$xMax = $fief->territory->row > $xMax ? $fief->territory->row : $xMax;
+    		$yMin = $fief->territory->column < $yMin ? $fief->territory->column : $yMin;
+    		$yMax = $fief->territory->column > $yMax ? $fief->territory->column : $yMax;
+    	}
+
+    	//work out the distance
+    	$xDiff = $xMax - $xMin;
+    	$yDiff = $yMax - $yMin;
+    	
+    	//return the greater of them
+    	return ($xDiff > $yDiff ? $xDiff : $yDiff) + 1;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\morphTo
      **/
     public function ruler()

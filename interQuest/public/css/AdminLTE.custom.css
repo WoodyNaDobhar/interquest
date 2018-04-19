@@ -1,15 +1,41 @@
 /*
 * Wherever
 */
-.deleteMe{
+.deleteMe, .mapZoom{
 	cursor: pointer;
+}
+/*
+* Map stuff
+*/
+#mapContainer {
+	width: 100%;
+	background-color: beige;
+	overflow: hidden;
+}
+.hex {
+	fill: transparent;
+	stroke: black;
+	stroke-width: 1;
+}
+.hex:hover {
+	fill: rgba(0,0,0,.25);
+}
+.hex:focus {
+	outline:none;
+}
+.hex:active {
+	fill: red;
+	outline: none;
+}
+.hex.clicked{
+	fill: black;
 }
 
 /*
 * Top
 */
 .logo img {
-    margin-top: -4px;
+	margin-top: -4px;
 }
 .mkToggle{
 	float: right;
@@ -29,50 +55,50 @@
 	width: 100%;
 }
 .overlayKnight {
-    position: absolute;
-    max-height: 25%;
-    bottom: 5%;
-    right: 5%;
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	right: 5%;
 }
 .overlayMonarch {
-    position: absolute;
-    max-width: 25%;
+	position: absolute;
+	max-width: 25%;
 	left: 5%;
 	top: 2.5%;
 }
 .overlayMapkeeper {
-    position: absolute;
-    max-height: 25%;
-    bottom: 5%;
-    left: 5%;
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	left: 5%;
 }
 .overlayDeceased {
-    position: absolute;
-    max-width: 25%;
+	position: absolute;
+	max-width: 25%;
 	right: 3%;
 	top: 5%;
 }
 .underlayRebel {
-    position: absolute;
+	position: absolute;
 	max-width: 100%
 }
 .rebelContainerWrap {
-    width: 37%;
-    float: left;
+	width: 37%;
+	float: left;
 }
 .rebelContainer {
-    position: relative;
+	position: relative;
 }
 .rebelContents {
-    position: absolute;
-    width: 65%;
-    left: 15%;
-    top: 30%;
+	position: absolute;
+	width: 65%;
+	left: 15%;
+	top: 30%;
 }
 .personaLinks{
-    float: right;
-    width: 50px;
-    margin-left: 10px;
+	float: right;
+	width: 50px;
+	margin-left: 10px;
 }
 .personaLinks > a > img{
 	margin-bottom: 10px;

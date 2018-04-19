@@ -127,7 +127,7 @@
 										<div id="collapse{!! $i !!}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 											<div class="box-body">
 											@foreach($fiefdom->fiefs as $fief)
-												<h3>{!! $fief->name !!} <i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol !!}" data-zoom="{!! $fiefdom->zoom !!}"></i><i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i></h3>
+												<h3>{!! $fief->name !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
 											@endforeach
 											</div>
 										</div>
@@ -138,7 +138,8 @@
 					fieves (hover highlights on map)
 							</div>
 							<div class="col-md-7">
-				map div (5 cols)(territory controls on hover)
+								<div id="mapContainer"></div>
+				map div (territory controls on hover)
 							</div>
 						</div>
 					</div>
@@ -170,6 +171,7 @@ Comments
 	comments (!show_mapkeepers ? self, + : self, mk+)
 
 @section('scripts')
+	@parent
     <script src="/js/custom_profile.js"></script>
 @endsection
 

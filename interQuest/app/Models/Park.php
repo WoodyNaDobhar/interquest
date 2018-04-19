@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer orkID
  * @property string name
  * @property string rank
- * @property float lat
- * @property float lon
+ * @property float row
+ * @property float column
  * @property date midreign
  * @property date coronation
  */
@@ -39,8 +39,8 @@ class Park extends Model
         'orkID',
         'name',
         'rank',
-        'lat',
-        'lon',
+        'row',
+        'column',
         'midreign',
         'coronation'
     ];
@@ -55,8 +55,8 @@ class Park extends Model
         'orkID' => 'integer',
         'name' => 'string',
         'rank' => 'string',
-        'lat' => 'float',
-        'lon' => 'float',
+        'row' => 'integer',
+        'column' => 'integer',
         'midreign' => 'date',
         'coronation' => 'date'
     ];

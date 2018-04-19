@@ -75,8 +75,8 @@ class parksDataTable extends DataTable
             'orkID' => ['name' => 'orkID', 'data' => 'orkID'],
             'name' => ['name' => 'name', 'data' => 'name'],
             'rank' => ['name' => 'rank', 'data' => 'rank'],
-            'lat' => ['name' => 'lat', 'data' => 'lat'],
-            'lon' => ['name' => 'lon', 'data' => 'lon'],
+            'row' => ['name' => 'row', 'data' => 'row'],
+            'column' => ['name' => 'column', 'data' => 'column'],
             'midreign' => ['name' => 'midreign', 'data' => 'midreign'],
             'coronation' => ['name' => 'coronation', 'data' => 'coronation']
         ];

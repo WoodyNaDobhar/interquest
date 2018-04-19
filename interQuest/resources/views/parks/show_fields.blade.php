@@ -24,14 +24,14 @@
 
 <!-- Lat Field -->
 <div class="form-group">
-    {!! Form::label('lat', 'Latitude:') !!}
-    {!! $park->lat !!}
+    {!! Form::label('row', 'Map Row:') !!}
+    {!! $park->row !!}
 </div>
 
 <!-- Lon Field -->
 <div class="form-group">
-    {!! Form::label('lon', 'Longitude:') !!}
-    {!! $park->lon !!}
+    {!! Form::label('column', 'Map Row:') !!}
+    {!! $park->column !!}
 </div>
 
 <!-- Midreign Field -->
