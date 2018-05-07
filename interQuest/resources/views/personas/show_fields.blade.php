@@ -1,8 +1,8 @@
-<div class="row">
+		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h3 class="box-title">{!! $persona->race->name !!} {!! $persona->vocation->name !!}</h3>
+						<h3 class="box-title">{!! $persona->race->name !!} {!! $persona->vocation->name !!}{!! $persona->shattered ? ', in repose since: ' . $persona->shattered : '' !!}</h3>
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
@@ -89,12 +89,11 @@
 				</div>
 			</div>
 		</div>
-@if($persona->titles->count() > 0)
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h3 class="box-title">Fiefdoms - {!! $persona->fievesRuling->count() !!} Fiefs of {!! $persona->fievesAvailable !!} available</h3>
+						<h3 class="box-title">Home @if($persona->titles->count() > 0) and Fiefdoms - {!! $persona->fievesRuling->count() !!} Fiefs of {!! $persona->fievesAvailable !!} available @endif</h3>
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
@@ -115,20 +114,36 @@
 						<div class="row">
 							<div class="col-md-5">
 								<div class="box-group" id="accordion">
+									<div class="panel box box-primary">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseHome" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $persona->territory_id !!}">
+													Home
+												</a>
+											</h4>
+										</div>
+										<div id="collapseHome" class="panel-collapse collapse in" aria-expanded="false">
+											<div class="box-body">
+												<h3>{!! $persona->home ? $persona->home->name : 'Homeless! ' !!}</h3>
+											</div>
+										</div>
+									</div>
 								@foreach($persona->fiefdoms as $i => $fiefdom)
 									<div class="panel box box-primary">
 										<div class="box-header with-border">
 											<h4 class="box-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed">
-													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs->count() !!})
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capitol ? $fiefdom->capitol->territory_id : $persona->park->territory_id !!}">
+													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs ? $fiefdom->fiefs->count() : 'No Fiefs' !!})
 												</a>
 											</h4>
 										</div>
 										<div id="collapse{!! $i !!}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 											<div class="box-body">
-											@foreach($fiefdom->fiefs as $fief)
-												<h3>{!! $fief->name !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
-											@endforeach
+											@if($fiefdom->fiefs)
+												@foreach($fiefdom->fiefs as $i => $fief)
+												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
+												@endforeach
+											@endif
 											</div>
 										</div>
 									</div>
@@ -138,21 +153,75 @@
 					fieves (hover highlights on map)
 							</div>
 							<div class="col-md-7">
-								<div id="mapContainer"></div>
-				map div (territory controls on hover)
+								<div id="mapContainer" data-center="{!! $persona->territory_id ? $persona->territory_id : $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
+								map div (territory controls on hover)
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">Details</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i></button>
+								<ul class="dropdown-menu" role="menu">
+									asdf
+								</ul>
+							</div>
+							@endif
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-5">
+								<div class="box-group" id="accordion">
+								@foreach($persona->fiefdoms as $i => $fiefdom)
+									<div class="panel box box-primary">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capitol ? $fiefdom->capitol->territory_id : $persona->park->territory_id !!}">
+													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs ? $fiefdom->fiefs->count() : 'No Fiefs' !!})
+												</a>
+											</h4>
+										</div>
+										<div id="collapse{!! $i !!}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+											<div class="box-body">
+											@if($fiefdom->fiefs)
+												@foreach($fiefdom->fiefs as $i => $fief)
+												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
+												@endforeach
+											@endif
+											</div>
+										</div>
+									</div>
+								@endforeach
+								</div>
+				fiefdom name ((fief count)) (5 cols)(click shows on map & opens fief list)
+					fieves (hover highlights on map)
+							</div>
+							<div class="col-md-7">
+								<div id="mapContainer" data-center="{!! $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
+								map div (territory controls on hover)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
 @endif
-
 (MK+/Self)Dailies
-	(shattered?) 
-		In Repose Since: shattered
-	:
-		Home: homeTerritory->territory->fief? fief, fiefdom : territory coords, park->name
+	
 	Default Action: actionDefault
 	Actions
 		(date select) (display action by selected date)

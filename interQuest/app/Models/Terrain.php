@@ -16,65 +16,56 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection Territory
  * @property string name
  * @property string description
- * @property string image
- * @property string color
- * @property string css
  */
 class Terrain extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'terrains';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+	public $table = 'terrains';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
-    protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
 
-    public $fillable = [
-        'name',
-        'description',
-        'image',
-        'color',
-        'css'
-    ];
+	public $fillable = [
+		'name',
+		'description'
+	];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'description' => 'string',
-        'image' => 'string',
-        'color' => 'string',
-        'css' => 'string'
-    ];
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'string',
+		'description' => 'string'
+	];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function territories()
-    {
-        return $this->hasMany(\App\Models\Territory::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function territories()
+	{
+		return $this->hasMany(\App\Models\Territory::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function revisions()
-    {
-    	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function revisions()
+	{
+		return $this->morphMany('\App\Models\Revision', 'changed');
+	}
 }

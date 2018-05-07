@@ -1,19 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Park
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('parks.show_fields')
-                    <a href="{!! route('parks.index') !!}" class="btn btn-default">Back</a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<section class="content-header">
+		<h1>
+			{!! $park->name !!}
+			<a href="{!! route('parks.index') !!}" class="btn btn-default pull-right">Back</a>
+		</h1>
+	</section>
+	<div class="content">
+		@include('parks.show_fields')
+	</div>
 @endsection

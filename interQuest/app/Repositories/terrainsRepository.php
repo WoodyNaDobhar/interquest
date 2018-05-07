@@ -21,10 +21,7 @@ class terrainsRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'description',
-        'image',
-        'color',
-        'css'
+        'description'
     ];
 
     /**

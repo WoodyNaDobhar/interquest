@@ -73,10 +73,7 @@ class terrainsDataTable extends DataTable
     {
         return [
             'name' => ['name' => 'name', 'data' => 'name'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'image' => ['name' => 'image', 'data' => 'image'],
-            'color' => ['name' => 'color', 'data' => 'color'],
-            'css' => ['name' => 'css', 'data' => 'css']
+            'description' => ['name' => 'description', 'data' => 'description']
         ];
     }
 

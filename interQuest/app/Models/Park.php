@@ -26,71 +26,87 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Park extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'parks';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+	public $table = 'parks';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
-    protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
 
-    public $fillable = [
-        'orkID',
-        'name',
-        'rank',
-        'row',
-        'column',
-        'midreign',
-        'coronation'
-    ];
+	public $fillable = [
+		'orkID',
+		'name',
+		'rank',
+		'row',
+		'column',
+		'midreign',
+		'coronation'
+	];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'orkID' => 'integer',
-        'name' => 'string',
-        'rank' => 'string',
-        'row' => 'integer',
-        'column' => 'integer',
-        'midreign' => 'date',
-        'coronation' => 'date'
-    ];
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'orkID' => 'integer',
+		'name' => 'string',
+		'rank' => 'string',
+		'row' => 'integer',
+		'column' => 'integer',
+		'midreign' => 'date',
+		'coronation' => 'date'
+	];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function personae()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function personae()
+	{
+		return $this->hasMany(\App\Models\Persona::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function comments()
-    {
-    	return $this->morphMany('\App\Models\Comment', 'commented');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function fiefs()
+	{
+		return $this->morphMany('\App\Models\Fief', 'fiefdom');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function revisions()
-    {
-    	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function capitol()
+	{
+		return $this->belongsTo(\App\Models\Territory::class);
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function comments()
+	{
+		return $this->morphMany('\App\Models\Comment', 'commented');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function revisions()
+	{
+		return $this->morphMany('\App\Models\Revision', 'changed');
+	}
 }

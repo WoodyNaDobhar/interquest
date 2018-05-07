@@ -32,125 +32,140 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Territory extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'territories';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+	public $table = 'territories';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
-    protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
 
-    public $fillable = [
-        'name',
-        'row',
-        'column',
-        'terrain_id',
-        'primary_resource',
-        'secondary_resource',
-        'castle_strength',
-        'is_wasteland',
-        'is_no_mans_land',
-        'has_road'
-    ];
+	public $fillable = [
+		'name',
+		'row',
+		'column',
+		'terrain_id',
+		'primary_resource',
+		'secondary_resource',
+		'castle_strength',
+		'is_wasteland',
+		'is_no_mans_land',
+		'has_road'
+	];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'integer',
-        'row' => 'integer',
-        'column' => 'integer',
-        'terrain_id' => 'integer',
-        'primary_resource' => 'string',
-        'secondary_resource' => 'string',
-        'castle_strength' => 'integer',
-        'is_wasteland' => 'boolean',
-        'is_no_mans_land' => 'boolean',
-        'has_road' => 'boolean'
-    ];
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'integer',
+		'row' => 'integer',
+		'column' => 'integer',
+		'terrain_id' => 'integer',
+		'primary_resource' => 'string',
+		'secondary_resource' => 'string',
+		'castle_strength' => 'integer',
+		'is_wasteland' => 'boolean',
+		'is_no_mans_land' => 'boolean',
+		'has_road' => 'boolean'
+	];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function terrain()
-    {
-        return $this->belongsTo(\App\Models\Terrain::class);
-    }
+	/**
+	 * Accessors & Mutators
+	 */
+	public function getNameAttribute($value)
+	{
+		return
+				($this->fief && $this->fief->name != '' ? $this->fief->name :
+				$value)
+			. 
+				($this->fief
+				 ? ' - ' . $this->fief->fiefdom->name :
+				'')
+			;
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function buildings()
-    {
-        return $this->hasMany(\App\Models\BuildingsTerritory::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function terrain()
+	{
+		return $this->belongsTo(\App\Models\Terrain::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function equipmentsOfNpcs()
-    {
-        return $this->hasMany(\App\Models\EquipmentsNpc::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function buildings()
+	{
+		return $this->hasMany(\App\Models\BuildingsTerritory::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function equipmentsOfPersonas()
-    {
-        return $this->hasMany(\App\Models\EquipmentsPersona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function equipmentsOfNpcs()
+	{
+		return $this->hasMany(\App\Models\EquipmentsNpc::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     **/
-    public function fief()
-    {
-        return $this->hasOne(\App\Models\Fiefe::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function equipmentsOfPersonas()
+	{
+		return $this->hasMany(\App\Models\EquipmentsPersona::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function npcResidents()
-    {
-        return $this->hasMany(\App\Models\Npc::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 **/
+	public function fief()
+	{
+		return $this->hasOne(\App\Models\Fief::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function personaResidents()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function npcResidents()
+	{
+		return $this->hasMany(\App\Models\Npc::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function comments()
-    {
-    	return $this->morphMany('\App\Models\Comment', 'commented');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function personaResidents()
+	{
+		return $this->hasMany(\App\Models\Persona::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function revisions()
-    {
-    	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function comments()
+	{
+		return $this->morphMany('\App\Models\Comment', 'commented');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function revisions()
+	{
+		return $this->morphMany('\App\Models\Revision', 'changed');
+	}
 }
