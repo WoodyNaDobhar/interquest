@@ -66,7 +66,7 @@ function drawMap(territoryId, columns, rows){
 				dataType:	"json",
 				error: function(error){
 					//wind out the response
-					windDown(spinner, error.responseJSON ? error.responseJSON.error : {'message':error.statusText + ': ' + error.status}, true);
+					windDown(spinner, error.error ? error.error : {'message':error.message}, true);
 				}
 			})
 		).then(
@@ -88,14 +88,12 @@ function drawMap(territoryId, columns, rows){
 				)
 				.on('hexhoveron', 
 					function(e){ 
-						console.log('hovered on [' + e.column + ',' + e.row +']' +
-						' hex with center at [' + e.center.x + ',' + e.center.y + ']');
+						
 					}
 				)
 				.on('hexhoveroff', 
 					function(e){ 
-						console.log('hovered off [' + e.column + ',' + e.row +']' +
-						' hex with center at [' + e.center.x + ',' + e.center.y + ']');
+						
 					}
 				);
 

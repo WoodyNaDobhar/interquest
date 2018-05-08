@@ -61,7 +61,7 @@ class Territory extends Model
 	 */
 	protected $casts = [
 		'id' => 'integer',
-		'name' => 'integer',
+		'name' => 'string',
 		'row' => 'integer',
 		'column' => 'integer',
 		'terrain_id' => 'integer',
@@ -88,12 +88,11 @@ class Territory extends Model
 	public function getNameAttribute($value)
 	{
 		return
-				($this->fief && $this->fief->name != '' ? $this->fief->name :
-				$value)
+				($this->fief && $this->fief->name != '' ? $this->fief->name : $value)
 			. 
-				($this->fief
-				 ? ' - ' . $this->fief->fiefdom->name :
-				'')
+				($this->fief->name != '' && $this->fief ? ' - ' : '')
+			. 
+				($this->fief ? $this->fief->fiefdom->name : '')
 			;
 	}
 

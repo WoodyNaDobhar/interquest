@@ -3,15 +3,24 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Welcome</div>
-
-                <div class="panel-body">
-                    Your Application's User Landing Page.
-                </div>
-            </div>
-        </div>
+	    <section class="content-header">
+	        <h1 class="pull-left">Welcome!</h1>
+	    </section>
+	    <div class="content">
+	        <div class="clearfix"></div>
+	
+	        @include('flash::message')
+	
+	        <div class="clearfix"></div>
+	        <div class="box box-primary">
+	            <div class="box-body">
+	                    This is a splash page.
+	            </div>
+	        </div>
+	        <div class="text-center">
+	        
+	        </div>
+	    </div>
     </div>
 </div>
 @endsection

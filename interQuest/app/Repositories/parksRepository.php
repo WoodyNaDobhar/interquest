@@ -23,8 +23,7 @@ class parksRepository extends BaseRepository
         'orkID',
         'name',
         'rank',
-        'row',
-        'column',
+        'territory_id',
         'midreign',
         'coronation'
     ];

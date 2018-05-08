@@ -163,8 +163,7 @@ class territoriesController extends AppBaseController
 		
 		//check
 		if(empty($territory)){
-			Flash::error('Territory not found');
-			return redirect(route('territories.index'));
+			return json_encode(['error' => ['message' => 'Territory not found.']]);
 		}else{
 			
 			//define borders

@@ -19,8 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer orkID
  * @property string name
  * @property string rank
- * @property float row
- * @property float column
+ * @property integer territory_id
  * @property date midreign
  * @property date coronation
  */
@@ -39,8 +38,7 @@ class Park extends Model
 		'orkID',
 		'name',
 		'rank',
-		'row',
-		'column',
+		'territory_id',
 		'midreign',
 		'coronation'
 	];
@@ -55,8 +53,7 @@ class Park extends Model
 		'orkID' => 'integer',
 		'name' => 'string',
 		'rank' => 'string',
-		'row' => 'integer',
-		'column' => 'integer',
+		'territory_id' => 'integer',
 		'midreign' => 'date',
 		'coronation' => 'date'
 	];
@@ -69,6 +66,24 @@ class Park extends Model
 	public static $rules = [
 		
 	];
+
+	/**
+	 * Accessors & Mutators
+	 */
+	public function getMapkeeperAttribute()
+	{
+		
+		$response = null;
+		$mk = $this->personae()->whereHas('User', function($q){
+			$q->where('is_mapkeeper', '=', 1);
+		})->first();
+		
+		if($mk){
+			return $mk;
+		}else{
+			return null;
+		}
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

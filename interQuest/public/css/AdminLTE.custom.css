@@ -109,31 +109,43 @@
     position: absolute;
 }
 .hex.fief1{
-	stroke: violet;
+	stroke: white;
 	stroke-width: 3px;
 }
 .hex.fief2{
-	stroke: indigo;
+	stroke: violet;
 	stroke-width: 3px;
 }
 .hex.fief3{
-	stroke: blue;
+	stroke: indigo;
 	stroke-width: 3px;
 }
 .hex.fief4{
-	stroke: green;
+	stroke: blue;
 	stroke-width: 3px;
 }
 .hex.fief5{
-	stroke: yellow;
+	stroke: teal;
 	stroke-width: 3px;
 }
 .hex.fief6{
-	stroke: orange;
+	stroke: green;
 	stroke-width: 3px;
 }
 .hex.fief7{
+	stroke: yellow;
+	stroke-width: 3px;
+}
+.hex.fief8{
+	stroke: orange;
+	stroke-width: 3px;
+}
+.hex.fief9{
 	stroke: red;
+	stroke-width: 3px;
+}
+.hex.fief10{
+	stroke: darkred;
 	stroke-width: 3px;
 }
 
@@ -200,6 +212,11 @@
 	width: 65%;
 	left: 15%;
 	top: 30%;
+}
+.personaImage {
+	width: 37%;
+	float: left;
+	padding-right: 10px;
 }
 .personaLinks{
 	float: right;

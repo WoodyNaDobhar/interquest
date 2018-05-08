@@ -77,8 +77,9 @@ Route::group(['middleware' => 'auth'], function()
 	Route::resource('vocations', 'vocationsController');
 	Route::resource('parks', 'parksController');
 	Route::resource('revisions', 'revisionsController');
-	
+
 	Route::get('/territories/map/{id}', 'territoriesController@map');
+	Route::get('/users/mkToggle/{id}', 'usersController@mkToggle');
 });
 
 Route::get('/', function(){

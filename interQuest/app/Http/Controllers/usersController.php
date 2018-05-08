@@ -10,6 +10,7 @@ use App\Repositories\usersRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Auth;
 
 class usersController extends AppBaseController
 {
@@ -69,6 +70,7 @@ class usersController extends AppBaseController
      */
     public function show($id)
     {
+    	
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
@@ -89,6 +91,13 @@ class usersController extends AppBaseController
      */
     public function edit($id)
     {
+    	
+    	//permission
+    	if(Auth::user()->cannot('updateUser')){
+    		Flash::error('Permission Denied');
+    		return redirect('/');
+    	}
+    	
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
@@ -110,11 +119,17 @@ class usersController extends AppBaseController
      */
     public function update($id, UpdateusersRequest $request)
     {
+    	
+    	//permission
+    	if(Auth::user()->cannot('updateUser')){
+    		Flash::error('Permission Denied');
+    		return redirect('/');
+    	}
+    	
         $users = $this->usersRepository->findWithoutFail($id);
 
-        if (empty($users)) {
+        if(empty($users)){
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
@@ -148,4 +163,61 @@ class usersController extends AppBaseController
 
         return redirect(route('users.index'));
     }
+
+	/**
+	 * Update a User to MapKeeper status.
+	 *
+	 * @return Response
+	 */
+	public function mkToggle($id)
+	{
+		
+		//setup
+		$response = [
+			'status'		=> false,
+			'message'		=> ''
+		];
+		
+		//get the user
+		$user = $this->territoriesusersRepository->findWithoutFail($id);
+		
+		//is mk?
+		if($user->is_mapkeeper){
+			
+			//Only admins can do this
+			if(Auth::user()->is_admin){
+				
+				//do it
+				$user->is_mapkeeper = 0;
+				$user->save();
+				
+				//respond
+				$response['status'] = true;
+				$response['message'] = $user->persona->name . ' is no longer a MapKeeper.';
+			}else{
+				
+				//respond
+				$response['status'] = false;
+				$response['message'] = 'Update permissions failed.  You must instead assign a new MapKeeper.';
+			}
+			
+		//not mk
+		}else{
+			
+			//get current mk
+			$currentMK = $user->park->mapkeeper;
+			
+			//unset current mk
+			$currentMK->is_mapkeeper = 0;
+			$currentMK->save();
+			
+			//set new mk
+			$user->is_mapkeeper = 1;
+			$user->save();
+			
+			//respond
+			$response['status'] = true;
+			$response['message'] = 'The MapKeeper for this Park has been changed to ' . $user->persona->name . '.';
+		}
+	}
 }

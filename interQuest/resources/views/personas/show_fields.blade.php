@@ -6,15 +6,15 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
 								<ul class="dropdown-menu" role="menu">
-									@if($persona->user->is_admin)
-									<li><a href="/users/{!! $persona->user_id !!}/edit">User {!! $persona->user_id !!}</a></li>
+									@if(Auth::user()->is_admin)
+									<li><a href="/users/{!! $persona->user_id !!}/edit">Update User</a></li>
 									@endif
-									@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 									<li><a href="#" class="mkToggle">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
 									@endif
 									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
@@ -28,17 +28,17 @@
 							<div class="col-md-12">
 								<div class="personaLinks">
 									@if($persona->orkID)
-									<a href="https://amtgard.com/ork/orkui/?Route=Player/index/{!! $persona->orkID !!}">
+									<a href="https://amtgard.com/ork/orkui/?Route=Player/index/{!! $persona->orkID !!}" target="_blank">
 										<img src="/img/linkORK.png" width="50" height="50" alt="Online Record Keeper">
 									</a>
 									@endif
 									@if($persona->user->social->provider_user_id)
-									<a href="http://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}">
+									<a href="http://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}" target="_blank">
 										<img src="/img/linkFacebook.png" width="50" height="50" alt="Facebook">
 									</a>
 									@endif
 									@if($persona->park)
-									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $persona->park->orkID !!}">
+									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $persona->park->orkID !!}" target="_blank">
 										<img src="{!! is_array(getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $persona->park->orkID) . '.jpg')) ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $persona->park->orkID) . '.jpg' : 'asdf' !!}" width="50" alt="{!! $persona->park->name !!}">
 									</a>
 									@endif
@@ -80,7 +80,7 @@
 									@endif
 								@endif
 								{!! $persona->background_public !!}
-								@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+								@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
 								<h4>{!! $persona->name !!}'s Secrets</h4>{!! $persona->background_private !!}
 								@endif
 							</div>
@@ -97,7 +97,7 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
@@ -161,7 +161,7 @@
 				</div>
 			</div>
 		</div>
-@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
+@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
@@ -170,7 +170,7 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if($persona->user->is_admin || $persona->user->is_mapkeeper)
+							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
@@ -243,172 +243,3 @@ Comments
 	@parent
     <script src="/js/custom_profile.js"></script>
 @endsection
-
-
-
-
-
-
-
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $persona->id !!}</p>
-</div>
-
-<!-- Orkid Field -->
-<div class="form-group">
-    {!! Form::label('orkID', 'Orkid:') !!}
-    <p>{!! $persona->orkID !!}</p>
-</div>
-
-<!-- User Id Field -->
-<div class="form-group">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{!! $persona->user_id !!}</p>
-</div>
-
-<!-- Name Field -->
-<div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{!! $persona->name !!}</p>
-</div>
-
-<!-- Long Name Field -->
-<div class="form-group">
-    {!! Form::label('long_name', 'Long Name:') !!}
-    <p>{!! $persona->long_name !!}</p>
-</div>
-
-<!-- Image Field -->
-<div class="form-group">
-    {!! Form::label('image', 'Image:') !!}
-    <p>{!! $persona->image !!}</p>
-</div>
-
-<!-- Vocation Id Field -->
-<div class="form-group">
-    {!! Form::label('vocation_id', 'Vocation Id:') !!}
-    <p>{!! $persona->vocation_id !!}</p>
-</div>
-
-<!-- Race Id Field -->
-<div class="form-group">
-    {!! Form::label('race_id', 'Race Id:') !!}
-    <p>{!! $persona->race_id !!}</p>
-</div>
-
-<!-- Background Public Field -->
-<div class="form-group">
-    {!! Form::label('background_public', 'Background Public:') !!}
-    <p>{!! $persona->background_public !!}</p>
-</div>
-
-<!-- Background Private Field -->
-<div class="form-group">
-    {!! Form::label('background_private', 'Background Private:') !!}
-    <p>{!! $persona->background_private !!}</p>
-</div>
-
-<!-- Park Id Field -->
-<div class="form-group">
-    {!! Form::label('park_id', 'Park Id:') !!}
-    <p>{!! $persona->park_id !!}</p>
-</div>
-
-<!-- Territory Id Field -->
-<div class="form-group">
-    {!! Form::label('territory_id', 'Territory Id:') !!}
-    <p>{!! $persona->territory_id !!}</p>
-</div>
-
-<!-- Gold Field -->
-<div class="form-group">
-    {!! Form::label('gold', 'Gold:') !!}
-    <p>{!! $persona->gold !!}</p>
-</div>
-
-<!-- Iron Field -->
-<div class="form-group">
-    {!! Form::label('iron', 'Iron:') !!}
-    <p>{!! $persona->iron !!}</p>
-</div>
-
-<!-- Timber Field -->
-<div class="form-group">
-    {!! Form::label('timber', 'Timber:') !!}
-    <p>{!! $persona->timber !!}</p>
-</div>
-
-<!-- Stone Field -->
-<div class="form-group">
-    {!! Form::label('stone', 'Stone:') !!}
-    <p>{!! $persona->stone !!}</p>
-</div>
-
-<!-- Grain Field -->
-<div class="form-group">
-    {!! Form::label('grain', 'Grain:') !!}
-    <p>{!! $persona->grain !!}</p>
-</div>
-
-<!-- Action Id Field -->
-<div class="form-group">
-    {!! Form::label('action_id', 'Action Id:') !!}
-    <p>{!! $persona->action_id !!}</p>
-</div>
-
-<!-- Is Knight Field -->
-<div class="form-group">
-    {!! Form::label('is_knight', 'Is Knight:') !!}
-    <p>{!! $persona->is_knight !!}</p>
-</div>
-
-<!-- Is Rebel Field -->
-<div class="form-group">
-    {!! Form::label('is_rebel', 'Is Rebel:') !!}
-    <p>{!! $persona->is_rebel !!}</p>
-</div>
-
-<!-- Is Monarch Field -->
-<div class="form-group">
-    {!! Form::label('is_monarch', 'Is Monarch:') !!}
-    <p>{!! $persona->is_monarch !!}</p>
-</div>
-
-<!-- Fiefs Assigned Field -->
-<div class="form-group">
-    {!! Form::label('fiefs_assigned', 'Fiefs Assigned:') !!}
-    <p>{!! $persona->fiefs_assigned !!}</p>
-</div>
-
-<!-- Shattered Field -->
-<div class="form-group">
-    {!! Form::label('shattered', 'Shattered:') !!}
-    <p>{!! $persona->shattered !!}</p>
-</div>
-
-<!-- Deceased Field -->
-<div class="form-group">
-    {!! Form::label('deceased', 'Deceased:') !!}
-    <p>{!! $persona->deceased !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $persona->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $persona->updated_at !!}</p>
-</div>
-
-<!-- Deleted At Field -->
-<div class="form-group">
-    {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $persona->deleted_at !!}</p>
-</div>
-

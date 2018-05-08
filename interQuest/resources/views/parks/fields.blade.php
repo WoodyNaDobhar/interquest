@@ -18,14 +18,8 @@
 
 <!-- Lat Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('row', 'Map Row:') !!}
-    {!! Form::text('row', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Lon Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('column', 'Map Column:') !!}
-    {!! Form::text('column', null, ['class' => 'form-control']) !!}
+    {!! Form::label('territory_id', 'Map Row:') !!}
+    {!! Form::number('territory_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Midreign Field -->
