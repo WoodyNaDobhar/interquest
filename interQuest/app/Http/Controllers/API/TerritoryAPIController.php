@@ -126,4 +126,58 @@ class TerritoryAPIController extends AppBaseController
 
         return $this->sendResponse($id, 'Territory deleted successfully');
     }
+    
+	/**
+	 * Get the territories around this one, in this one's sector
+	 *
+	 * @return Response
+	 */
+	public function map($id)
+	{
+		
+		//get the territory
+		$territory = $this->territoryRepository->findWithoutFail($id);
+		
+		//check
+		if(empty($territory)){
+            return $this->sendError('Territory not found');
+		}else{
+			
+			//define borders
+			$colMod = $territory->column - 4;
+			$rowMod = $territory->row - 4;
+			
+			//build array
+			$responseData = [
+				'colMod'		=> $colMod,
+				'rowMod'		=> $rowMod,
+				'territories'	=> []
+			];
+			for($row = 0; $row < 10; $row++){
+				for($column = 0; $column < 10; $column++){
+					$tt = \App\Models\Territory::where('column', $colMod + $column)->where('row', $rowMod + $row)->first();
+					if($tt){
+						$responseData['territories'] = [
+							$tt->column . '-' . $tt->row => [
+								'id'		=> $tt->id,
+								'terrain'	=> $tt->terrain->name,
+								'cs'		=> $tt->castle_strength,
+								'fiefdom'	=> $tt->fief ? $tt->fief->fiefdom : null
+							]
+						] + $responseData['territories'];
+					}else{
+						$responseData['territories'] = [
+							($colMod + $column) . '-' . ($rowMod + $row) => [
+								'id'		=> '',
+								'terrain'	=> 'Undiscovered',
+								'cs'		=> 0,
+								'fiefdom_id'=> null
+							]
+						] + $responseData['territories'];
+					}
+				}
+			}
+        	return $this->sendResponse($responseData, 'Territory Sector retrieved successfully');
+		}
+	}
 }

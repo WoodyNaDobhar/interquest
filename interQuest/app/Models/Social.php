@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\User user
  * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection fieves
+ * @property \Illuminate\Database\Eloquent\Collection fiefs
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property \Illuminate\Database\Eloquent\Collection territories
  * @property integer user_id

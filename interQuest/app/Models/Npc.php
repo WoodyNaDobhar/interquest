@@ -147,7 +147,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany
      **/
-    public function fievesRuling()
+    public function fiefsRuling()
     {
         return $this->morphMany('\App\Models\Fief', 'ruler');
     }
@@ -155,7 +155,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany
      **/
-    public function fievesStewarding()
+    public function fiefsStewarding()
     {
         return $this->morphMany('\App\Models\Fief', 'steward');
     }

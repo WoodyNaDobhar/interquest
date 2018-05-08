@@ -169,33 +169,6 @@
 /*
 * Profile
 */
-.personaImage {
-	width: 100%;
-}
-.overlayKnight {
-	position: absolute;
-	max-height: 25%;
-	bottom: 5%;
-	right: 5%;
-}
-.overlayMonarch {
-	position: absolute;
-	max-width: 25%;
-	left: 5%;
-	top: 2.5%;
-}
-.overlayMapkeeper {
-	position: absolute;
-	max-height: 25%;
-	bottom: 5%;
-	left: 5%;
-}
-.overlayDeceased {
-	position: absolute;
-	max-width: 25%;
-	right: 3%;
-	top: 5%;
-}
 .underlayRebel {
 	position: absolute;
 	max-width: 100%
@@ -212,11 +185,65 @@
 	width: 65%;
 	left: 15%;
 	top: 30%;
+	height: 48%;
 }
-.personaImage {
+.personaImageContainerWrap {
 	width: 37%;
 	float: left;
-	padding-right: 10px;
+	margin-right: 10px;
+}
+.personaImageContainer {
+	position: relative;
+}
+.personaImageContents {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.personaImage {
+	position: absolute;
+	max-width: 100%;
+	width: 100%;
+}
+.overlayKnight {
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	right: 5%;
+}
+.rebelContents.overlayKnight {
+	bottom: 5%;
+	right: 5%;
+}
+.overlayMonarch {
+	position: absolute;
+	max-width: 25%;
+	left: 5%;
+	top: 2.5%;
+}
+.rebelContents.overlayMonarch {
+	left: 5%;
+	top: 2.5%;
+}
+.overlayMapkeeper {
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	left: 5%;
+}
+.rebelContents.overlayMapkeeper {
+	bottom: 5%;
+	left: 5%;
+}
+.overlayDeceased {
+	position: absolute;
+	max-width: 25%;
+	right: 3%;
+	top: 5%;
+}
+.rebelContents.overlayDeceased {
+	right: 3%;
+	top: 5%;
 }
 .personaLinks{
 	float: right;

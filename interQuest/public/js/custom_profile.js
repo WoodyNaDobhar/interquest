@@ -42,7 +42,7 @@ $(document).ready(function(){
 			//get the requisite data
 			$.ajax({
 				type:		"GET",
-				url:		"/users/mkToggle/" + userId,
+				url:		"/api/v1/users/mkToggle/" + userId,
 				dataType:	"json",
 				error: function(error){
 					//wind out the response
@@ -67,6 +67,17 @@ function resetProfileHeight(){
 	if($('.rebelContainer').length > 0){
 		$('.rebelContainer').each(function(){
 			$(this).css("min-height", $(this).find('.underlayRebel').height());
+		});
+	}
+	if($('.personaImageContainer').length > 0){
+		$('.personaImageContainer').each(function(){
+			var oThis = $(this);
+			var img = new Image();
+		    img.onload = function(){
+		    	var newHeight = this.height * (oThis.width() / this.width);
+		    	oThis.css("min-height", newHeight);
+		    };
+		    img.src = $(this).find('.personaImage').first().attr('src');
 		});
 	}
 }

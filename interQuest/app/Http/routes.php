@@ -11,19 +11,6 @@
 |
 */
 
-
-/*
-|--------------------------------------------------------------------------
-| API routes
-|--------------------------------------------------------------------------
-*/
-
-Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
-	Route::group(['prefix' => 'v1'], function () {
-		require config('infyom.laravel_generator.path.api_routes');
-	});
-});
-
 /*
  * Base routes
  */
@@ -60,26 +47,27 @@ Route::get('/storage/{folder?}/{filename}', function ($folder = null, $filename)
 //all the core routes, buried behind auth to drive login behavior
 Route::group(['middleware' => 'auth'], function()
 {
-	Route::resource('actions', 'actionsController');
-	Route::resource('buildings', 'buildingsController');
-	Route::resource('comments', 'commentsController');
-	Route::resource('equipments', 'equipmentsController');
-	Route::resource('fiefdoms', 'fiefdomsController');
-	Route::resource('fieves', 'fievesController');
-	Route::resource('races', 'racesController');
-	Route::resource('npcs', 'npcsController');
-	Route::resource('parks', 'parksController');
-	Route::resource('personas', 'personasController');
-	Route::resource('terrains', 'terrainsController');
-	Route::resource('territories', 'territoriesController');
-	Route::resource('titles', 'titlesController');
-	Route::resource('users', 'usersController');
-	Route::resource('vocations', 'vocationsController');
-	Route::resource('parks', 'parksController');
-	Route::resource('revisions', 'revisionsController');
-
-	Route::get('/territories/map/{id}', 'territoriesController@map');
-	Route::get('/users/mkToggle/{id}', 'usersController@mkToggle');
+	Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
+		Route::group(['prefix' => 'v1'], function () {
+			require config('infyom.laravel_generator.path.api_routes');
+		});
+	});
+	Route::resource('actions', 'ActionController');
+	Route::resource('buildings', 'BuildingController');
+	Route::resource('comments', 'CommentController');
+	Route::resource('equipment', 'EquipmentController');
+	Route::resource('fiefdoms', 'FiefdomController');
+	Route::resource('fiefs', 'FiefController');
+	Route::resource('races', 'RaceController');
+	Route::resource('npcs', 'NpcController');
+	Route::resource('parks', 'ParkController');
+	Route::resource('personae', 'PersonaController');
+	Route::resource('revisions', 'RevisionController');
+	Route::resource('terrains', 'TerrainController');
+	Route::resource('territories', 'TerritoryController');
+	Route::resource('titles', 'TitleController');
+	Route::resource('users', 'UserController');
+	Route::resource('vocations', 'VocationController');
 });
 
 Route::get('/', function(){

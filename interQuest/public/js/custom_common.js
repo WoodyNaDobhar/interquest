@@ -62,7 +62,7 @@ function drawMap(territoryId, columns, rows){
 			//get the requisite data
 			$.ajax({
 				type:		"GET",
-				url:		"/territories/map/" + territoryId,
+				url:		"/api/v1/territories/map/" + territoryId,
 				dataType:	"json",
 				error: function(error){
 					//wind out the response
@@ -74,9 +74,9 @@ function drawMap(territoryId, columns, rows){
 			function(preTerritories){
 
 				//setup
-				var territories = preTerritories['territories'];
-				var rowMod = preTerritories['rowMod'];
-				var colMod = preTerritories['colMod'];
+				var territories = preTerritories['data']['territories'];
+				var rowMod = preTerritories['data']['rowMod'];
+				var colMod = preTerritories['data']['colMod'];
 				
 				//do it
 				$('#mapContainer').hexGridWidget(radius, columns ? columns : 10, colMod, rows ? rows : 10, rowMod, 'hex', territories)

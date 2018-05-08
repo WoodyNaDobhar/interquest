@@ -11,15 +11,15 @@
 </li>
 
 <li class="{{ Request::is('equipment*') ? 'active' : '' }}">
-    <a href="{!! route('equipments.index') !!}"><i class="fa fa-edit"></i><span>Equipments</span></a>
+    <a href="{!! route('equipment.index') !!}"><i class="fa fa-edit"></i><span>Equipment</span></a>
 </li>
 
 <li class="{{ Request::is('fiefdoms*') ? 'active' : '' }}">
     <a href="{!! route('fiefdoms.index') !!}"><i class="fa fa-edit"></i><span>Fiefdom</span></a>
 </li>
 
-<li class="{{ Request::is('fieves*') ? 'active' : '' }}">
-    <a href="{!! route('fieves.index') !!}"><i class="fa fa-edit"></i><span>Fieves</span></a>
+<li class="{{ Request::is('fiefs*') ? 'active' : '' }}">
+    <a href="{!! route('fiefs.index') !!}"><i class="fa fa-edit"></i><span>Fiefs</span></a>
 </li>
 
 <li class="{{ Request::is('races*') ? 'active' : '' }}">

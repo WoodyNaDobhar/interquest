@@ -29,7 +29,7 @@ class PersonaController extends AppBaseController
      */
     public function index(PersonaDataTable $personaDataTable)
     {
-        return $personaDataTable->render('personas.index');
+        return $personaDataTable->render('personae.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class PersonaController extends AppBaseController
      */
     public function create()
     {
-        return view('personas.create');
+        return view('personae.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class PersonaController extends AppBaseController
 
         Flash::success('Persona saved successfully.');
 
-        return redirect(route('personas.index'));
+        return redirect(route('personae.index'));
     }
 
     /**
@@ -74,10 +74,10 @@ class PersonaController extends AppBaseController
         if (empty($persona)) {
             Flash::error('Persona not found');
 
-            return redirect(route('personas.index'));
+            return redirect(route('personae.index'));
         }
 
-        return view('personas.show')->with('persona', $persona);
+        return view('personae.show')->with('persona', $persona);
     }
 
     /**
@@ -94,10 +94,10 @@ class PersonaController extends AppBaseController
         if (empty($persona)) {
             Flash::error('Persona not found');
 
-            return redirect(route('personas.index'));
+            return redirect(route('personae.index'));
         }
 
-        return view('personas.edit')->with('persona', $persona);
+        return view('personae.edit')->with('persona', $persona);
     }
 
     /**
@@ -115,14 +115,14 @@ class PersonaController extends AppBaseController
         if (empty($persona)) {
             Flash::error('Persona not found');
 
-            return redirect(route('personas.index'));
+            return redirect(route('personae.index'));
         }
 
         $persona = $this->personaRepository->update($request->all(), $id);
 
         Flash::success('Persona updated successfully.');
 
-        return redirect(route('personas.index'));
+        return redirect(route('personae.index'));
     }
 
     /**
@@ -139,13 +139,13 @@ class PersonaController extends AppBaseController
         if (empty($persona)) {
             Flash::error('Persona not found');
 
-            return redirect(route('personas.index'));
+            return redirect(route('personae.index'));
         }
 
         $this->personaRepository->delete($id);
 
         Flash::success('Persona deleted successfully.');
 
-        return redirect(route('personas.index'));
+        return redirect(route('personae.index'));
     }
 }

@@ -155,7 +155,7 @@ class Persona extends Model
 		}
 	}
 	
-	public function getFievesAvailableAttribute()
+	public function getFiefsAvailableAttribute()
 	{
 		
 		//setup
@@ -192,7 +192,7 @@ class Persona extends Model
      **/
 	public function home()
     {
-        return $this->belongsTo(\App\Models\Territory::class);
+        return $this->belongsTo(\App\Models\Territory::class, 'territory_id');
     }
 
     /**
@@ -254,7 +254,7 @@ class Persona extends Model
     /**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
 	 **/
-	public function fievesRuling()
+	public function fiefsRuling()
 	{
 		return $this->morphMany('\App\Models\Fief', 'ruler');
 	}
@@ -262,7 +262,7 @@ class Persona extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
 	 **/
-	public function fievesStewarding()
+	public function fiefsStewarding()
 	{
 		return $this->morphMany('\App\Models\Fief', 'steward');
 	}

@@ -116,4 +116,5 @@ class Equipment extends Model
     public function revisions()
     {
     	return $this->morphMany('\App\Models\Revision', 'changed');
+	}
 }

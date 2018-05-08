@@ -6,15 +6,12 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class revisions
+ * Class Revision
  * @package App\Models
- * @version April 10, 2018, 7:00 pm MDT
+ * @version May 8, 2018, 3:30 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection fieves
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
- * @property \Illuminate\Database\Eloquent\Collection territories
  * @property integer changed_id
  * @property string changed_type
  */
@@ -27,7 +24,9 @@ class Revision extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'changed_id',

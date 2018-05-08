@@ -6,16 +6,14 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class users
+ * Class User
  * @package App\Models
- * @version April 10, 2018, 7:29 pm MDT
+ * @version May 8, 2018, 3:31 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection fieves
  * @property \Illuminate\Database\Eloquent\Collection Persona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
- * @property \Illuminate\Database\Eloquent\Collection territories
+ * @property \Illuminate\Database\Eloquent\Collection SocialAccount
  * @property string name
  * @property string email
  * @property string password
@@ -32,7 +30,9 @@ class User extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',
@@ -42,7 +42,7 @@ class User extends Model
         'is_mapkeeper',
         'is_admin'
     ];
-    
+
     protected $hidden = ['password', 'rememeber_token', 'is_mapkeeper', 'is_admin'];
 
     /**
@@ -91,7 +91,7 @@ class User extends Model
     public function revisions()
     {
     	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
+	}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
