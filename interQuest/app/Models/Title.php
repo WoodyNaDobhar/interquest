@@ -6,15 +6,15 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class titles
+ * Class Title
  * @package App\Models
- * @version April 9, 2018, 9:57 pm MDT
+ * @version May 8, 2018, 2:38 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property boolean is_landed
+ * @property integer hierarchy
  * @property integer fiefs_maximum
  */
 class Title extends Model
@@ -26,11 +26,14 @@ class Title extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',
         'is_landed',
+        'hierarchy',
         'fiefs_maximum'
     ];
 
@@ -43,6 +46,7 @@ class Title extends Model
         'id' => 'integer',
         'name' => 'string',
         'is_landed' => 'boolean',
+        'hierarchy' => 'integer',
         'fiefs_maximum' => 'integer'
     ];
 
@@ -69,5 +73,5 @@ class Title extends Model
     public function revisions()
     {
     	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
+	}
 }

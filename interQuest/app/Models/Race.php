@@ -6,17 +6,14 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class races
+ * Class Race
  * @package App\Models
- * @version April 10, 2018, 6:07 pm MDT
+ * @version May 8, 2018, 2:37 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection fieves
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
- * @property \Illuminate\Database\Eloquent\Collection territories
  * @property string name
  * @property string description
  * @property boolean personable
@@ -30,7 +27,9 @@ class Race extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',

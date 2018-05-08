@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($npcs, ['route' => ['npcs.update', $npcs->id], 'method' => 'patch']) !!}
+                   {!! Form::model($npc, ['route' => ['npcs.update', $npc->id], 'method' => 'patch']) !!}
 
                         @include('npcs.fields')
 

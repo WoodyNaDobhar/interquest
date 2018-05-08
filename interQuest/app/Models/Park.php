@@ -6,16 +6,13 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class parks
+ * Class Park
  * @package App\Models
- * @version April 10, 2018, 6:34 pm MDT
+ * @version May 8, 2018, 2:36 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection fieves
  * @property \Illuminate\Database\Eloquent\Collection Persona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
- * @property \Illuminate\Database\Eloquent\Collection territories
  * @property integer orkID
  * @property string name
  * @property string rank
@@ -25,49 +22,51 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Park extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-	public $table = 'parks';
-	
-	const CREATED_AT = 'created_at';
-	const UPDATED_AT = 'updated_at';
+    public $table = 'parks';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
-	protected $dates = ['deleted_at'];
 
-	public $fillable = [
-		'orkID',
-		'name',
-		'rank',
-		'territory_id',
-		'midreign',
-		'coronation'
-	];
+    protected $dates = ['deleted_at'];
 
-	/**
-	 * The attributes that should be casted to native types.
-	 *
-	 * @var array
-	 */
-	protected $casts = [
-		'id' => 'integer',
-		'orkID' => 'integer',
-		'name' => 'string',
-		'rank' => 'string',
-		'territory_id' => 'integer',
-		'midreign' => 'date',
-		'coronation' => 'date'
-	];
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
-	public static $rules = [
-		
-	];
+    public $fillable = [
+        'orkID',
+        'name',
+        'rank',
+        'territory_id',
+        'midreign',
+        'coronation'
+    ];
 
-	/**
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'orkID' => 'integer',
+        'name' => 'string',
+        'rank' => 'string',
+        'territory_id' => 'integer',
+        'midreign' => 'date',
+        'coronation' => 'date'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        
+    ];
+
+    /**
 	 * Accessors & Mutators
 	 */
 	public function getMapkeeperAttribute()
@@ -86,12 +85,12 @@ class Park extends Model
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 **/
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
 	public function personae()
-	{
-		return $this->hasMany(\App\Models\Persona::class);
-	}
+    {
+        return $this->hasMany(\App\Models\Persona::class);
+    }
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
@@ -99,7 +98,7 @@ class Park extends Model
 	public function fiefs()
 	{
 		return $this->morphMany('\App\Models\Fief', 'fiefdom');
-	}
+}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

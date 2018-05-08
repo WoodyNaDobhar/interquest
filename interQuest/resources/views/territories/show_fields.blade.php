@@ -46,6 +46,36 @@
     <p>{!! $territory->castle_strength !!}</p>
 </div>
 
+<!-- Gold Field -->
+<div class="form-group">
+    {!! Form::label('gold', 'Gold:') !!}
+    <p>{!! $territory->gold !!}</p>
+</div>
+
+<!-- Iron Field -->
+<div class="form-group">
+    {!! Form::label('iron', 'Iron:') !!}
+    <p>{!! $territory->iron !!}</p>
+</div>
+
+<!-- Timber Field -->
+<div class="form-group">
+    {!! Form::label('timber', 'Timber:') !!}
+    <p>{!! $territory->timber !!}</p>
+</div>
+
+<!-- Stone Field -->
+<div class="form-group">
+    {!! Form::label('stone', 'Stone:') !!}
+    <p>{!! $territory->stone !!}</p>
+</div>
+
+<!-- Grain Field -->
+<div class="form-group">
+    {!! Form::label('grain', 'Grain:') !!}
+    <p>{!! $territory->grain !!}</p>
+</div>
+
 <!-- Is Wasteland Field -->
 <div class="form-group">
     {!! Form::label('is_wasteland', 'Is Wasteland:') !!}
@@ -56,12 +86,6 @@
 <div class="form-group">
     {!! Form::label('is_no_mans_land', 'Is No Mans Land:') !!}
     <p>{!! $territory->is_no_mans_land !!}</p>
-</div>
-
-<!-- Has Road Field -->
-<div class="form-group">
-    {!! Form::label('has_road', 'Has Road:') !!}
-    <p>{!! $territory->has_road !!}</p>
 </div>
 
 <!-- Created At Field -->

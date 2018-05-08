@@ -6,11 +6,10 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class buildings
+ * Class Building
  * @package App\Models
- * @version April 9, 2018, 9:41 pm MDT
+ * @version May 8, 2018, 2:33 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection BuildingsTerritory
  * @property \Illuminate\Database\Eloquent\Collection Equipment
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
@@ -37,7 +36,9 @@ class Building extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',
@@ -87,17 +88,17 @@ class Building extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function buildingsInTerritories()
     {
-        return $this->belongsToMany(\App\Models\BuildingsTerritory::class);
+        return $this->hasMany(\App\Models\BuildingsTerritory::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function equipmentsRequiring()
+    public function equipmentRequiring()
     {
         return $this->hasMany(\App\Models\Equipment::class);
     }
@@ -108,7 +109,7 @@ class Building extends Model
     public function comments()
     {
     	return $this->morphMany('\App\Models\Comment', 'commented');
-    }
+}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany

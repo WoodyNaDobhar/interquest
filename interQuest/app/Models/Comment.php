@@ -6,12 +6,11 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class comments
+ * Class Comment
  * @package App\Models
- * @version April 10, 2018, 2:31 pm MDT
+ * @version May 8, 2018, 2:34 pm MDT
  *
  * @property \App\Models\Persona persona
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property integer commented_id
@@ -30,7 +29,9 @@ class Comment extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'commented_id',

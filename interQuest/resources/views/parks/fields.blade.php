@@ -16,9 +16,9 @@
     {!! Form::text('rank', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Lat Field -->
+<!-- Territory Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('territory_id', 'Map Row:') !!}
+    {!! Form::label('territory_id', 'Territory Id:') !!}
     {!! Form::number('territory_id', null, ['class' => 'form-control']) !!}
 </div>
 

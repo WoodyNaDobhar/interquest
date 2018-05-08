@@ -10,7 +10,7 @@
     <a href="{!! route('comments.index') !!}"><i class="fa fa-edit"></i><span>Comments</span></a>
 </li>
 
-<li class="{{ Request::is('equipments*') ? 'active' : '' }}">
+<li class="{{ Request::is('equipment*') ? 'active' : '' }}">
     <a href="{!! route('equipments.index') !!}"><i class="fa fa-edit"></i><span>Equipments</span></a>
 </li>
 
@@ -34,8 +34,8 @@
     <a href="{!! route('parks.index') !!}"><i class="fa fa-edit"></i><span>Parks</span></a>
 </li>
 
-<li class="{{ Request::is('personas*') ? 'active' : '' }}">
-    <a href="{!! route('personas.index') !!}"><i class="fa fa-edit"></i><span>Personas</span></a>
+<li class="{{ Request::is('personae*') ? 'active' : '' }}">
+    <a href="{!! route('personae.index') !!}"><i class="fa fa-edit"></i><span>Personae</span></a>
 </li>
 
 <li class="{{ Request::is('revisions*') ? 'active' : '' }}">

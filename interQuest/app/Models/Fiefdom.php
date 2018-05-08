@@ -6,13 +6,11 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class fiefdoms
+ * Class Fiefdom
  * @package App\Models
- * @version April 10, 2018, 2:42 pm MDT
+ * @version May 8, 2018, 2:34 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection Fiefe
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property integer ruler_id
@@ -20,41 +18,43 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Fiefdom extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-	public $table = 'fiefdoms';
-	
-	const CREATED_AT = 'created_at';
-	const UPDATED_AT = 'updated_at';
+    public $table = 'fiefdoms';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
-	protected $dates = ['deleted_at'];
-	
-	public $fillable = [
-		'name',
-		'ruler_id',
-		'ruler_type'
-	];
 
-	/**
-	 * The attributes that should be casted to native types.
-	 *
-	 * @var array
-	 */
-	protected $casts = [
-		'id' => 'integer',
-		'name' => 'string',
-		'ruler_id' => 'integer',
-		'ruler_type' => 'string'
-	];
+    protected $dates = ['deleted_at'];
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
-	public static $rules = [
-		
-	];
+
+    public $fillable = [
+        'name',
+        'ruler_id',
+        'ruler_type'
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'ruler_id' => 'integer',
+        'ruler_type' => 'string'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        
+    ];
 
 	/**
 	 * Accessors & Mutators
@@ -68,7 +68,7 @@ class Fiefdom extends Model
 			->sortBy('created_at')
 			->first();
 	}
-	
+    
 	public function getZoomAttribute()
 	{
 		
@@ -84,7 +84,7 @@ class Fiefdom extends Model
 			$xMax = $fief->territory->row > $xMax ? $fief->territory->row : $xMax;
 			$yMin = $fief->territory->column < $yMin ? $fief->territory->column : $yMin;
 			$yMax = $fief->territory->column > $yMax ? $fief->territory->column : $yMax;
-		}
+}
 
 		//work out the distance
 		$xDiff = $xMax - $xMin;

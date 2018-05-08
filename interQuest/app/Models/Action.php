@@ -6,11 +6,12 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class actions
+ * Class Action
  * @package App\Models
- * @version April 9, 2018, 9:40 pm MDT
+ * @version May 8, 2018, 2:27 pm MDT
  *
  * @property \Illuminate\Database\Eloquent\Collection ActionsPersona
+ * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
@@ -29,8 +30,10 @@ class Action extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
-    
+
+
     public $fillable = [
         'name',
         'description',
@@ -63,11 +66,11 @@ class Action extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function actionsByPersonas()
     {
-        return $this->belongsToMany(\App\Models\ActionsPersona::class);
+        return $this->hasMany(\App\Models\ActionsPersona::class);
     }
 
     /**
@@ -92,7 +95,7 @@ class Action extends Model
     public function comments()
     {
     	return $this->morphMany('\App\Models\Comment', 'commented');
-    }
+}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany

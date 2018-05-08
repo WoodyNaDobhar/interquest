@@ -42,6 +42,6 @@ class equipmentsRepository extends BaseRepository
      **/
     public function model()
     {
-        return Equipmentsclass;
+        return Equipment::class;
     }
 }

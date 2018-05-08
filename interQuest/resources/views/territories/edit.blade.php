@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($territories, ['route' => ['territories.update', $territories->id], 'method' => 'patch']) !!}
+                   {!! Form::model($territory, ['route' => ['territories.update', $territory->id], 'method' => 'patch']) !!}
 
                         @include('territories.fields')
 

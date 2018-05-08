@@ -13,6 +13,12 @@
     </label>
 </div>
 
+<!-- Hierarchy Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('hierarchy', 'Hierarchy:') !!}
+    {!! Form::number('hierarchy', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Fiefs Maximum Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fiefs_maximum', 'Fiefs Maximum:') !!}

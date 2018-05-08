@@ -6,20 +6,16 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class npcs
+ * Class Npc
  * @package App\Models
- * @version April 9, 2018, 9:47 pm MDT
+ * @version May 8, 2018, 2:35 pm MDT
  *
  * @property \App\Models\Action action
- * @property \App\Models\Territories territory
- * @property \App\Models\Races race
- * @property \App\Models\Vocations vocation
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
+ * @property \App\Models\Territory territory
+ * @property \App\Models\Race race
+ * @property \App\Models\Vocation vocation
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
- * @property \Illuminate\Database\Eloquent\Collection Comment
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
- * @property \Illuminate\Database\Eloquent\Collection Fiefdom
- * @property \Illuminate\Database\Eloquent\Collection Fiefe
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property string private_name
@@ -46,7 +42,9 @@ class Npc extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',
@@ -101,7 +99,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function actionDefault()
+    public function defaultAction()
     {
         return $this->belongsTo(\App\Models\Action::class);
     }
@@ -109,7 +107,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function territoryHome()
+    public function homeTerritory()
     {
         return $this->belongsTo(\App\Models\Territory::class);
     }
@@ -133,7 +131,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function equipments()
+    public function equipment()
     {
         return $this->hasMany(\App\Models\EquipmentsNpc::class);
     }
@@ -144,7 +142,7 @@ class Npc extends Model
     public function fiefdoms()
     {
     	return $this->morphMany('\App\Models\Fiefdom', 'ruler');
-    }
+}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany

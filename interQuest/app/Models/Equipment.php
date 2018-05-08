@@ -6,12 +6,11 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class equipments
+ * Class Equipment
  * @package App\Models
- * @version April 9, 2018, 9:43 pm MDT
+ * @version May 8, 2018, 2:34 pm MDT
  *
  * @property \App\Models\Building building
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
@@ -29,8 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property decimal craft_grain
  * @property integer craft_actions
  * @property integer building_id
- * @property boolean is_artifact
- * @property boolean is_relic
+ * @property string magic_type
  */
 class Equipment extends Model
 {
@@ -41,7 +39,9 @@ class Equipment extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
     protected $dates = ['deleted_at'];
+
 
     public $fillable = [
         'name',
@@ -57,8 +57,7 @@ class Equipment extends Model
         'craft_grain',
         'craft_actions',
         'building_id',
-        'is_artifact',
-        'is_relic'
+        'magic_type'
     ];
 
     /**
@@ -75,8 +74,7 @@ class Equipment extends Model
         'cargo' => 'integer',
         'craft_actions' => 'integer',
         'building_id' => 'integer',
-        'is_artifact' => 'boolean',
-        'is_relic' => 'boolean'
+        'magic_type' => 'string'
     ];
 
     /**
@@ -97,19 +95,19 @@ class Equipment extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function ownedByNpcs()
     {
-        return $this->belongsToMany(\App\Models\EquipmentsNpc::class);
+        return $this->hasMany(\App\Models\EquipmentsNpc::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function ownedByPersonas()
+    public function ownedByPersonae()
     {
-        return $this->belongsToMany(\App\Models\EquipmentsPersona::class);
+        return $this->hasMany(\App\Models\EquipmentsPersona::class);
     }
 
     /**
@@ -118,5 +116,4 @@ class Equipment extends Model
     public function revisions()
     {
     	return $this->morphMany('\App\Models\Revision', 'changed');
-    }
 }

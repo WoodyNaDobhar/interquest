@@ -1,114 +1,114 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $npcs->id !!}</p>
+    <p>{!! $npc->id !!}</p>
 </div>
 
 <!-- Name Field -->
 <div class="form-group">
     {!! Form::label('name', 'Name:') !!}
-    <p>{!! $npcs->name !!}</p>
+    <p>{!! $npc->name !!}</p>
 </div>
 
 <!-- Private Name Field -->
 <div class="form-group">
     {!! Form::label('private_name', 'Private Name:') !!}
-    <p>{!! $npcs->private_name !!}</p>
+    <p>{!! $npc->private_name !!}</p>
 </div>
 
 <!-- Image Field -->
 <div class="form-group">
     {!! Form::label('image', 'Image:') !!}
-    <p>{!! $npcs->image !!}</p>
+    <p>{!! $npc->image !!}</p>
 </div>
 
 <!-- Vocation Id Field -->
 <div class="form-group">
     {!! Form::label('vocation_id', 'Vocation Id:') !!}
-    <p>{!! $npcs->vocation_id !!}</p>
+    <p>{!! $npc->vocation_id !!}</p>
 </div>
 
 <!-- Race Id Field -->
 <div class="form-group">
     {!! Form::label('race_id', 'Race Id:') !!}
-    <p>{!! $npcs->race_id !!}</p>
+    <p>{!! $npc->race_id !!}</p>
 </div>
 
 <!-- Background Public Field -->
 <div class="form-group">
     {!! Form::label('background_public', 'Background Public:') !!}
-    <p>{!! $npcs->background_public !!}</p>
+    <p>{!! $npc->background_public !!}</p>
 </div>
 
 <!-- Background Private Field -->
 <div class="form-group">
     {!! Form::label('background_private', 'Background Private:') !!}
-    <p>{!! $npcs->background_private !!}</p>
+    <p>{!! $npc->background_private !!}</p>
 </div>
 
 <!-- Territory Id Field -->
 <div class="form-group">
     {!! Form::label('territory_id', 'Territory Id:') !!}
-    <p>{!! $npcs->territory_id !!}</p>
+    <p>{!! $npc->territory_id !!}</p>
 </div>
 
 <!-- Gold Field -->
 <div class="form-group">
     {!! Form::label('gold', 'Gold:') !!}
-    <p>{!! $npcs->gold !!}</p>
+    <p>{!! $npc->gold !!}</p>
 </div>
 
 <!-- Iron Field -->
 <div class="form-group">
     {!! Form::label('iron', 'Iron:') !!}
-    <p>{!! $npcs->iron !!}</p>
+    <p>{!! $npc->iron !!}</p>
 </div>
 
 <!-- Timber Field -->
 <div class="form-group">
     {!! Form::label('timber', 'Timber:') !!}
-    <p>{!! $npcs->timber !!}</p>
+    <p>{!! $npc->timber !!}</p>
 </div>
 
 <!-- Stone Field -->
 <div class="form-group">
     {!! Form::label('stone', 'Stone:') !!}
-    <p>{!! $npcs->stone !!}</p>
+    <p>{!! $npc->stone !!}</p>
 </div>
 
 <!-- Grain Field -->
 <div class="form-group">
     {!! Form::label('grain', 'Grain:') !!}
-    <p>{!! $npcs->grain !!}</p>
+    <p>{!! $npc->grain !!}</p>
 </div>
 
 <!-- Action Id Field -->
 <div class="form-group">
     {!! Form::label('action_id', 'Action Id:') !!}
-    <p>{!! $npcs->action_id !!}</p>
+    <p>{!! $npc->action_id !!}</p>
 </div>
 
 <!-- Deceased Field -->
 <div class="form-group">
     {!! Form::label('deceased', 'Deceased:') !!}
-    <p>{!! $npcs->deceased !!}</p>
+    <p>{!! $npc->deceased !!}</p>
 </div>
 
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $npcs->created_at !!}</p>
+    <p>{!! $npc->created_at !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $npcs->updated_at !!}</p>
+    <p>{!! $npc->updated_at !!}</p>
 </div>
 
 <!-- Deleted At Field -->
 <div class="form-group">
     {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $npcs->deleted_at !!}</p>
+    <p>{!! $npc->deleted_at !!}</p>
 </div>
 

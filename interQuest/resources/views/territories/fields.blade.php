@@ -1,7 +1,7 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::number('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Row Field -->
@@ -40,6 +40,36 @@
     {!! Form::number('castle_strength', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Gold Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('gold', 'Gold:') !!}
+    {!! Form::number('gold', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Iron Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('iron', 'Iron:') !!}
+    {!! Form::number('iron', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Timber Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('timber', 'Timber:') !!}
+    {!! Form::number('timber', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Stone Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('stone', 'Stone:') !!}
+    {!! Form::number('stone', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Grain Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('grain', 'Grain:') !!}
+    {!! Form::number('grain', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Is Wasteland Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('is_wasteland', 'Is Wasteland:') !!}
@@ -55,15 +85,6 @@
     <label class="checkbox-inline">
         {!! Form::hidden('is_no_mans_land', false) !!}
         {!! Form::checkbox('is_no_mans_land', '1', null) !!} 1
-    </label>
-</div>
-
-<!-- Has Road Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('has_road', 'Has Road:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('has_road', false) !!}
-        {!! Form::checkbox('has_road', '1', null) !!} 1
     </label>
 </div>
 

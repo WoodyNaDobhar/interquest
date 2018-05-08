@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($comments, ['route' => ['comments.update', $comments->id], 'method' => 'patch']) !!}
+                   {!! Form::model($comment, ['route' => ['comments.update', $comment->id], 'method' => 'patch']) !!}
 
                         @include('comments.fields')
 
