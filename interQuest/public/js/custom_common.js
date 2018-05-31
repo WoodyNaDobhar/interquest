@@ -27,6 +27,57 @@ var spinnerOpts = {
 };
 
 /**
+ * ajax common settings
+ */
+$.ajaxSetup({
+	cache: false
+});
+
+/**
+ * dialog common settings
+ */
+var bigDialogVars = {
+	modal:		true,
+	width:		$(window).width() * .7,
+	position:	{ my: 'top', at: 'top+150' },
+	height:		'auto',
+	open: function(event, ui) {
+//		startupRoutine($(this));
+	}
+};
+var mediumDialogVars = {
+	modal:			true,
+	resizable:		false,
+	dialogClass:	"noOverlayDialog",
+	height:			'auto',
+	width:			$(window).width() * .5,
+	open:			function(event,ui){
+//		startupRoutine($(this));
+		$('.noOverlayDialog').next('div').css( {'opacity':0.0} );
+	}
+};
+var smallDialogVars = {
+	modal:			true,
+	resizable:		false,
+	dialogClass:	"noOverlayDialog",
+	height:			'auto',
+	width:			400,
+	open:			function(event,ui){
+		$('.noOverlayDialog').next('div').css( {'opacity':0.0} );
+	}
+};
+var alertDialogVars = {
+	modal:			true,
+	resizable:		true,
+	dialogClass:	"noOverlayDialog",
+	height:			'auto',
+	width:			400,
+	open:			function(event,ui){
+		$('.noOverlayDialog').next('div').css( {'opacity':0.0} );
+	}
+};
+
+/**
  * various stuff that needs to be triggered both on page load, and when a dialog is opened.
  */
 $(document).ready(function(){
@@ -38,6 +89,12 @@ $(document).ready(function(){
 	drawMap();
 });
 
+/**
+ * Draw a Sector Map
+ * @param {string}	center Territory id
+ * @param {int}	column width of map
+ * @param {int}	row height of map
+ */
 function drawMap(territoryId, columns, rows){
 	
 	//default hex grid...start with radius
@@ -65,8 +122,9 @@ function drawMap(territoryId, columns, rows){
 				url:		"/api/v1/territories/map/" + territoryId,
 				dataType:	"json",
 				error: function(error){
+					
 					//wind out the response
-					windDown(spinner, error.error ? error.error : {'message':error.message}, true);
+					windDown(spinner, {'message':error.responseJSON.message}, true);
 				}
 			})
 		).then(
@@ -98,7 +156,7 @@ function drawMap(territoryId, columns, rows){
 				);
 
 				//tooltips
-				$('[data-toggle="tooltip"]').tooltip();
+				$('[data-toggle="tooltip"]').tooltip({position: { my: "left center-15", at: "right center" }});
 				
 				//spinner down
 				spinner.stop();
@@ -106,3 +164,127 @@ function drawMap(territoryId, columns, rows){
 		);
 	}
 }
+
+/**
+ * Some common functions after a successful ajax
+ * @param {object}	the caller's spinner
+ * @param {string}	the json data the caller was sent
+ * @param {bool}	whether it's a failture or success
+ */
+function windDown(spinner, jsonData, failed){
+
+	//spinner down
+	spinner.stop();
+
+	//display message
+	if(failed){
+		if(jsonData){
+			showMessage('danger', jsonData.message);
+		}
+	}else{
+		if(jsonData){
+			showMessage('success', jsonData.message);
+		}
+	}
+
+	//if there's a redirect, do it
+	if(jsonData && jsonData.redirect){
+		$('<div></div>').appendTo('body')
+		.html(jsonData.message)
+		.dialog(smallDialogVars, {
+			title: "",
+			buttons: {
+				"Gotcha": function () {
+					$(this).dialog('destroy').detach().remove();
+					window.location = jsonData.redirect;
+				}
+			}
+		});
+	}
+}
+
+/**
+ * Drops a standard alert
+ * @param {string} title
+ * @param {string} message
+ */
+function showAlert(title, message, callback){
+
+	//throw up the alert
+	$('<div></div>').appendTo('body')
+	.html(message)
+	.dialog(alertDialogVars, {
+		title: 			title,
+		buttons:		{
+			Cancel: function () {
+				$(this).dialog('destroy').detach().remove();
+			}
+		}
+	}).parent().find('.ui-dialog-titlebar').addClass("ui-state-error");
+	
+	//callback?
+	if(typeof callback !== 'undefined'){
+		callback();
+	}
+}
+
+/**
+ * Shows messages from js functions in the site's message mechanism
+ * @param {string}	type the type of message it is: success, info, warning, danger
+ * @param {string}	message the message to be displayed
+ */
+function showMessage(type, message){
+	
+	//validate both as not null
+	if(!type || !message){
+		return null;
+	}
+	
+	//toss up the alert
+	$('<div></div>').appendTo('body')
+	.html(message)
+	.dialog(alertDialogVars, {
+		title: 			'Submit ' + capitalizeFirstOnly(type),
+		buttons:		{
+			'Acknowledged'	:	function(){
+				
+				//remove this
+				$(this).dialog('destroy').detach().remove();
+//				
+//				//generate a random ID
+//				var msgId = 'msg' + Math.floor(Math.random() * 1000000) + 1;
+				
+//				//add it to the message log on the index
+//				$.get('js/templates/elements/_message.tmpl.htm', function(templates) {
+//					$('body').append(templates);
+//					var preTemplate = $("#templateMessage" + capitalizeFirstOnly(type)).html();
+//					var template = preTemplate.format({
+//						id:			msgId,
+//						message:	today() + ' ' + now() + ' - ' + message
+//					});
+//					$("#messageContainer").prepend(template);
+//				});
+//				
+//				//update the system message count
+//				$('#toggleSystemMessage').find('.n-count').text(parseInt($('#toggleSystemMessage').find('.n-count').text()) + 1);
+//				
+//				//set the timer
+//				setTimeout(
+//					function() {
+//						$('#' + msgId).fadeOut('slow');
+//					}, 
+//					120000
+//				);
+			}
+		}
+	})
+	.parent().find('.ui-dialog-titlebar').addClass("ui-state-" + type);
+}
+
+/**
+ * Converts a string from any format to This
+ * @param {string}	 the string being formatted
+ */
+function capitalizeFirstOnly(string) {
+	return string.charAt(0).toUpperCase() + string.toLowerCase().slice(1);
+};

@@ -74,8 +74,6 @@ class UserDataTable extends DataTable
         return [
             'name' => ['name' => 'name', 'data' => 'name'],
             'email' => ['name' => 'email', 'data' => 'email'],
-            'password' => ['name' => 'password', 'data' => 'password'],
-            'remember_token' => ['name' => 'remember_token', 'data' => 'remember_token'],
             'is_mapkeeper' => ['name' => 'is_mapkeeper', 'data' => 'is_mapkeeper'],
             'is_admin' => ['name' => 'is_admin', 'data' => 'is_admin']
         ];

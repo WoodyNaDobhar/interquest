@@ -43,7 +43,7 @@ class User extends Model
         'is_admin'
     ];
 
-    protected $hidden = ['password', 'rememeber_token', 'is_mapkeeper', 'is_admin'];
+    protected $hidden = ['password', 'rememeber_token'];
 
     /**
      * The attributes that should be casted to native types.

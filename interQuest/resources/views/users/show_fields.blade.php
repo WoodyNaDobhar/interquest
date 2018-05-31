@@ -16,18 +16,6 @@
     <p>{!! $user->email !!}</p>
 </div>
 
-<!-- Password Field -->
-<div class="form-group">
-    {!! Form::label('password', 'Password:') !!}
-    <p>{!! $user->password !!}</p>
-</div>
-
-<!-- Remember Token Field -->
-<div class="form-group">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    <p>{!! $user->remember_token !!}</p>
-</div>
-
 <!-- Is Mapkeeper Field -->
 <div class="form-group">
     {!! Form::label('is_mapkeeper', 'Is Mapkeeper:') !!}

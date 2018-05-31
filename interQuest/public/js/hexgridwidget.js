@@ -56,7 +56,7 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 						+ (data.hasOwnProperty(column+'-'+row) && data[column+'-'+row]['fiefdom'] ? ' fief' + data[column+'-'+row]['fiefdom']['id'].toString().split('').map(Number).reduce(function (a, b){return a + b;}, 0) : ''),
 					tabindex:1,
 					'data-toggle':"tooltip",
-					'title':"test"
+					'title': data[column+'-'+row]['name']
 				})
 				.html(data.hasOwnProperty(column+'-'+row) && data[column+'-'+row]['fiefdom'] ? "<title>" + data[column+'-'+row]['fiefdom']['name'] + "</title>" : '')
 				.appendTo(svgParent)
