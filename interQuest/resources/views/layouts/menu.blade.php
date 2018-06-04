@@ -2,6 +2,10 @@
     <a href="{!! route('actions.index') !!}"><i class="fa fa-edit"></i><span>Actions</span></a>
 </li>
 
+<li class="{{ Request::is('personaActions*') ? 'active' : '' }}">
+    <a href="{!! route('personaActions.index') !!}"><i class="fa fa-edit"></i><span>Persona Actions</span></a>
+</li>
+
 <li class="{{ Request::is('buildings*') ? 'active' : '' }}">
     <a href="{!! route('buildings.index') !!}"><i class="fa fa-edit"></i><span>Buildings</span></a>
 </li>
@@ -61,4 +65,3 @@
 <li class="{{ Request::is('vocations*') ? 'active' : '' }}">
     <a href="{!! route('vocations.index') !!}"><i class="fa fa-edit"></i><span>Vocations</span></a>
 </li>
-

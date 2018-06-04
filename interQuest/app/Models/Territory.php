@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version May 8, 2018, 2:38 pm MDT
  *
  * @property \App\Models\Terrain terrain
- * @property \Illuminate\Database\Eloquent\Collection ActionsPersona
+ * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection BuildingsTerritory
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
@@ -102,11 +102,12 @@ class Territory extends Model
 	public function getNameAttribute($value)
 	{
 		return
+		
 				($this->fief && $this->fief->name != '' ? $this->fief->name : $value)
 			. 
-				($this->fief->name != '' && $this->fief ? ' - ' : '')
-			. 
-				($this->fief ? $this->fief->fiefdom->name : '')
+				($value != '' || ($this->fief && $this->fief->name != '') ? ' - ' : '')
+			.
+				($this->fief && $this->fief->fiefdom && $this->fief->fiefdom->name != '' ? $this->fief->fiefdom->name : '')
 			;
     }
 
@@ -123,7 +124,7 @@ class Territory extends Model
      **/
     public function personaActions()
     {
-        return $this->hasMany(\App\Models\ActionsPersona::class);
+        return $this->hasMany(\App\Models\ActionPersona::class);
     }
 
     /**

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version April 14, 2018, 1:50 am MDT
  *
  * @property \App\Models\User user
- * @property \Illuminate\Database\Eloquent\Collection actionsPersonas
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection fiefs
  * @property \Illuminate\Database\Eloquent\Collection personasTitles

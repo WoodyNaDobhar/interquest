@@ -189,35 +189,62 @@
 					</div>
 					<div class="box-body">
 						<div class="row">
-							<div class="col-md-5">
+							<div class="col-md-6">
 								<div class="box-group" id="accordion">
-								@foreach($persona->fiefdoms as $i => $fiefdom)
 									<div class="panel box box-primary">
 										<div class="box-header with-border">
 											<h4 class="box-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capitol ? $fiefdom->capitol->territory_id : $persona->park->territory_id !!}">
-													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs ? $fiefdom->fiefs->count() : 'No Fiefs' !!})
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseActions" aria-expanded="false" class="collapsed">
+													Actions 
 												</a>
 											</h4>
+											<div class="pull-right">
+												Default: 
+												<select class="" id="defaultActionSelect">
+													@foreach($actions as $action)
+													<option value="{!! $action->id !!}"{!! $action->id == $persona->action_id ? ' selected' : '' !!}>{!! $action->name !!}</option>
+													@endforeach
+												</select>
+											</div>
 										</div>
-										<div id="collapse{!! $i !!}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div id="collapseActions" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 											<div class="box-body">
-											@if($fiefdom->fiefs)
-												@foreach($fiefdom->fiefs as $i => $fief)
-												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
+											@if($persona->actions)
+												<ul class="timeline">
+												@foreach($persona->actions as $ia => $action)
+													<li class="time-label">
+														<span class="bg-purple">
+														{!! substr($action->created_at, 0, -9) !!}
+														</span>
+													</li>
+													<li>
+														<i class="fa fa-{!! $action->action->icon !!} bg-{!! $action->action->check_required ? ($action->result != null ? ($action->result ? 'green' : 'red') : 'yellow') : 'blue' !!}"></i>
+														<div class="timeline-item">
+															<h3 class="timeline-header">{!! $action->action->name !!}</h3>
+															<div class="timeline-body">
+																<b>From:</b> {!! $action->source->name !!}<br>
+																<b>To:</b> {!! $action->target->name !!}<br>
+																@if($action->action->check_required)
+																<b>Result:</b> {!! $action->result ? $action->result : 'untested' !!}<br>
+																@endif
+																@if($action->comments)
+																<b>Comments:</b>
+																<ul>
+																@foreach($action->comments as $ic => $comment)
+																	<li><em>{!! $comment->show_mapkeepers ? 'Private' : 'Public' !!}:</em> {!! $comment->message !!}</li>
+																@endforeach
+																</ul>
+																@endif
+															</div>
+														</div>
+													</li>
 												@endforeach
+												</ul>
 											@endif
 											</div>
 										</div>
 									</div>
-								@endforeach
 								</div>
-				fiefdom name ((fief count)) (5 cols)(click shows on map & opens fief list)
-					fiefs (hover highlights on map)
-							</div>
-							<div class="col-md-7">
-								<div id="mapContainer" data-center="{!! $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
-								map div (territory controls on hover)
 							</div>
 						</div>
 					</div>
@@ -228,9 +255,6 @@
 @endif
 (MK+/Self)Dailies
 	
-	Default Action: actionDefault
-	Actions
-		(date select) (display action by selected date)
 	Banked Resources
 		(one row, total<br>icon)
 		Gold
@@ -247,5 +271,5 @@ Comments
 
 @section('scripts')
 	@parent
-    <script src="/js/custom_profile.js"></script>
+	<script src="/js/custom_profile.js"></script>
 @endsection

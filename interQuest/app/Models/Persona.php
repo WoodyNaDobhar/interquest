@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Race race
  * @property \App\Models\User user
  * @property \App\Models\Vocation vocation
- * @property \Illuminate\Database\Eloquent\Collection ActionsPersona
+ * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Comment
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
@@ -230,9 +230,9 @@ class Persona extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function actionsPersonas()
+    public function actions()
     {
-        return $this->hasMany(\App\Models\ActionsPersona::class);
+        return $this->hasMany(\App\Models\ActionPersona::class)->orderBy('created_at', 'DESC');
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  * @version May 8, 2018, 2:27 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection ActionsPersona
+ * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
@@ -68,9 +68,9 @@ class Action extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function actionsByPersonas()
+    public function actionsByPersona()
     {
-        return $this->hasMany(\App\Models\ActionsPersona::class);
+        return $this->hasMany(\App\Models\ActionPersona::class);
     }
 
     /**

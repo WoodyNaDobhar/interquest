@@ -6,6 +6,7 @@ use App\DataTables\PersonaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreatePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
+use App\Models\Action as Actions;
 use App\Repositories\PersonaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -76,8 +77,11 @@ class PersonaController extends AppBaseController
 
             return redirect(route('personae.index'));
         }
+        
+        //fetch actions
+        $actions = Actions::all();
 
-        return view('personae.show')->with('persona', $persona);
+        return view('personae.show')->with('persona', $persona)->with('actions', $actions);
     }
 
     /**
