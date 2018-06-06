@@ -142,15 +142,7 @@ class Npc extends Model
     public function fiefdoms()
     {
     	return $this->morphMany('\App\Models\Fiefdom', 'ruler');
-}
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function fiefsRuling()
-    {
-        return $this->morphMany('\App\Models\Fief', 'ruler');
-    }
+	}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany

@@ -99,7 +99,7 @@
 			<div class="col-md-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h3 class="box-title">Home @if($persona->titles->count() > 0) and Fiefdoms - {!! $persona->fiefsRuling->count() !!} Fiefs of {!! $persona->fiefsAvailable !!} available @endif</h3>
+						<h3 class="box-title">Home @if($persona->titles->count() > 0) and Fiefdoms - {!! $persona->fiefsCount !!} Fiefs of {!! $persona->fiefsAvailable !!} available @endif</h3>
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
@@ -108,7 +108,7 @@
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
 								<ul class="dropdown-menu" role="menu">
-									@if($persona->fiefsRuling->count() < $persona->fiefsAvailable)
+									@if($persona->fiefsCount < $persona->fiefsAvailable)
 									<li><a href="/fiefs/create">Add Fief</a></li>
 									@endif
 								</ul>
@@ -198,7 +198,7 @@
 													Actions 
 												</a>
 											</h4>
-											<div class="pull-right">
+											<div class="box-tools">
 												Default: 
 												<select class="" id="defaultActionSelect">
 													@foreach($actions as $action)
@@ -241,6 +241,211 @@
 												@endforeach
 												</ul>
 											@endif
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="box-group" id="accordion">
+									<div class="panel box box-primary">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseResources" aria-expanded="false" class="collapsed">
+													Banked Resources 
+												</a>
+											</h4>
+										</div>
+										<div id="collapseResources" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+											<div class="box-body">
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Gold</h3>
+							
+														<div class="box-tools">
+															Total: {!! $persona->gold->total !!}
+														</div>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Territory Held</th>
+																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Amt</th>
+															</tr>
+															<tr>
+																<td>On Persona</td>
+																<td>{!! $persona->gold->persona->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $persona->gold->persona->total !!}</td>
+															</tr>
+															@foreach($persona->gold->locations as $location)
+															<tr>
+																<td>{!! $location->name !!}</td>
+																<td>{!! $location->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $location->total !!}</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Iron</h3>
+							
+														<div class="box-tools">
+															Total: {!! $persona->iron->total !!}
+														</div>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Territory Held</th>
+																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Amt</th>
+															</tr>
+															<tr>
+																<td>On Persona</td>
+																<td>{!! $persona->iron->persona->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $persona->iron->persona->total !!}</td>
+															</tr>
+															@foreach($persona->iron->locations as $location)
+															<tr>
+																<td>{!! $location->name !!}</td>
+																<td>{!! $location->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $location->total !!}</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Timber</h3>
+							
+														<div class="box-tools">
+															Total: {!! $persona->timber->total !!}
+														</div>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Territory Held</th>
+																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Amt</th>
+															</tr>
+															<tr>
+																<td>On Persona</td>
+																<td>{!! $persona->timber->persona->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $persona->timber->persona->total !!}</td>
+															</tr>
+															@foreach($persona->timber->locations as $location)
+															<tr>
+																<td>{!! $location->name !!}</td>
+																<td>{!! $location->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $location->total !!}</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Stone</h3>
+							
+														<div class="box-tools">
+															Total: {!! $persona->stone->total !!}
+														</div>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Territory Held</th>
+																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Amt</th>
+															</tr>
+															<tr>
+																<td>On Persona</td>
+																<td>{!! $persona->stone->persona->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $persona->stone->persona->total !!}</td>
+															</tr>
+															@foreach($persona->stone->locations as $location)
+															<tr>
+																<td>{!! $location->name !!}</td>
+																<td>{!! $location->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $location->total !!}</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Grain</h3>
+							
+														<div class="box-tools">
+															Total: {!! $persona->grain->total !!}
+														</div>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Territory Held</th>
+																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Amt</th>
+															</tr>
+															<tr>
+																<td>On Persona</td>
+																<td>{!! $persona->grain->persona->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $persona->grain->persona->total !!}</td>
+															</tr>
+															@foreach($persona->grain->locations as $location)
+															<tr>
+																<td>{!! $location->name !!}</td>
+																<td>{!! $location->vaulted == 1 ? 'Yes' : 'No' !!}</td>
+																<td>{!! $location->total !!}</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
+												<div class="box">
+													<div class="box-header">
+														<h3 class="box-title">Equipment</h3>
+													</div>
+													<div class="box-body no-padding">
+														<table class="table">
+															<tbody><tr>
+																<th>Type</th>
+																<th>Territory Held</th>
+																<th style="width: 10px">Vaulted?</th>
+																<th class="pull-right">Comments</th>
+															</tr>
+															@foreach($persona->equipment as $equipment)
+															<tr>
+																<td>{!! $equipment->name !!}</td>
+																<td>{!! $equipment->territory_id != null ? $equipment->territory->name : 'On Persona' !!}</td>
+																<td>{!! $equipment->territory_id != null ? ($equipment->territory->vaulted == 1 ? 'Yes' : 'No') : 'No' !!}</td>
+																<td class="pull-right">
+																	<div class="btn-group">
+																		@if($equipment->comments && count($equipment->comments) > 0)
+																		@foreach($equipment->comments as $comment)
+																		<button type="button" class="btn btn-default showComment" data-comment_id="{!! $comment->id !!}" data-toggle="tooltip" title="{!! $comment->subject !!}"><i class="fa fa-comment"></i></button>
+																		@endforeach
+																		@endif
+																		<button type="button" class="btn btn-default addComment" data-commented_id="1" data-commented_type="Equipment" data-toggle="tooltip" title="Add Comment"><i class="fa fa-plus"></i></button>
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+														</tbody></table>
+													</div>
+													<!-- /.box-body -->
+												</div>
 											</div>
 										</div>
 									</div>

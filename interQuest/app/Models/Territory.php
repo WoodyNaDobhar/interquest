@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property \App\Models\Terrain terrain
  * @property \Illuminate\Database\Eloquent\Collection ActionPersona
- * @property \Illuminate\Database\Eloquent\Collection BuildingsTerritory
+ * @property \Illuminate\Database\Eloquent\Collection BuildingTerritory
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
  * @property \Illuminate\Database\Eloquent\Collection Fiefe
@@ -103,7 +103,7 @@ class Territory extends Model
 	{
 		return
 		
-				($this->fief && $this->fief->name != '' ? $this->fief->name : $value)
+				($this->fief && $this->fief->name != '' ? $this->fief->name : ($value != '' ? $value : $this->id . ' - '))
 			. 
 				($value != '' || ($this->fief && $this->fief->name != '') ? ' - ' : '')
 			.
@@ -132,7 +132,7 @@ class Territory extends Model
      **/
 	public function buildings()
     {
-        return $this->hasMany(\App\Models\BuildingsTerritory::class);
+        return $this->hasMany(\App\Models\BuildingTerritory::class);
     }
 
     /**

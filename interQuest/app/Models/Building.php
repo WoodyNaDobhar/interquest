@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  * @version May 8, 2018, 2:33 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection BuildingsTerritory
+ * @property \Illuminate\Database\Eloquent\Collection BuildingTerritory
  * @property \Illuminate\Database\Eloquent\Collection Equipment
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
@@ -92,7 +92,7 @@ class Building extends Model
      **/
     public function buildingsInTerritories()
     {
-        return $this->hasMany(\App\Models\BuildingsTerritory::class);
+        return $this->hasMany(\App\Models\BuildingTerritory::class);
     }
 
     /**
