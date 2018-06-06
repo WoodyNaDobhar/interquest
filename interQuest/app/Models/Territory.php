@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection BuildingTerritory
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
- * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
+ * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection Fiefe
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
@@ -148,7 +148,7 @@ class Territory extends Model
      **/
     public function personaEquipment()
     {
-        return $this->hasMany(\App\Models\EquipmentsPersona::class);
+        return $this->hasMany(\App\Models\EquipmentPersona::class);
     }
 
     /**

@@ -155,8 +155,6 @@
 									</div>
 								@endforeach
 								</div>
-				fiefdom name ((fief count)) (5 cols)(click shows on map & opens fief list)
-					fiefs (hover highlights on map)
 							</div>
 							<div class="col-md-7">
 								<div id="mapContainer" data-center="{!! $persona->territory_id ? $persona->territory_id : $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
@@ -252,7 +250,7 @@
 										<div class="box-header with-border">
 											<h4 class="box-title">
 												<a data-toggle="collapse" data-parent="#accordion" href="#collapseResources" aria-expanded="false" class="collapsed">
-													Banked Resources 
+													Resources and Equipment
 												</a>
 											</h4>
 										</div>
@@ -270,7 +268,7 @@
 														<table class="table">
 															<tbody><tr>
 																<th>Territory Held</th>
-																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Vault</th>
 																<th style="width: 10px;">Amt</th>
 															</tr>
 															<tr>
@@ -301,7 +299,7 @@
 														<table class="table">
 															<tbody><tr>
 																<th>Territory Held</th>
-																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Vault</th>
 																<th style="width: 10px;">Amt</th>
 															</tr>
 															<tr>
@@ -332,7 +330,7 @@
 														<table class="table">
 															<tbody><tr>
 																<th>Territory Held</th>
-																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Vault</th>
 																<th style="width: 10px;">Amt</th>
 															</tr>
 															<tr>
@@ -363,7 +361,7 @@
 														<table class="table">
 															<tbody><tr>
 																<th>Territory Held</th>
-																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Vault</th>
 																<th style="width: 10px;">Amt</th>
 															</tr>
 															<tr>
@@ -394,7 +392,7 @@
 														<table class="table">
 															<tbody><tr>
 																<th>Territory Held</th>
-																<th style="width: 10px;">Vaulted?</th>
+																<th style="width: 10px;">Vault</th>
 																<th style="width: 10px;">Amt</th>
 															</tr>
 															<tr>
@@ -422,7 +420,7 @@
 															<tbody><tr>
 																<th>Type</th>
 																<th>Territory Held</th>
-																<th style="width: 10px">Vaulted?</th>
+																<th style="width: 10px">Vault</th>
 																<th class="pull-right">Comments</th>
 															</tr>
 															@foreach($persona->equipment as $equipment)
@@ -456,24 +454,7 @@
 				</div>
 			</div>
 		</div>
-	
 @endif
-(MK+/Self)Dailies
-	
-	Banked Resources
-		(one row, total<br>icon)
-		Gold
-		Iron
-		Timber
-		Stone
-		Grain
-	Equipment
-		(x rows, count<br>icon)
-	Created: created_at (4col) (MK+) Updated: updated_at (4col) (+) Deleted: deleted_at (4col)
-Comments
-	Add Comment (plus sign, right side)
-	comments (!show_mapkeepers ? self, + : self, mk+)
-
 @section('scripts')
 	@parent
 	<script src="/js/custom_profile.js"></script>

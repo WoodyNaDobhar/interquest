@@ -28,7 +28,9 @@ class PersonaComposer
      */
     public function compose(View $view)
     {
-		$user = User::findOrFail(Auth::user()->id);
-        $view->with('persona', $user->persona);
+    	if(Auth::check()){
+    		$user = User::findOrFail(Auth::user()->id);
+    		$view->with('persona', $user->persona);
+    	}
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Comment
- * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
+ * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property integer orkID
  * @property integer user_id
@@ -359,9 +359,9 @@ class Persona extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-	public function equipmentsPersonas()
+	public function equipment()
     {
-		return $this->hasMany(\App\Models\EquipmentsPersona::class);
+		return $this->hasMany(\App\Models\EquipmentPersona::class);
     }
 
     /**

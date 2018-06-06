@@ -32,7 +32,8 @@ class EquipmentRepository extends BaseRepository
         'craft_stone',
         'craft_grain',
         'craft_actions',
-        'building_id',
+        'first_required_building_id',
+        'second_required_building_id',
         'magic_type'
     ];
 

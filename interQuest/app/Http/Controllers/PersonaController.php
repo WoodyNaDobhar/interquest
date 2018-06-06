@@ -71,7 +71,7 @@ class PersonaController extends AppBaseController
     public function show($id)
     {
         $persona = $this->personaRepository->findWithoutFail($id);
-
+        
         if (empty($persona)) {
             Flash::error('Persona not found');
 

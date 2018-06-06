@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Building building
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
- * @property \Illuminate\Database\Eloquent\Collection EquipmentsPersona
+ * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property integer price
@@ -27,7 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property decimal craft_stone
  * @property decimal craft_grain
  * @property integer craft_actions
- * @property integer building_id
+ * @property integer first_required_building_id
+ * @property integer second_required_building_id
  * @property string magic_type
  */
 class Equipment extends Model
@@ -56,7 +57,8 @@ class Equipment extends Model
         'craft_stone',
         'craft_grain',
         'craft_actions',
-        'building_id',
+        'first_required_building_id',
+        'second_required_building_id',
         'magic_type'
     ];
 
@@ -72,8 +74,14 @@ class Equipment extends Model
         'units' => 'integer',
         'description' => 'string',
         'cargo' => 'integer',
+        'craft_gold' => 'integer',
+        'craft_iron' => 'integer',
+        'craft_timber' => 'integer',
+        'craft_stone' => 'integer',
+        'craft_grain' => 'integer',
         'craft_actions' => 'integer',
-        'building_id' => 'integer',
+        'first_required_building_id' => 'integer',
+        'second_required_building_id' => 'integer',
         'magic_type' => 'string'
     ];
 
@@ -89,9 +97,17 @@ class Equipment extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function requiredBuilding()
+    public function firstRequiredBuilding()
     {
-        return $this->belongsTo(\App\Models\Building::class);
+        return $this->belongsTo(\App\Models\Building::class, 'first_required_building_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function secondRequiredBuilding()
+    {
+        return $this->belongsTo(\App\Models\Building::class, 'second_required_building_id');
     }
 
     /**
@@ -107,7 +123,7 @@ class Equipment extends Model
      **/
     public function ownedByPersonae()
     {
-        return $this->hasMany(\App\Models\EquipmentsPersona::class);
+        return $this->hasMany(\App\Models\EquipmentPersona::class);
     }
 
     /**

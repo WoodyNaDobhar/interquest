@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Equipment;
+use App\Models\EquipmentPersona;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
-class EquipmentDataTable extends DataTable
+class EquipmentPersonaDataTable extends DataTable
 {
 
     /**
@@ -16,7 +16,7 @@ class EquipmentDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'equipment.datatables_actions')
+            ->addColumn('action', 'equipment_personas.datatables_actions')
             ->make(true);
     }
 
@@ -27,9 +27,9 @@ class EquipmentDataTable extends DataTable
      */
     public function query()
     {
-        $equipment = Equipment::query();
+        $equipmentPersonas = EquipmentPersona::query();
 
-        return $this->applyScopes($equipment);
+        return $this->applyScopes($equipmentPersonas);
     }
 
     /**
@@ -73,20 +73,9 @@ class EquipmentDataTable extends DataTable
     {
         return [
             'name' => ['name' => 'name', 'data' => 'name'],
-            'price' => ['name' => 'price', 'data' => 'price'],
-            'units' => ['name' => 'units', 'data' => 'units'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'weight' => ['name' => 'weight', 'data' => 'weight'],
-            'cargo' => ['name' => 'cargo', 'data' => 'cargo'],
-            'craft_gold' => ['name' => 'craft_gold', 'data' => 'craft_gold'],
-            'craft_iron' => ['name' => 'craft_iron', 'data' => 'craft_iron'],
-            'craft_timber' => ['name' => 'craft_timber', 'data' => 'craft_timber'],
-            'craft_stone' => ['name' => 'craft_stone', 'data' => 'craft_stone'],
-            'craft_grain' => ['name' => 'craft_grain', 'data' => 'craft_grain'],
-            'craft_actions' => ['name' => 'craft_actions', 'data' => 'craft_actions'],
-            'first_required_building_id' => ['name' => 'first_required_building_id', 'data' => 'first_required_building_id'],
-            'second_required_building_id' => ['name' => 'second_required_building_id', 'data' => 'second_required_building_id'],
-            'magic_type' => ['name' => 'magic_type', 'data' => 'magic_type']
+            'equipment_id' => ['name' => 'equipment_id', 'data' => 'equipment_id'],
+            'persona_id' => ['name' => 'persona_id', 'data' => 'persona_id'],
+            'territory_id' => ['name' => 'territory_id', 'data' => 'territory_id']
         ];
     }
 
@@ -97,6 +86,6 @@ class EquipmentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'equipment';
+        return 'equipmentPersonas';
     }
 }
