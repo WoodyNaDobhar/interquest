@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class UserController extends AppBaseController
 {
@@ -29,6 +30,10 @@ class UserController extends AppBaseController
      */
     public function index(UserDataTable $userDataTable)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect('/');
+        }
         return $userDataTable->render('users.index');
     }
 
@@ -69,11 +74,14 @@ class UserController extends AppBaseController
      */
     public function show($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('personae.index'));
+        }
         $user = $this->userRepository->findWithoutFail($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
@@ -89,11 +97,14 @@ class UserController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('users.index'));
+        }
         $user = $this->userRepository->findWithoutFail($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
@@ -110,11 +121,14 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('users.index'));
+        }
         $user = $this->userRepository->findWithoutFail($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
@@ -134,11 +148,14 @@ class UserController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('users.index'));
+        }
         $user = $this->userRepository->findWithoutFail($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 

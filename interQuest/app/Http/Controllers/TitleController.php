@@ -10,6 +10,7 @@ use App\Repositories\TitleRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class TitleController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class TitleController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('titles.index'));
+        }
         return view('titles.create');
     }
 
@@ -51,6 +56,10 @@ class TitleController extends AppBaseController
      */
     public function store(CreateTitleRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('titles.index'));
+        }
         $input = $request->all();
 
         $title = $this->titleRepository->create($input);
@@ -89,6 +98,10 @@ class TitleController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('titles.index'));
+        }
         $title = $this->titleRepository->findWithoutFail($id);
 
         if (empty($title)) {
@@ -110,6 +123,10 @@ class TitleController extends AppBaseController
      */
     public function update($id, UpdateTitleRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('titles.index'));
+        }
         $title = $this->titleRepository->findWithoutFail($id);
 
         if (empty($title)) {
@@ -134,6 +151,10 @@ class TitleController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('titles.index'));
+        }
         $title = $this->titleRepository->findWithoutFail($id);
 
         if (empty($title)) {

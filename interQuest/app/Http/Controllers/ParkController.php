@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\DataTables\ParkDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateParkRequest;
@@ -10,142 +11,160 @@ use App\Repositories\ParkRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class ParkController extends AppBaseController
 {
-    /** @var  ParkRepository */
-    private $parkRepository;
+	/** @var  ParkRepository */
+	private $parkRepository;
 
-    public function __construct(ParkRepository $parkRepo)
-    {
-        $this->parkRepository = $parkRepo;
-    }
+	public function __construct(ParkRepository $parkRepo)
+	{
+		$this->parkRepository = $parkRepo;
+	}
 
-    /**
-     * Display a listing of the Park.
-     *
-     * @param ParkDataTable $parkDataTable
-     * @return Response
-     */
-    public function index(ParkDataTable $parkDataTable)
-    {
-        return $parkDataTable->render('parks.index');
-    }
+	/**
+	 * Display a listing of the Park.
+	 *
+	 * @param ParkDataTable $parkDataTable
+	 * @return Response
+	 */
+	public function index(ParkDataTable $parkDataTable)
+	{
+		return $parkDataTable->render('parks.index');
+	}
 
-    /**
-     * Show the form for creating a new Park.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('parks.create');
-    }
+	/**
+	 * Show the form for creating a new Park.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
+		return view('parks.create');
+	}
 
-    /**
-     * Store a newly created Park in storage.
-     *
-     * @param CreateParkRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateParkRequest $request)
-    {
-        $input = $request->all();
+	/**
+	 * Store a newly created Park in storage.
+	 *
+	 * @param CreateParkRequest $request
+	 *
+	 * @return Response
+	 */
+	public function store(CreateParkRequest $request)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
+		$input = $request->all();
 
-        $park = $this->parkRepository->create($input);
+		$park = $this->parkRepository->create($input);
 
-        Flash::success('Park saved successfully.');
+		Flash::success('Park saved successfully.');
 
-        return redirect(route('parks.index'));
-    }
+		return redirect(route('parks.index'));
+	}
 
-    /**
-     * Display the specified Park.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        $park = $this->parkRepository->findWithoutFail($id);
+	/**
+	 * Display the specified Park.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$park = $this->parkRepository->findWithoutFail($id);
 
-        if (empty($park)) {
-            Flash::error('Park not found');
+		if (empty($park)) {
+			Flash::error('Park not found');
 
-            return redirect(route('parks.index'));
-        }
+			return redirect(route('parks.index'));
+		}
 
-        return view('parks.show')->with('park', $park);
-    }
+		return view('parks.show')->with('park', $park);
+	}
 
-    /**
-     * Show the form for editing the specified Park.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
-    {
-        $park = $this->parkRepository->findWithoutFail($id);
+	/**
+	 * Show the form for editing the specified Park.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		$park = $this->parkRepository->findWithoutFail($id);
 
-        if (empty($park)) {
-            Flash::error('Park not found');
+		if (empty($park)) {
+			Flash::error('Park not found');
+			return redirect(route('parks.index'));
+		}
+		if(Gate::denies('mapkeeperOwn', $park->mapkeeper ? $park->mapkeeper->id : 0)){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
 
-            return redirect(route('parks.index'));
-        }
+		return view('parks.edit')->with('park', $park);
+	}
 
-        return view('parks.edit')->with('park', $park);
-    }
+	/**
+	 * Update the specified Park in storage.
+	 *
+	 * @param  int			  $id
+	 * @param UpdateParkRequest $request
+	 *
+	 * @return Response
+	 */
+	public function update($id, UpdateParkRequest $request)
+	{
+		$park = $this->parkRepository->findWithoutFail($id);
 
-    /**
-     * Update the specified Park in storage.
-     *
-     * @param  int              $id
-     * @param UpdateParkRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateParkRequest $request)
-    {
-        $park = $this->parkRepository->findWithoutFail($id);
+		if (empty($park)) {
+			Flash::error('Park not found');
+			return redirect(route('parks.index'));
+		}
+		if(Gate::denies('mapkeeperOwn', $park->mapkeeper ? $park->mapkeeper->id : 0)){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
 
-        if (empty($park)) {
-            Flash::error('Park not found');
+		$park = $this->parkRepository->update($request->all(), $id);
 
-            return redirect(route('parks.index'));
-        }
+		Flash::success('Park updated successfully.');
 
-        $park = $this->parkRepository->update($request->all(), $id);
+		return redirect(route('parks.index'));
+	}
 
-        Flash::success('Park updated successfully.');
+	/**
+	 * Remove the specified Park from storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
+		$park = $this->parkRepository->findWithoutFail($id);
 
-        return redirect(route('parks.index'));
-    }
+		if (empty($park)) {
+			Flash::error('Park not found');
+			return redirect(route('parks.index'));
+		}
 
-    /**
-     * Remove the specified Park from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $park = $this->parkRepository->findWithoutFail($id);
+		$this->parkRepository->delete($id);
 
-        if (empty($park)) {
-            Flash::error('Park not found');
+		Flash::success('Park deleted successfully.');
 
-            return redirect(route('parks.index'));
-        }
-
-        $this->parkRepository->delete($id);
-
-        Flash::success('Park deleted successfully.');
-
-        return redirect(route('parks.index'));
-    }
+		return redirect(route('parks.index'));
+	}
 }

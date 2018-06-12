@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class ParkController
@@ -53,6 +54,9 @@ class ParkAPIController extends AppBaseController
      */
     public function store(CreateParkAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $parks = $this->parkRepository->create($input);
@@ -99,6 +103,9 @@ class ParkAPIController extends AppBaseController
         if (empty($park)) {
             return $this->sendError('Park not found');
         }
+        if(Gate::denies('mapkeeperOwn', $park->mapkeeper ? $park->mapkeeper->id : 0)){
+        	return $this->sendError('Permission Denied');
+        }
 
         $park = $this->parkRepository->update($input, $id);
 
@@ -115,6 +122,9 @@ class ParkAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Park $park */
         $park = $this->parkRepository->findWithoutFail($id);
 

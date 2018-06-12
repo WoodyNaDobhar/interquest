@@ -27,7 +27,9 @@ class EquipmentDataTable extends DataTable
      */
     public function query()
     {
-        $equipment = Equipment::query();
+        $equipment = Equipment::query()
+        	->with('firstRequiredBuilding')
+        	->with('secondRequiredBuilding');
 
         return $this->applyScopes($equipment);
     }
@@ -72,21 +74,21 @@ class EquipmentDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'price' => ['name' => 'price', 'data' => 'price'],
-            'units' => ['name' => 'units', 'data' => 'units'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'weight' => ['name' => 'weight', 'data' => 'weight'],
-            'cargo' => ['name' => 'cargo', 'data' => 'cargo'],
-            'craft_gold' => ['name' => 'craft_gold', 'data' => 'craft_gold'],
-            'craft_iron' => ['name' => 'craft_iron', 'data' => 'craft_iron'],
-            'craft_timber' => ['name' => 'craft_timber', 'data' => 'craft_timber'],
-            'craft_stone' => ['name' => 'craft_stone', 'data' => 'craft_stone'],
-            'craft_grain' => ['name' => 'craft_grain', 'data' => 'craft_grain'],
-            'craft_actions' => ['name' => 'craft_actions', 'data' => 'craft_actions'],
-            'first_required_building_id' => ['name' => 'first_required_building_id', 'data' => 'first_required_building_id'],
-            'second_required_building_id' => ['name' => 'second_required_building_id', 'data' => 'second_required_building_id'],
-            'magic_type' => ['name' => 'magic_type', 'data' => 'magic_type']
+            'name' => ['title' => 'Equipment', 'name' => 'name', 'data' => 'name'],
+            'price' => ['title' => 'Standard Price', 'name' => 'price', 'data' => 'price'],
+            'units' => ['title' => 'Units', 'name' => 'units', 'data' => 'units'],
+            'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description'],
+            'weight' => ['visible' => false, 'title' => 'Weight (lbs)', 'name' => 'weight', 'data' => 'weight'],
+            'cargo' => ['visible' => false, 'title' => 'Cargo Space', 'name' => 'cargo', 'data' => 'cargo'],
+            'craft_gold' => ['visible' => false, 'title' => 'Gold to Craft', 'name' => 'craft_gold', 'data' => 'craft_gold'],
+            'craft_iron' => ['visible' => false, 'title' => 'Iron to Craft', 'name' => 'craft_iron', 'data' => 'craft_iron'],
+            'craft_timber' => ['visible' => false, 'title' => 'Timber to Craft', 'name' => 'craft_timber', 'data' => 'craft_timber'],
+            'craft_stone' => ['visible' => false, 'title' => 'Stone to Craft', 'name' => 'craft_stone', 'data' => 'craft_stone'],
+            'craft_grain' => ['visible' => false, 'title' => 'Grain to Craft', 'name' => 'craft_grain', 'data' => 'craft_grain'],
+            'craft_actions' => ['visible' => false, 'title' => 'Actions to Craft', 'name' => 'craft_actions', 'data' => 'craft_actions'],
+            'first_required_building_id' => ['visible' => false, 'title' => 'Building Required to Craft', 'name' => 'first_required_building_id', 'data' => 'first_required_building.name', 'defaultContent' => '-'],
+            'second_required_building_id' => ['visible' => false, 'title' => 'Another Building Required to Craft', 'name' => 'second_required_building_id', 'data' => 'second_required_building.name', 'defaultContent' => '-'],
+            'magic_type' => ['title' => 'Magic Item Type', 'name' => 'magic_type', 'data' => 'magic_type']
         ];
     }
 

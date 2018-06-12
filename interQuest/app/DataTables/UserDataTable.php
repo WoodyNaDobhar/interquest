@@ -72,10 +72,10 @@ class UserDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'email' => ['name' => 'email', 'data' => 'email'],
-            'is_mapkeeper' => ['name' => 'is_mapkeeper', 'data' => 'is_mapkeeper'],
-            'is_admin' => ['name' => 'is_admin', 'data' => 'is_admin']
+            'name' => ['title' => 'User', 'name' => 'name', 'data' => 'name'],
+            'email' => ['title' => 'Email', 'name' => 'email', 'data' => 'email'],
+            'is_mapkeeper' => ['title' => 'Mapkeeper', 'name' => 'is_mapkeeper', 'data' => 'is_mapkeeper'],
+            'is_admin' => ['title' => 'Admin', 'name' => 'is_admin', 'data' => 'is_admin']
         ];
     }
 

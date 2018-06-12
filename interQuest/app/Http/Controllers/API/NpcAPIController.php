@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class NpcController
@@ -36,6 +37,9 @@ class NpcAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $this->npcRepository->pushCriteria(new RequestCriteria($request));
         $this->npcRepository->pushCriteria(new LimitOffsetCriteria($request));
         $npcs = $this->npcRepository->all();
@@ -53,6 +57,9 @@ class NpcAPIController extends AppBaseController
      */
     public function store(CreateNpcAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $npcs = $this->npcRepository->create($input);
@@ -91,6 +98,9 @@ class NpcAPIController extends AppBaseController
      */
     public function update($id, UpdateNpcAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Npc $npc */
@@ -115,6 +125,9 @@ class NpcAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Npc $npc */
         $npc = $this->npcRepository->findWithoutFail($id);
 

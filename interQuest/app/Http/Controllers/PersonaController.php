@@ -11,6 +11,7 @@ use App\Repositories\PersonaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class PersonaController extends AppBaseController
 {
@@ -97,8 +98,12 @@ class PersonaController extends AppBaseController
 
         if (empty($persona)) {
             Flash::error('Persona not found');
-
             return redirect(route('personae.index'));
+        }
+        if(Gate::denies('mapkeeperOwn', $persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0) &&
+        		Gate::denies('own', $persona->id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('personae.index'));
         }
 
         return view('personae.edit')->with('persona', $persona);
@@ -118,8 +123,12 @@ class PersonaController extends AppBaseController
 
         if (empty($persona)) {
             Flash::error('Persona not found');
-
             return redirect(route('personae.index'));
+        }
+        if(Gate::denies('mapkeeperOwn', $persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0) &&
+        		Gate::denies('own', $persona->id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('personae.index'));
         }
 
         $persona = $this->personaRepository->update($request->all(), $id);
@@ -138,6 +147,10 @@ class PersonaController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('personae.index'));
+        }
         $persona = $this->personaRepository->findWithoutFail($id);
 
         if (empty($persona)) {

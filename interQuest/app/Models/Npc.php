@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer race_id
  * @property string background_public
  * @property string background_private
+ * @property integer park_id
  * @property integer territory_id
  * @property integer gold
  * @property integer iron
@@ -54,6 +55,7 @@ class Npc extends Model
         'race_id',
         'background_public',
         'background_private',
+        'park_id',
         'territory_id',
         'gold',
         'iron',
@@ -78,6 +80,7 @@ class Npc extends Model
         'race_id' => 'integer',
         'background_public' => 'string',
         'background_private' => 'string',
+        'park_id' => 'integer',
         'territory_id' => 'integer',
         'gold' => 'integer',
         'iron' => 'integer',
@@ -97,6 +100,143 @@ class Npc extends Model
     ];
 
     /**
+	 * Accessors & Mutators
+	 */
+	public function getImageAttribute($value)
+	{
+		if($value){
+			if(strpos($value, 'http') !== null){
+				return $value;
+			}else{
+				return '/storage/personae/' . $value;
+			}
+		}else{
+			return '/img/profile.png';
+		}
+	}
+	
+	public function getFiefsCountAttribute(){
+		
+		//setup
+		$total = 0;
+		
+		//iterate fiefdoms
+		foreach($this->fiefdoms as $fiefdom){
+			$total = $total + $fiefdom->fiefs->count();
+		}
+		
+		//dump it
+		return $total;
+	}
+	
+	public function getGoldAttribute($value){
+		
+		//get/dump holdings
+		return $this->holdingResources('gold', $value);
+	}
+	
+	public function getIronAttribute($value){
+		
+		//get/dump holdings
+		return $this->holdingResources('iron', $value);
+	}
+	
+	public function getStoneAttribute($value){
+		
+		//get/dump holdings
+		return $this->holdingResources('stone', $value);
+	}
+	
+	public function getTimberAttribute($value){
+		
+		//get/dump holdings
+		return $this->holdingResources('timber', $value);
+	}
+	
+	public function getGrainAttribute($value){
+		
+		//get/dump holdings
+		return $this->holdingResources('grain', $value);
+	}
+	
+	public function holdingResources($resource, $value){
+
+		//setup
+		$total = $value;
+		$locations = [];
+		$persona = [
+			'total'		=> $total, //amount there
+			'vaulted'	=> 0		//valuted?  Not personally (yet)
+		];
+
+		//iterate holdings?
+		if($this->fiefdoms->count() > 0){
+			foreach($this->fiefdoms as $fiefdom){
+				foreach($fiefdom->fiefs as $fief){
+						
+					//vault
+					$vaulted = 0;
+					if($fief->territory->buildings){
+						foreach($fief->territory->buildings as $building){
+							if($building->building->name == 'Vault'){
+								$vaulted = 1;
+								break;
+							}
+						}
+					}
+					
+					//add it
+					if($fief->territory->$resource > 0){
+						$total = $total + $fief->territory->$resource;
+						$locations[$fief->territory->id] = (object) [
+							'total'		=> $fief->territory->$resource,
+							'vaulted'	=> $vaulted,
+							'name'		=> $fief->territory->name
+						];
+					}
+				}
+			}
+		}
+		
+		//stewards get access to whatever funds are in their purview.
+		//Note that nobles don't lose access to anything stored in this territory.
+		if($this->fiefsStewarding->count() > 0){
+			foreach($this->fiefsStewarding as $fief){
+					
+				//vault
+				$vaulted = 0;
+				if($fief->territory->buildings){
+					foreach($fief->territory->buildings as $building){
+						if($building->building->name == 'Vault'){
+							$vaulted = 1;
+							break;
+						}
+					}
+				}
+		
+				if($fief->territory->$resource > 0){
+					$total = $total + $fief->territory->$resource;
+					$locations[$fief->territory->id] = (object) [
+						'total'		=> $fief->territory->$resource,
+						'vaulted'	=> $vaulted,
+						'name'		=> $fief->territory->name
+					];
+				}
+			}
+		}
+		
+		//build response
+		$response = [
+			'total'		=> $total,
+			'persona'	=> (object) $persona,
+			'locations'	=> (object) $locations
+		];
+		
+		//dump it
+		return (object) $response;
+	}
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function defaultAction()
@@ -107,7 +247,7 @@ class Npc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function homeTerritory()
+    public function home()
     {
         return $this->belongsTo(\App\Models\Territory::class);
     }

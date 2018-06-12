@@ -10,6 +10,7 @@ use App\Repositories\TerrainRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class TerrainController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class TerrainController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         return view('terrains.create');
     }
 
@@ -51,6 +56,10 @@ class TerrainController extends AppBaseController
      */
     public function store(CreateTerrainRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $input = $request->all();
 
         $terrain = $this->terrainRepository->create($input);
@@ -89,6 +98,10 @@ class TerrainController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 
         if (empty($terrain)) {
@@ -110,6 +123,10 @@ class TerrainController extends AppBaseController
      */
     public function update($id, UpdateTerrainRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 
         if (empty($terrain)) {
@@ -134,6 +151,10 @@ class TerrainController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 
         if (empty($terrain)) {

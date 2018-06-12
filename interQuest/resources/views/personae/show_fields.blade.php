@@ -15,7 +15,7 @@
 									<li><a href="/users/{!! $persona->user_id !!}/edit">Update User</a></li>
 									@endif
 									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
-									<li><a href="#" class="mkToggle">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
+									<li><a href="#" class="makeMapkeeper">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
 									@endif
 									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
 								</ul>
@@ -138,7 +138,7 @@
 									<div class="panel box box-primary">
 										<div class="box-header with-border">
 											<h4 class="box-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capitol ? $fiefdom->capitol->territory_id : $persona->park->territory_id !!}">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capital ? $fiefdom->capital->territory_id : $persona->park->territory_id !!}">
 													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs ? $fiefdom->fiefs->count() : 'No Fiefs' !!})
 												</a>
 											</h4>
@@ -147,7 +147,7 @@
 											<div class="box-body">
 											@if($fiefdom->fiefs)
 												@foreach($fiefdom->fiefs as $i => $fief)
-												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capitol->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
+												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capital->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
 												@endforeach
 											@endif
 											</div>

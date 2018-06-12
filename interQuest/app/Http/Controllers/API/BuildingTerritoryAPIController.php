@@ -53,6 +53,9 @@ class BuildingTerritoryAPIController extends AppBaseController
      */
     public function store(CreateBuildingTerritoryAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+            return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $buildingTerritories = $this->buildingTerritoryRepository->create($input);
@@ -91,6 +94,9 @@ class BuildingTerritoryAPIController extends AppBaseController
      */
     public function update($id, UpdateBuildingTerritoryAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+            return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var BuildingTerritory $buildingTerritory */
@@ -115,6 +121,9 @@ class BuildingTerritoryAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('mapkeeper')){
+            return $this->sendError('Permission Denied');
+        }
         /** @var BuildingTerritory $buildingTerritory */
         $buildingTerritory = $this->buildingTerritoryRepository->findWithoutFail($id);
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class TerrainController
@@ -53,6 +54,9 @@ class TerrainAPIController extends AppBaseController
      */
     public function store(CreateTerrainAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $terrains = $this->terrainRepository->create($input);
@@ -91,6 +95,9 @@ class TerrainAPIController extends AppBaseController
      */
     public function update($id, UpdateTerrainAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Terrain $terrain */
@@ -115,6 +122,9 @@ class TerrainAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Terrain $terrain */
         $terrain = $this->terrainRepository->findWithoutFail($id);
 

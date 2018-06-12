@@ -72,9 +72,9 @@ class RaceDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'personable' => ['name' => 'personable', 'data' => 'personable']
+            'name' => ['title' => 'Race', 'name' => 'name', 'data' => 'name'],
+            'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description'],
+            'personable' => ['title' => 'Personae Can Use', 'name' => 'personable', 'data' => 'personable']
         ];
     }
 

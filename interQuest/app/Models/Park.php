@@ -22,60 +22,63 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Park extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'parks';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'parks';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'orkID',
-        'name',
-        'rank',
-        'territory_id',
-        'midreign',
-        'coronation'
-    ];
+	protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'orkID' => 'integer',
-        'name' => 'string',
-        'rank' => 'string',
-        'territory_id' => 'integer',
-        'midreign' => 'date',
-        'coronation' => 'date'
-    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	public $fillable = [
+		'orkID',
+		'name',
+		'rank',
+		'territory_id',
+		'midreign',
+		'coronation'
+	];
 
-    /**
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'orkID' => 'integer',
+		'name' => 'string',
+		'rank' => 'string',
+		'territory_id' => 'integer',
+		'midreign' => 'date',
+		'coronation' => 'date'
+	];
+
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
 	public function getMapkeeperAttribute()
 	{
 		
 		$response = null;
-		$mk = $this->personae()->whereHas('User', function($q){
-			$q->where('is_mapkeeper', '=', 1);
-		})->first();
+		$mk = $this->personae()
+			->whereHas('User', function($q){
+				$q->where('is_mapkeeper', '=', 1);
+			})
+			->orderBy('created_at', 'DESC')
+			->first();
 		
 		if($mk){
 			return $mk;
@@ -83,14 +86,22 @@ class Park extends Model
 			return null;
 		}
 	}
+	public function getMonarchAttribute()
+	{
+		return $this->personae()
+			->whereHas('user', function($query){
+				$query->where('is_monarch', 1);
+			})
+			->first();
+	}
 
 	/**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
 	public function personae()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+	{
+		return $this->hasMany(\App\Models\Persona::class);
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
@@ -103,9 +114,9 @@ class Park extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 **/
-	public function capitol()
+	public function capital()
 	{
-		return $this->belongsTo(\App\Models\Territory::class);
+		return $this->belongsTo(\App\Models\Territory::class, 'territory_id');
 	}
 
 	/**

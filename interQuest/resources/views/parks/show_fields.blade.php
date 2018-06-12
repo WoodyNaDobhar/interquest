@@ -15,7 +15,7 @@
 									<li><a href="/users/{!! $persona->user_id !!}/edit">User {!! $persona->user_id !!}</a></li>
 									@endif
 									@if($persona->user->is_admin || $persona->user->is_mapkeeper)
-									<li><a href="#" class="mkToggle">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
+									<li><a href="#" class="makeMapkeeper">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
 									@endif
 									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
 								</ul>

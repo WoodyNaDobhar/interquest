@@ -10,6 +10,7 @@ use App\Repositories\EquipmentPersonaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class EquipmentPersonaController extends AppBaseController
 {
@@ -73,8 +74,11 @@ class EquipmentPersonaController extends AppBaseController
 
         if (empty($equipmentPersona)) {
             Flash::error('Equipment Persona not found');
-
             return redirect(route('equipmentPersonas.index'));
+        }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipmentPersonas.index'));
         }
 
         return view('equipment_personas.show')->with('equipmentPersona', $equipmentPersona);
@@ -93,8 +97,11 @@ class EquipmentPersonaController extends AppBaseController
 
         if (empty($equipmentPersona)) {
             Flash::error('Equipment Persona not found');
-
             return redirect(route('equipmentPersonas.index'));
+        }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipmentPersonas.index'));
         }
 
         return view('equipment_personas.edit')->with('equipmentPersona', $equipmentPersona);
@@ -114,8 +121,11 @@ class EquipmentPersonaController extends AppBaseController
 
         if (empty($equipmentPersona)) {
             Flash::error('Equipment Persona not found');
-
             return redirect(route('equipmentPersonas.index'));
+        }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipmentPersonas.index'));
         }
 
         $equipmentPersona = $this->equipmentPersonaRepository->update($request->all(), $id);
@@ -138,8 +148,11 @@ class EquipmentPersonaController extends AppBaseController
 
         if (empty($equipmentPersona)) {
             Flash::error('Equipment Persona not found');
-
             return redirect(route('equipmentPersonas.index'));
+        }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipmentPersonas.index'));
         }
 
         $this->equipmentPersonaRepository->delete($id);

@@ -10,6 +10,7 @@ use App\Repositories\NpcRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class NpcController extends AppBaseController
 {
@@ -29,6 +30,10 @@ class NpcController extends AppBaseController
      */
     public function index(NpcDataTable $npcDataTable)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect('/');
+        }
         return $npcDataTable->render('npcs.index');
     }
 
@@ -39,6 +44,10 @@ class NpcController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('npcs.index'));
+        }
         return view('npcs.create');
     }
 
@@ -51,6 +60,10 @@ class NpcController extends AppBaseController
      */
     public function store(CreateNpcRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('npcs.index'));
+        }
         $input = $request->all();
 
         $npc = $this->npcRepository->create($input);
@@ -73,7 +86,6 @@ class NpcController extends AppBaseController
 
         if (empty($npc)) {
             Flash::error('Npc not found');
-
             return redirect(route('npcs.index'));
         }
 
@@ -89,6 +101,10 @@ class NpcController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('npcs.index'));
+        }
         $npc = $this->npcRepository->findWithoutFail($id);
 
         if (empty($npc)) {
@@ -110,6 +126,10 @@ class NpcController extends AppBaseController
      */
     public function update($id, UpdateNpcRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('npcs.index'));
+        }
         $npc = $this->npcRepository->findWithoutFail($id);
 
         if (empty($npc)) {
@@ -134,6 +154,10 @@ class NpcController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('npcs.index'));
+        }
         $npc = $this->npcRepository->findWithoutFail($id);
 
         if (empty($npc)) {

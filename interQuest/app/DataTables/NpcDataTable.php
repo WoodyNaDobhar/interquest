@@ -27,7 +27,9 @@ class NpcDataTable extends DataTable
      */
     public function query()
     {
-        $npcs = Npc::query();
+        $npcs = Npc::query()
+        	->with('vocation')
+        	->with('race');
 
         return $this->applyScopes($npcs);
     }
@@ -72,21 +74,22 @@ class NpcDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'private_name' => ['name' => 'private_name', 'data' => 'private_name'],
-            'image' => ['name' => 'image', 'data' => 'image'],
-            'vocation_id' => ['name' => 'vocation_id', 'data' => 'vocation_id'],
-            'race_id' => ['name' => 'race_id', 'data' => 'race_id'],
-            'background_public' => ['name' => 'background_public', 'data' => 'background_public'],
-            'background_private' => ['name' => 'background_private', 'data' => 'background_private'],
-            'territory_id' => ['name' => 'territory_id', 'data' => 'territory_id'],
-            'gold' => ['name' => 'gold', 'data' => 'gold'],
-            'iron' => ['name' => 'iron', 'data' => 'iron'],
-            'timber' => ['name' => 'timber', 'data' => 'timber'],
-            'stone' => ['name' => 'stone', 'data' => 'stone'],
-            'grain' => ['name' => 'grain', 'data' => 'grain'],
-            'action_id' => ['name' => 'action_id', 'data' => 'action_id'],
-            'deceased' => ['name' => 'deceased', 'data' => 'deceased']
+            'name' => ['title' => 'NPC', 'name' => 'name', 'data' => 'name'],
+            'private_name' => ['visible' => false, 'title' => 'Secret Name', 'name' => 'private_name', 'data' => 'private_name'],
+            'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+            'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
+            'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+            'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
+            'background_private' => ['visible' => false, 'title' => 'Secret Background', 'name' => 'background_private', 'data' => 'background_private'],
+			'park_id' => ['title' => 'Mapkeeper Park', 'name' => 'park_id', 'data' => 'park.name'],
+            'territory_id' => ['title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.name'],
+            'gold' => ['visible' => false, 'title' => 'Gold', 'name' => 'gold', 'data' => 'gold.total'],
+            'iron' => ['visible' => false, 'title' => 'Iron', 'name' => 'iron', 'data' => 'iron.total'],
+            'timber' => ['visible' => false, 'title' => 'Timber', 'name' => 'timber', 'data' => 'timber.total'],
+            'stone' => ['visible' => false, 'title' => 'Stone', 'name' => 'stone', 'data' => 'stone.total'],
+            'grain' => ['visible' => false, 'title' => 'Grain', 'name' => 'grain', 'data' => 'grain.total'],
+            'action_id' => ['title' => 'Default Action', 'name' => 'action_id', 'data' => 'default_action.name'],
+            'deceased' => ['title' => 'Deceased', 'name' => 'deceased', 'data' => 'deceased']
         ];
     }
 

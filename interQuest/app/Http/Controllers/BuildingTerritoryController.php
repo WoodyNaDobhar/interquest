@@ -10,6 +10,7 @@ use App\Repositories\BuildingTerritoryRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class BuildingTerritoryController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class BuildingTerritoryController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('building_territories.index'));
+        }
         return view('building_territories.create');
     }
 
@@ -73,7 +78,6 @@ class BuildingTerritoryController extends AppBaseController
 
         if (empty($buildingTerritory)) {
             Flash::error('Building Territory not found');
-
             return redirect(route('buildingTerritories.index'));
         }
 
@@ -89,6 +93,10 @@ class BuildingTerritoryController extends AppBaseController
      */
     public function edit($id)
     {
+    	if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('building_territories.index'));
+        }
         $buildingTerritory = $this->buildingTerritoryRepository->findWithoutFail($id);
 
         if (empty($buildingTerritory)) {
@@ -110,6 +118,10 @@ class BuildingTerritoryController extends AppBaseController
      */
     public function update($id, UpdateBuildingTerritoryRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('building_territories.index'));
+        }
         $buildingTerritory = $this->buildingTerritoryRepository->findWithoutFail($id);
 
         if (empty($buildingTerritory)) {
@@ -134,6 +146,10 @@ class BuildingTerritoryController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('building_territories.index'));
+        }
         $buildingTerritory = $this->buildingTerritoryRepository->findWithoutFail($id);
 
         if (empty($buildingTerritory)) {

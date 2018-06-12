@@ -10,6 +10,7 @@ use App\Repositories\EquipmentRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class EquipmentController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class EquipmentController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         return view('equipment.create');
     }
 
@@ -51,6 +56,10 @@ class EquipmentController extends AppBaseController
      */
     public function store(CreateEquipmentRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         $input = $request->all();
 
         $equipment = $this->equipmentRepository->create($input);
@@ -89,6 +98,10 @@ class EquipmentController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         $equipment = $this->equipmentRepository->findWithoutFail($id);
 
         if (empty($equipment)) {
@@ -110,6 +123,10 @@ class EquipmentController extends AppBaseController
      */
     public function update($id, UpdateEquipmentRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         $equipment = $this->equipmentRepository->findWithoutFail($id);
 
         if (empty($equipment)) {
@@ -134,6 +151,10 @@ class EquipmentController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         $equipment = $this->equipmentRepository->findWithoutFail($id);
 
         if (empty($equipment)) {

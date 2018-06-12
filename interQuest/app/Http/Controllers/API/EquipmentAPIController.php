@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class EquipmentController
@@ -53,6 +54,9 @@ class EquipmentAPIController extends AppBaseController
      */
     public function store(CreateEquipmentAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $equipment = $this->equipmentRepository->create($input);
@@ -91,6 +95,9 @@ class EquipmentAPIController extends AppBaseController
      */
     public function update($id, UpdateEquipmentAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Equipment $equipment */
@@ -115,6 +122,9 @@ class EquipmentAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Equipment $equipment */
         $equipment = $this->equipmentRepository->findWithoutFail($id);
 

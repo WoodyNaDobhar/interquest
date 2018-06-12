@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class RaceController
@@ -53,6 +54,9 @@ class RaceAPIController extends AppBaseController
      */
     public function store(CreateRaceAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $races = $this->raceRepository->create($input);
@@ -91,6 +95,9 @@ class RaceAPIController extends AppBaseController
      */
     public function update($id, UpdateRaceAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Race $race */
@@ -115,6 +122,9 @@ class RaceAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Race $race */
         $race = $this->raceRepository->findWithoutFail($id);
 

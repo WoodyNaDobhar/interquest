@@ -10,6 +10,7 @@ use App\Repositories\RaceRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class RaceController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class RaceController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         return view('races.create');
     }
 
@@ -51,6 +56,10 @@ class RaceController extends AppBaseController
      */
     public function store(CreateRaceRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $input = $request->all();
 
         $race = $this->raceRepository->create($input);
@@ -89,6 +98,10 @@ class RaceController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $race = $this->raceRepository->findWithoutFail($id);
 
         if (empty($race)) {
@@ -110,6 +123,10 @@ class RaceController extends AppBaseController
      */
     public function update($id, UpdateRaceRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $race = $this->raceRepository->findWithoutFail($id);
 
         if (empty($race)) {
@@ -134,6 +151,10 @@ class RaceController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('races.index'));
+        }
         $race = $this->raceRepository->findWithoutFail($id);
 
         if (empty($race)) {

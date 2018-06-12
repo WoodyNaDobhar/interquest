@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class FiefdomController
@@ -36,6 +37,9 @@ class FiefdomAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $this->fiefdomRepository->pushCriteria(new RequestCriteria($request));
         $this->fiefdomRepository->pushCriteria(new LimitOffsetCriteria($request));
         $fiefdoms = $this->fiefdomRepository->all();
@@ -53,6 +57,9 @@ class FiefdomAPIController extends AppBaseController
      */
     public function store(CreateFiefdomAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $fiefdoms = $this->fiefdomRepository->create($input);
@@ -91,6 +98,9 @@ class FiefdomAPIController extends AppBaseController
      */
     public function update($id, UpdateFiefdomAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Fiefdom $fiefdom */
@@ -115,6 +125,9 @@ class FiefdomAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Fiefdom $fiefdom */
         $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 

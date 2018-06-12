@@ -86,14 +86,6 @@ class Fief extends Model
 	public function fiefdom()
 	{
 		return $this->morphTo();
-}
-
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\morphTo
-	 **/
-	public function ruler()
-	{
-		return $this->morphTo();
 	}
 
 	/**

@@ -72,19 +72,19 @@ class BuildingDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'cost_gold' => ['name' => 'cost_gold', 'data' => 'cost_gold'],
-            'cost_iron' => ['name' => 'cost_iron', 'data' => 'cost_iron'],
-            'cost_timber' => ['name' => 'cost_timber', 'data' => 'cost_timber'],
-            'cost_stone' => ['name' => 'cost_stone', 'data' => 'cost_stone'],
-            'cost_grain' => ['name' => 'cost_grain', 'data' => 'cost_grain'],
-            'cost_actions' => ['name' => 'cost_actions', 'data' => 'cost_actions'],
-            'expandable' => ['name' => 'expandable', 'data' => 'expandable'],
-            'builds_maximum' => ['name' => 'builds_maximum', 'data' => 'builds_maximum'],
-            'resource_required' => ['name' => 'resource_required', 'data' => 'resource_required'],
-            'building_required' => ['name' => 'building_required', 'data' => 'building_required'],
-            'waterway_required' => ['name' => 'waterway_required', 'data' => 'waterway_required']
+            'name' => ['title' => 'Building', 'name' => 'name', 'data' => 'name'],
+            'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description'],
+            'cost_gold' => ['visible' => false, 'title' => 'Gold To Build', 'name' => 'cost_gold', 'data' => 'cost_gold'],
+            'cost_iron' => ['visible' => false, 'title' => 'Iron To Build', 'name' => 'cost_iron', 'data' => 'cost_iron'],
+            'cost_timber' => ['visible' => false, 'title' => 'Timber To Build', 'name' => 'cost_timber', 'data' => 'cost_timber'],
+            'cost_stone' => ['visible' => false, 'title' => 'Stone To Build', 'name' => 'cost_stone', 'data' => 'cost_stone'],
+            'cost_grain' => ['visible' => false, 'title' => 'Grain To Build', 'name' => 'cost_grain', 'data' => 'cost_grain'],
+            'cost_actions' => ['visible' => false, 'title' => 'Actions To Build', 'name' => 'cost_actions', 'data' => 'cost_actions'],
+            'expandable' => ['visible' => false, 'title' => 'Expands', 'name' => 'expandable', 'data' => 'expandable'],
+            'builds_maximum' => ['visible' => false, 'title' => 'Max Expands', 'name' => 'builds_maximum', 'data' => 'builds_maximum'],
+            'resource_required' => ['visible' => false, 'title' => 'Territory Resource Required', 'name' => 'resource_required', 'data' => 'resource_required'],
+            'building_required' => ['visible' => false, 'title' => 'Territory Building Required', 'name' => 'building_required', 'data' => 'building_required'],
+            'waterway_required' => ['visible' => false, 'title' => 'Territory Waterway Required', 'name' => 'waterway_required', 'data' => 'waterway_required']
         ];
     }
 

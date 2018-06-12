@@ -303,9 +303,9 @@ class Persona extends Model
 	/**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function action()
+    public function defaultAction()
     {
-        return $this->belongsTo(\App\Models\Action::class);
+        return $this->belongsTo(\App\Models\Action::class, 'action_id');
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Repositories\ActionPersonaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class ActionPersonaController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class ActionPersonaController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('actionPersonas.index'));
+        }
         return view('action_personas.create');
     }
 
@@ -73,7 +78,6 @@ class ActionPersonaController extends AppBaseController
 
         if (empty($actionPersona)) {
             Flash::error('Action Persona not found');
-
             return redirect(route('actionPersonas.index'));
         }
 
@@ -93,8 +97,11 @@ class ActionPersonaController extends AppBaseController
 
         if (empty($actionPersona)) {
             Flash::error('Action Persona not found');
-
             return redirect(route('actionPersonas.index'));
+        }
+        if(Gate::denies('own', $actionPersona->persona->id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('actionPersonas.index'));
         }
 
         return view('action_personas.edit')->with('actionPersona', $actionPersona);
@@ -110,12 +117,15 @@ class ActionPersonaController extends AppBaseController
      */
     public function update($id, UpdateActionPersonaRequest $request)
     {
-        $actionPersona = $this->actionPersonaRepository->findWithoutFail($id);
+    	$actionPersona = $this->actionPersonaRepository->findWithoutFail($id);
 
         if (empty($actionPersona)) {
             Flash::error('Action Persona not found');
-
             return redirect(route('actionPersonas.index'));
+        }
+        if(Gate::denies('own', $actionPersona->persona->id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('actionPersonas.index'));
         }
 
         $actionPersona = $this->actionPersonaRepository->update($request->all(), $id);
@@ -134,11 +144,14 @@ class ActionPersonaController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('actionPersonas.index'));
+        }
         $actionPersona = $this->actionPersonaRepository->findWithoutFail($id);
 
         if (empty($actionPersona)) {
             Flash::error('Action Persona not found');
-
             return redirect(route('actionPersonas.index'));
         }
 

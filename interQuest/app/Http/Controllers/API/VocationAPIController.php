@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class VocationController
@@ -53,6 +54,9 @@ class VocationAPIController extends AppBaseController
      */
     public function store(CreateVocationAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $vocations = $this->vocationRepository->create($input);
@@ -91,6 +95,9 @@ class VocationAPIController extends AppBaseController
      */
     public function update($id, UpdateVocationAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Vocation $vocation */
@@ -115,6 +122,9 @@ class VocationAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Vocation $vocation */
         $vocation = $this->vocationRepository->findWithoutFail($id);
 

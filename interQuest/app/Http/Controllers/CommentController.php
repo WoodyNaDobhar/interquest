@@ -10,6 +10,7 @@ use App\Repositories\CommentRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class CommentController extends AppBaseController
 {
@@ -93,8 +94,11 @@ class CommentController extends AppBaseController
 
         if (empty($comment)) {
             Flash::error('Comment not found');
-
             return redirect(route('comments.index'));
+        }
+        if(Gate::denies('own', $comment->author_persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('comments.index'));
         }
 
         return view('comments.edit')->with('comment', $comment);
@@ -114,8 +118,11 @@ class CommentController extends AppBaseController
 
         if (empty($comment)) {
             Flash::error('Comment not found');
-
             return redirect(route('comments.index'));
+        }
+        if(Gate::denies('own', $comment->author_persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('comments.index'));
         }
 
         $comment = $this->commentRepository->update($request->all(), $id);
@@ -138,8 +145,11 @@ class CommentController extends AppBaseController
 
         if (empty($comment)) {
             Flash::error('Comment not found');
-
             return redirect(route('comments.index'));
+        }
+        if(Gate::denies('own', $comment->author_persona_id)){
+        	Flash::error('Permission Denied');
+        	return redirect(route('comments.index'));
         }
 
         $this->commentRepository->delete($id);

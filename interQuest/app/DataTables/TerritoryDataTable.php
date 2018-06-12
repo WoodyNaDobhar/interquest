@@ -27,7 +27,8 @@ class TerritoryDataTable extends DataTable
      */
     public function query()
     {
-        $territories = Territory::query();
+        $territories = Territory::query()
+        	->with('terrain');
 
         return $this->applyScopes($territories);
     }
@@ -72,20 +73,20 @@ class TerritoryDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'row' => ['name' => 'row', 'data' => 'row'],
-            'column' => ['name' => 'column', 'data' => 'column'],
-            'terrain_id' => ['name' => 'terrain_id', 'data' => 'terrain_id'],
-            'primary_resource' => ['name' => 'primary_resource', 'data' => 'primary_resource'],
-            'secondary_resource' => ['name' => 'secondary_resource', 'data' => 'secondary_resource'],
-            'castle_strength' => ['name' => 'castle_strength', 'data' => 'castle_strength'],
-            'gold' => ['name' => 'gold', 'data' => 'gold'],
-            'iron' => ['name' => 'iron', 'data' => 'iron'],
-            'timber' => ['name' => 'timber', 'data' => 'timber'],
-            'stone' => ['name' => 'stone', 'data' => 'stone'],
-            'grain' => ['name' => 'grain', 'data' => 'grain'],
-            'is_wasteland' => ['name' => 'is_wasteland', 'data' => 'is_wasteland'],
-            'is_no_mans_land' => ['name' => 'is_no_mans_land', 'data' => 'is_no_mans_land']
+            'name' => ['title' => 'Territory', 'name' => 'name', 'data' => 'name'],
+            'row' => ['title' => 'Latitude', 'name' => 'row', 'data' => 'row'],
+            'column' => ['title' => 'Longitude', 'name' => 'column', 'data' => 'column'],
+            'terrain_id' => ['title' => 'Terrain', 'name' => 'terrain_id', 'data' => 'terrain.name'],
+            'primary_resource' => ['title' => 'First Resource', 'name' => 'primary_resource', 'data' => 'primary_resource'],
+            'secondary_resource' => ['title' => 'Second Resource', 'name' => 'secondary_resource', 'data' => 'secondary_resource'],
+            'castle_strength' => ['title' => 'Castle Strength', 'name' => 'castle_strength', 'data' => 'castle_strength'],
+            'gold' => ['visible' => false, 'title' => 'Gold', 'name' => 'gold', 'data' => 'gold'],
+            'iron' => ['visible' => false, 'title' => 'Iron', 'name' => 'iron', 'data' => 'iron'],
+            'timber' => ['visible' => false, 'title' => 'Timber', 'name' => 'timber', 'data' => 'timber'],
+            'stone' => ['visible' => false, 'title' => 'Stone', 'name' => 'stone', 'data' => 'stone'],
+            'grain' => ['visible' => false, 'title' => 'Grain', 'name' => 'grain', 'data' => 'grain'],
+            'is_wasteland' => ['title' => 'Wasteland?', 'name' => 'is_wasteland', 'data' => 'is_wasteland'],
+            'is_no_mans_land' => ['title' => 'No Man\'s Land', 'name' => 'is_no_mans_land', 'data' => 'is_no_mans_land']
         ];
     }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class EquipmentPersonaController
@@ -76,6 +77,9 @@ class EquipmentPersonaAPIController extends AppBaseController
         if (empty($equipmentPersona)) {
             return $this->sendError('Equipment Persona not found');
         }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+            return $this->sendError('Permission Denied');
+        }
 
         return $this->sendResponse($equipmentPersona->toArray(), 'Equipment Persona retrieved successfully');
     }
@@ -98,6 +102,9 @@ class EquipmentPersonaAPIController extends AppBaseController
 
         if (empty($equipmentPersona)) {
             return $this->sendError('Equipment Persona not found');
+        }
+        if(Gate::denies('own', $equipmentPersona->persona_id)){
+            return $this->sendError('Permission Denied');
         }
 
         $equipmentPersona = $this->equipmentPersonaRepository->update($input, $id);

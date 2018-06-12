@@ -10,6 +10,7 @@ use App\Repositories\BuildingRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class BuildingController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class BuildingController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('buildings.index'));
+        }
         return view('buildings.create');
     }
 
@@ -51,6 +56,10 @@ class BuildingController extends AppBaseController
      */
     public function store(CreateBuildingRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('buildings.index'));
+        }
         $input = $request->all();
 
         $building = $this->buildingRepository->create($input);
@@ -89,6 +98,10 @@ class BuildingController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('buildings.index'));
+        }
         $building = $this->buildingRepository->findWithoutFail($id);
 
         if (empty($building)) {
@@ -110,6 +123,10 @@ class BuildingController extends AppBaseController
      */
     public function update($id, UpdateBuildingRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('buildings.index'));
+        }
         $building = $this->buildingRepository->findWithoutFail($id);
 
         if (empty($building)) {
@@ -134,6 +151,10 @@ class BuildingController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('buildings.index'));
+        }
         $building = $this->buildingRepository->findWithoutFail($id);
 
         if (empty($building)) {

@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class ActionController
@@ -19,111 +20,120 @@ use Response;
 
 class ActionAPIController extends AppBaseController
 {
-    /** @var  ActionRepository */
-    private $actionRepository;
+	/** @var  ActionRepository */
+	private $actionRepository;
 
-    public function __construct(ActionRepository $actionRepo)
-    {
-        $this->actionRepository = $actionRepo;
-    }
+	public function __construct(ActionRepository $actionRepo)
+	{
+		$this->actionRepository = $actionRepo;
+	}
 
-    /**
-     * Display a listing of the Action.
-     * GET|HEAD /actions
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function index(Request $request)
-    {
-        $this->actionRepository->pushCriteria(new RequestCriteria($request));
-        $this->actionRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $actions = $this->actionRepository->all();
+	/**
+	 * Display a listing of the Action.
+	 * GET|HEAD /actions
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function index(Request $request)
+	{
+		$this->actionRepository->pushCriteria(new RequestCriteria($request));
+		$this->actionRepository->pushCriteria(new LimitOffsetCriteria($request));
+		$actions = $this->actionRepository->all();
 
-        return $this->sendResponse($actions->toArray(), 'Actions retrieved successfully');
-    }
+		return $this->sendResponse($actions->toArray(), 'Actions retrieved successfully');
+	}
 
-    /**
-     * Store a newly created Action in storage.
-     * POST /actions
-     *
-     * @param CreateActionAPIRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateActionAPIRequest $request)
-    {
-        $input = $request->all();
+	/**
+	 * Store a newly created Action in storage.
+	 * POST /actions
+	 *
+	 * @param CreateActionAPIRequest $request
+	 *
+	 * @return Response
+	 */
+	public function store(CreateActionAPIRequest $request)
+	{
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
+		$input = $request->all();
 
-        $actions = $this->actionRepository->create($input);
+		$actions = $this->actionRepository->create($input);
 
-        return $this->sendResponse($actions->toArray(), 'Action saved successfully');
-    }
+		return $this->sendResponse($actions->toArray(), 'Action saved successfully');
+	}
 
-    /**
-     * Display the specified Action.
-     * GET|HEAD /actions/{id}
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        /** @var Action $action */
-        $action = $this->actionRepository->findWithoutFail($id);
+	/**
+	 * Display the specified Action.
+	 * GET|HEAD /actions/{id}
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		/** @var Action $action */
+		$action = $this->actionRepository->findWithoutFail($id);
 
-        if (empty($action)) {
-            return $this->sendError('Action not found');
-        }
+		if (empty($action)) {
+			return $this->sendError('Action not found');
+		}
 
-        return $this->sendResponse($action->toArray(), 'Action retrieved successfully');
-    }
+		return $this->sendResponse($action->toArray(), 'Action retrieved successfully');
+	}
 
-    /**
-     * Update the specified Action in storage.
-     * PUT/PATCH /actions/{id}
-     *
-     * @param  int $id
-     * @param UpdateActionAPIRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateActionAPIRequest $request)
-    {
-        $input = $request->all();
+	/**
+	 * Update the specified Action in storage.
+	 * PUT/PATCH /actions/{id}
+	 *
+	 * @param  int $id
+	 * @param UpdateActionAPIRequest $request
+	 *
+	 * @return Response
+	 */
+	public function update($id, UpdateActionAPIRequest $request)
+	{
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
+		$input = $request->all();
 
-        /** @var Action $action */
-        $action = $this->actionRepository->findWithoutFail($id);
+		/** @var Action $action */
+		$action = $this->actionRepository->findWithoutFail($id);
 
-        if (empty($action)) {
-            return $this->sendError('Action not found');
-        }
+		if (empty($action)) {
+			return $this->sendError('Action not found');
+		}
 
-        $action = $this->actionRepository->update($input, $id);
+		$action = $this->actionRepository->update($input, $id);
 
-        return $this->sendResponse($action->toArray(), 'Action updated successfully');
-    }
+		return $this->sendResponse($action->toArray(), 'Action updated successfully');
+	}
 
-    /**
-     * Remove the specified Action from storage.
-     * DELETE /actions/{id}
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        /** @var Action $action */
-        $action = $this->actionRepository->findWithoutFail($id);
+	/**
+	 * Remove the specified Action from storage.
+	 * DELETE /actions/{id}
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
+		/** @var Action $action */
+		$action = $this->actionRepository->findWithoutFail($id);
 
-        if (empty($action)) {
-            return $this->sendError('Action not found');
-        }
+		if (empty($action)) {
+			return $this->sendError('Action not found');
+		}
 
-        $action->delete();
+		$action->delete();
 
-        return $this->sendResponse($id, 'Action deleted successfully');
-    }
+		return $this->sendResponse($id, 'Action deleted successfully');
+	}
 }

@@ -10,6 +10,7 @@ use App\Repositories\TerritoryRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class TerritoryController extends AppBaseController
 {
@@ -29,6 +30,10 @@ class TerritoryController extends AppBaseController
      */
     public function index(TerritoryDataTable $territoryDataTable)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect('/');
+        }
         return $territoryDataTable->render('territories.index');
     }
 
@@ -39,6 +44,10 @@ class TerritoryController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         return view('territories.create');
     }
 
@@ -51,6 +60,10 @@ class TerritoryController extends AppBaseController
      */
     public function store(CreateTerritoryRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         $input = $request->all();
 
         $territory = $this->territoryRepository->create($input);
@@ -69,6 +82,10 @@ class TerritoryController extends AppBaseController
      */
     public function show($id)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         $territory = $this->territoryRepository->findWithoutFail($id);
 
         if (empty($territory)) {
@@ -89,6 +106,10 @@ class TerritoryController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         $territory = $this->territoryRepository->findWithoutFail($id);
 
         if (empty($territory)) {
@@ -110,6 +131,10 @@ class TerritoryController extends AppBaseController
      */
     public function update($id, UpdateTerritoryRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         $territory = $this->territoryRepository->findWithoutFail($id);
 
         if (empty($territory)) {
@@ -134,6 +159,10 @@ class TerritoryController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('territories.index'));
+        }
         $territory = $this->territoryRepository->findWithoutFail($id);
 
         if (empty($territory)) {

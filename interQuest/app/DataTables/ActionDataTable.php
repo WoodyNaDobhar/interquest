@@ -72,11 +72,11 @@ class ActionDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'description' => ['name' => 'description', 'data' => 'description'],
-            'is_common' => ['name' => 'is_common', 'data' => 'is_common'],
-            'is_landed' => ['name' => 'is_landed', 'data' => 'is_landed'],
-            'check_required' => ['name' => 'check_required', 'data' => 'check_required']
+            'name' => ['title' => 'Action', 'name' => 'name', 'data' => 'name'],
+            'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description'],
+            'is_common' => ['title' => 'Common', 'name' => 'is_common', 'data' => 'is_common'],
+            'is_landed' => ['title' => 'Landed', 'name' => 'is_landed', 'data' => 'is_landed'],
+            'check_required' => ['title' => 'Check Req', 'name' => 'check_required', 'data' => 'check_required']
         ];
     }
 

@@ -17,7 +17,7 @@ class PersonaDataTable extends DataTable
 	{
 		return $this->datatables
 			->eloquent($this->query())
-			->addColumn('action', 'personas.datatables_actions')
+			->addColumn('action', 'personae.datatables_actions')
 			->make(true);
 	}
 
@@ -28,7 +28,23 @@ class PersonaDataTable extends DataTable
 	 */
 	public function query()
 	{
-		$personas = Persona::query();
+
+		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
+			
+			$personas = Persona::query()
+				->with('vocation')
+				->with('race')
+				->with('park')
+				->with('home')
+				->with('defaultAction');
+		}else{
+
+			$personas = Persona::query()
+				->with('vocation')
+				->with('race')
+				->with('park')
+				->with('home');
+		}
 
 		return $this->applyScopes($personas);
 	}
@@ -75,46 +91,45 @@ class PersonaDataTable extends DataTable
 		
 		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
 			return [
-				'orkID' => ['name' => 'orkID', 'data' => 'orkID'],
-				'user_id' => ['name' => 'user_id', 'data' => 'user_id'],
-				'name' => ['name' => 'name', 'data' => 'name'],
-				'long_name' => ['name' => 'long_name', 'data' => 'long_name'],
-				'image' => ['name' => 'image', 'data' => 'image'],
-				'vocation_id' => ['name' => 'vocation_id', 'data' => 'vocation_id'],
-				'race_id' => ['name' => 'race_id', 'data' => 'race_id'],
-				'background_public' => ['name' => 'background_public', 'data' => 'background_public'],
-				'background_private' => ['name' => 'background_private', 'data' => 'background_private'],
-				'park_id' => ['name' => 'park_id', 'data' => 'park_id'],
-				'territory_id' => ['name' => 'territory_id', 'data' => 'territory_id'],
-				'gold' => ['name' => 'gold', 'data' => 'gold'],
-				'iron' => ['name' => 'iron', 'data' => 'iron'],
-				'timber' => ['name' => 'timber', 'data' => 'timber'],
-				'stone' => ['name' => 'stone', 'data' => 'stone'],
-				'grain' => ['name' => 'grain', 'data' => 'grain'],
-				'action_id' => ['name' => 'action_id', 'data' => 'action_id'],
-				'is_knight' => ['name' => 'is_knight', 'data' => 'is_knight'],
-				'is_rebel' => ['name' => 'is_rebel', 'data' => 'is_rebel'],
-				'is_monarch' => ['name' => 'is_monarch', 'data' => 'is_monarch'],
-				'fiefs_assigned' => ['name' => 'fiefs_assigned', 'data' => 'fiefs_assigned'],
-				'shattered' => ['name' => 'shattered', 'data' => 'shattered'],
-				'deceased' => ['name' => 'deceased', 'data' => 'deceased']
+				'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
+				'long_name' => ['visible' => false, 'title' => 'Full Name', 'name' => 'long_name', 'data' => 'long_name'],
+				'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+				'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
+				'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+				'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
+				'background_private' => ['visible' => false, 'title' => 'Secret Background', 'name' => 'background_private', 'data' => 'background_private'],
+				'park_id' => ['title' => 'Home Settlement', 'name' => 'park_id', 'data' => 'park.name'],
+				'territory_id' => ['visible' => false, 'title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.name'],
+				'gold' => ['visible' => false, 'title' => 'Gold', 'name' => 'gold', 'data' => 'gold.total'],
+				'iron' => ['visible' => false, 'title' => 'Iron', 'name' => 'iron', 'data' => 'iron.total'],
+				'timber' => ['visible' => false, 'title' => 'Timber', 'name' => 'timber', 'data' => 'timber.total'],
+				'stone' => ['visible' => false, 'title' => 'Stone', 'name' => 'stone', 'data' => 'stone.total'],
+				'grain' => ['visible' => false, 'title' => 'Grain', 'name' => 'grain', 'data' => 'grain.total'],
+				'action_id' => ['title' => 'Default Action', 'name' => 'action_id', 'data' => 'default_action.name'],
+				'is_knight' => ['visible' => false, 'title' => 'Knight?', 'name' => 'is_knight', 'data' => 'is_knight'],
+				'is_rebel' => ['visible' => false, 'title' => 'Rebel?', 'name' => 'is_rebel', 'data' => 'is_rebel'],
+				'is_monarch' => ['visible' => false, 'title' => 'Monarch?', 'name' => 'is_monarch', 'data' => 'is_monarch'],
+				'fiefs_assigned' => ['visible' => false, 'title' => 'Assigned Fiefs', 'name' => 'fiefs_assigned', 'data' => 'fiefs_assigned'],
+				'shattered' => ['title' => 'Shattered On', 'name' => 'shattered', 'data' => 'shattered'],
+				'deceased' => ['title' => 'Deceased On', 'name' => 'deceased', 'data' => 'deceased'],
+				'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Player/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"']
 			];
 		}else{
 			return [
-				'orkID' => ['name' => 'orkID', 'data' => 'orkID'],
-				'name' => ['name' => 'name', 'data' => 'name'],
-				'image' => ['name' => 'image', 'data' => 'image'],
-				'vocation_id' => ['name' => 'vocation_id', 'data' => 'vocation_id'],
-				'race_id' => ['name' => 'race_id', 'data' => 'race_id'],
-				'background_public' => ['name' => 'background_public', 'data' => 'background_public'],
-				'park_id' => ['name' => 'park_id', 'data' => 'park_id'],
-				'territory_id' => ['name' => 'territory_id', 'data' => 'territory_id'],
-				'is_knight' => ['name' => 'is_knight', 'data' => 'is_knight'],
-				'is_rebel' => ['name' => 'is_rebel', 'data' => 'is_rebel'],
-				'is_monarch' => ['name' => 'is_monarch', 'data' => 'is_monarch'],
-				'fiefs_assigned' => ['name' => 'fiefs_assigned', 'data' => 'fiefs_assigned'],
-				'shattered' => ['name' => 'shattered', 'data' => 'shattered'],
-				'deceased' => ['name' => 'deceased', 'data' => 'deceased']
+				'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
+				'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+				'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
+				'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+				'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
+				'park_id' => ['title' => 'Home Settlement', 'name' => 'park_id', 'data' => 'park.name'],
+				'territory_id' => ['title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.name'],
+				'is_knight' => ['title' => 'Knight?', 'name' => 'is_knight', 'data' => 'is_knight'],
+				'is_rebel' => ['title' => 'Rebel?', 'name' => 'is_rebel', 'data' => 'is_rebel'],
+				'is_monarch' => ['title' => 'Monarch?', 'name' => 'is_monarch', 'data' => 'is_monarch'],
+				'fiefs_assigned' => ['visible' => false, 'title' => 'Assigned Fiefs', 'name' => 'fiefs_assigned', 'data' => 'fiefs_assigned'],
+				'shattered' => ['visible' => false, 'title' => 'Shattered On', 'name' => 'shattered', 'data' => 'shattered'],
+				'deceased' => ['visible' => false, 'title' => 'Deceased On', 'name' => 'deceased', 'data' => 'deceased'],
+				'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Player/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"']
 			];
 		}
 	}

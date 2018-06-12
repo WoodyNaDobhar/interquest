@@ -3,6 +3,7 @@
     <a href="{{ route('fiefs.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
+    @if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
     <a href="{{ route('fiefs.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
@@ -11,5 +12,6 @@
         'class' => 'btn btn-danger btn-xs',
         'onclick' => "return confirm('Are you sure?')"
     ]) !!}
+    @endif
 </div>
 {!! Form::close() !!}

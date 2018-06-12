@@ -27,7 +27,8 @@ class FiefdomDataTable extends DataTable
      */
     public function query()
     {
-        $fiefdoms = Fiefdom::query();
+        $fiefdoms = Fiefdom::query()
+        	->with('ruler');
 
         return $this->applyScopes($fiefdoms);
     }
@@ -72,9 +73,9 @@ class FiefdomDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'ruler_id' => ['name' => 'ruler_id', 'data' => 'ruler_id'],
-            'ruler_type' => ['name' => 'ruler_type', 'data' => 'ruler_type']
+            'name' => ['title' => 'Fiefdom', 'name' => 'name', 'data' => 'name'],
+            'ruler_id' => ['title' => 'Ruler', 'name' => 'ruler_id', 'data' => 'ruler.name'],
+            'ruler_type' => ['title' => 'Ruler Type', 'name' => 'ruler_type', 'data' => 'ruler_type']
         ];
     }
 

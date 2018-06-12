@@ -10,6 +10,7 @@ use App\Repositories\VocationRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class VocationController extends AppBaseController
 {
@@ -39,6 +40,10 @@ class VocationController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('vocations.index'));
+        }
         return view('vocations.create');
     }
 
@@ -51,6 +56,10 @@ class VocationController extends AppBaseController
      */
     public function store(CreateVocationRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('vocations.index'));
+        }
         $input = $request->all();
 
         $vocation = $this->vocationRepository->create($input);
@@ -89,6 +98,10 @@ class VocationController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('vocations.index'));
+        }
         $vocation = $this->vocationRepository->findWithoutFail($id);
 
         if (empty($vocation)) {
@@ -110,6 +123,10 @@ class VocationController extends AppBaseController
      */
     public function update($id, UpdateVocationRequest $request)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('vocations.index'));
+        }
         $vocation = $this->vocationRepository->findWithoutFail($id);
 
         if (empty($vocation)) {
@@ -134,6 +151,10 @@ class VocationController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('vocations.index'));
+        }
         $vocation = $this->vocationRepository->findWithoutFail($id);
 
         if (empty($vocation)) {

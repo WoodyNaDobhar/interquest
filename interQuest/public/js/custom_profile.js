@@ -24,7 +24,7 @@ $(document).ready(function(){
 	});
 	
 	//mapkeeper toggle
-	$('.mkToggle').on('click', function(){
+	$('.makeMapkeeper').on('click', function(){
 		
 		var tempId = 'tempID' . Math.round(new Date().getTime() + (Math.random() * 100));
 		$(this).attr('id', tempId);
@@ -42,7 +42,7 @@ $(document).ready(function(){
 			//get the requisite data
 			$.ajax({
 				type:		"GET",
-				url:		"/api/v1/users/mkToggle/" + userId,
+				url:		"/api/v1/users/makeMapkeeper/" + userId,
 				dataType:	"json",
 				error: function(error){
 					//wind out the response

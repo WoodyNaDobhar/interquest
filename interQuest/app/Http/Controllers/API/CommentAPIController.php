@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class CommentController
@@ -99,6 +100,9 @@ class CommentAPIController extends AppBaseController
         if (empty($comment)) {
             return $this->sendError('Comment not found');
         }
+        if(Gate::denies('own', $comment->author_persona_id)){
+            return $this->sendError('Permission Denied');
+        }
 
         $comment = $this->commentRepository->update($input, $id);
 
@@ -120,6 +124,9 @@ class CommentAPIController extends AppBaseController
 
         if (empty($comment)) {
             return $this->sendError('Comment not found');
+        }
+        if(Gate::denies('own', $comment->author_persona_id)){
+            return $this->sendError('Permission Denied');
         }
 
         $comment->delete();

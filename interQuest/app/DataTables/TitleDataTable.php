@@ -72,10 +72,10 @@ class TitleDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'is_landed' => ['name' => 'is_landed', 'data' => 'is_landed'],
-            'hierarchy' => ['name' => 'hierarchy', 'data' => 'hierarchy'],
-            'fiefs_maximum' => ['name' => 'fiefs_maximum', 'data' => 'fiefs_maximum']
+            'name' => ['title' => 'Title', 'name' => 'name', 'data' => 'name'],
+            'is_landed' => ['title' => 'Landed', 'name' => 'is_landed', 'data' => 'is_landed'],
+            'hierarchy' => ['title' => 'Order of Procession', 'name' => 'hierarchy', 'data' => 'hierarchy'],
+            'fiefs_maximum' => ['title' => 'Fief Rights', 'name' => 'fiefs_maximum', 'data' => 'fiefs_maximum']
         ];
     }
 

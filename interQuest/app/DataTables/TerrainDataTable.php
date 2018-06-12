@@ -72,8 +72,8 @@ class TerrainDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'description' => ['name' => 'description', 'data' => 'description']
+            'name' => ['title' => 'Terrain', 'name' => 'name', 'data' => 'name'],
+            'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description']
         ];
     }
 

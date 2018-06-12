@@ -40,6 +40,12 @@
     {!! Form::textarea('background_private', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Park Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('park_id', 'Park Id:') !!}
+    {!! Form::number('park_id', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('territory_id', 'Territory Id:') !!}

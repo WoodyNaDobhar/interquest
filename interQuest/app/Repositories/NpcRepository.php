@@ -27,6 +27,7 @@ class NpcRepository extends BaseRepository
         'race_id',
         'background_public',
         'background_private',
+        'park_id',
         'territory_id',
         'gold',
         'iron',

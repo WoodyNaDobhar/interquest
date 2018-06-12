@@ -40,6 +40,6 @@ Route::get('/territories/map/{id}', 'TerritoryAPIController@map');
 Route::resource('titles', 'TitleAPIController');
 
 Route::resource('users', 'UserAPIController');
-Route::get('/users/mkToggle/{id}', 'UserAPIController@mkToggle');
+Route::get('/users/makeMapkeeper/{id}', 'UserAPIController@makeMapkeeper');
 
 Route::resource('vocations', 'VocationAPIController');

@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class FiefController
@@ -53,6 +54,9 @@ class FiefAPIController extends AppBaseController
      */
     public function store(CreateFiefAPIRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+            return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $fiefs = $this->fiefRepository->create($input);
@@ -98,6 +102,25 @@ class FiefAPIController extends AppBaseController
 
         if (empty($fief)) {
             return $this->sendError('Fief not found');
+        }
+        
+        $fiefRulerMapkeeperId = $fief->fiefdom_type == 'App\Models\Fiefdom' ? 
+	        	$fief->fiefdom->ruler->park->mapkeeper->id :
+	        $fief->fiefdom_type == 'App\Models\Park' ?
+	        	$fief->fiefdom->ruler->mapkeeper->id :
+	        	0;
+        $fiefRulerPersonaId = $fief->fiefdom_type == 'App\Models\Fiefdom' ?  
+        	(
+        		$fief->fiefdom->ruler_type == 'App\Models\Persona' ? 
+        			$fief->fiefdom->ruler_id :
+        			0
+        	) :
+        	$fief->fiefdom->monarch ? $fief->fiefdom->monarch->id : 0;
+        if(Gate::denies('mapkeeperOwn', $fiefRulerMapkeeperId) &&
+        	Gate::denies('own', $fiefRulerPersonaId)
+        	){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefs.index'));
         }
 
         $fief = $this->fiefRepository->update($input, $id);

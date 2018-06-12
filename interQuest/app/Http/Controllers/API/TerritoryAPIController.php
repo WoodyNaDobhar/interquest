@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class TerritoryController
@@ -36,6 +37,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function index(Request $request)
 	{
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
 		$this->territoryRepository->pushCriteria(new RequestCriteria($request));
 		$this->territoryRepository->pushCriteria(new LimitOffsetCriteria($request));
 		$territories = $this->territoryRepository->all();
@@ -53,6 +57,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function store(CreateTerritoryAPIRequest $request)
 	{
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
 		$input = $request->all();
 
 		$territories = $this->territoryRepository->create($input);
@@ -70,6 +77,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function show($id)
 	{
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository->findWithoutFail($id);
 
@@ -91,6 +101,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function update($id, UpdateTerritoryAPIRequest $request)
 	{
+        if(Gate::denies('mapkeeper')){
+        	return $this->sendError('Permission Denied');
+        }
 		$input = $request->all();
 
 		/** @var Territory $territory */
@@ -115,6 +128,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function destroy($id)
 	{
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository->findWithoutFail($id);
 

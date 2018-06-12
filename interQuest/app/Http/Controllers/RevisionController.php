@@ -10,6 +10,7 @@ use App\Repositories\RevisionRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class RevisionController extends AppBaseController
 {
@@ -29,6 +30,10 @@ class RevisionController extends AppBaseController
      */
     public function index(RevisionDataTable $revisionDataTable)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         return $revisionDataTable->render('revisions.index');
     }
 
@@ -39,7 +44,7 @@ class RevisionController extends AppBaseController
      */
     public function create()
     {
-        return view('revisions.create');
+        return $revisionDataTable->render('revisions.index');
     }
 
     /**
@@ -69,6 +74,10 @@ class RevisionController extends AppBaseController
      */
     public function show($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('equipment.index'));
+        }
         $revision = $this->revisionRepository->findWithoutFail($id);
 
         if (empty($revision)) {
@@ -89,15 +98,7 @@ class RevisionController extends AppBaseController
      */
     public function edit($id)
     {
-        $revision = $this->revisionRepository->findWithoutFail($id);
-
-        if (empty($revision)) {
-            Flash::error('Revision not found');
-
-            return redirect(route('revisions.index'));
-        }
-
-        return view('revisions.edit')->with('revision', $revision);
+        return $revisionDataTable->render('revisions.index');
     }
 
     /**
@@ -110,19 +111,7 @@ class RevisionController extends AppBaseController
      */
     public function update($id, UpdateRevisionRequest $request)
     {
-        $revision = $this->revisionRepository->findWithoutFail($id);
-
-        if (empty($revision)) {
-            Flash::error('Revision not found');
-
-            return redirect(route('revisions.index'));
-        }
-
-        $revision = $this->revisionRepository->update($request->all(), $id);
-
-        Flash::success('Revision updated successfully.');
-
-        return redirect(route('revisions.index'));
+        return $revisionDataTable->render('revisions.index');
     }
 
     /**
@@ -134,18 +123,6 @@ class RevisionController extends AppBaseController
      */
     public function destroy($id)
     {
-        $revision = $this->revisionRepository->findWithoutFail($id);
-
-        if (empty($revision)) {
-            Flash::error('Revision not found');
-
-            return redirect(route('revisions.index'));
-        }
-
-        $this->revisionRepository->delete($id);
-
-        Flash::success('Revision deleted successfully.');
-
-        return redirect(route('revisions.index'));
+        return $revisionDataTable->render('revisions.index');
     }
 }

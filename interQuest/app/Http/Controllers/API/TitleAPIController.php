@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class TitleController
@@ -53,6 +54,9 @@ class TitleAPIController extends AppBaseController
      */
     public function store(CreateTitleAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $titles = $this->titleRepository->create($input);
@@ -91,6 +95,9 @@ class TitleAPIController extends AppBaseController
      */
     public function update($id, UpdateTitleAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Title $title */
@@ -115,6 +122,9 @@ class TitleAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Title $title */
         $title = $this->titleRepository->findWithoutFail($id);
 

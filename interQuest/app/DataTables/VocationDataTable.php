@@ -72,9 +72,9 @@ class VocationDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'ability' => ['name' => 'ability', 'data' => 'ability'],
-            'ability_description' => ['name' => 'ability_description', 'data' => 'ability_description']
+            'name' => ['title' => 'Vocation', 'name' => 'name', 'data' => 'name'],
+            'ability' => ['title' => 'Ability', 'name' => 'ability', 'data' => 'ability'],
+            'ability_description' => ['title' => 'Ability Description', 'name' => 'ability_description', 'data' => 'ability_description']
         ];
     }
 

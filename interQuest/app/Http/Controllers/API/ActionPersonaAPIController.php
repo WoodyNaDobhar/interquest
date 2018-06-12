@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class ActionPersonaController
@@ -99,6 +100,9 @@ class ActionPersonaAPIController extends AppBaseController
         if (empty($actionPersona)) {
             return $this->sendError('Action Persona not found');
         }
+        if(Gate::denies('own', $actionPersona->persona->id)){
+            return $this->sendError('Permission Denied');
+        }
 
         $actionPersona = $this->actionPersonaRepository->update($input, $id);
 
@@ -115,6 +119,9 @@ class ActionPersonaAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+            return $this->sendError('Permission Denied');
+        }
         /** @var ActionPersona $actionPersona */
         $actionPersona = $this->actionPersonaRepository->findWithoutFail($id);
 

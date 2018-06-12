@@ -27,7 +27,7 @@ class ParkDataTable extends DataTable
      */
     public function query()
     {
-        $parks = Park::query();
+        $parks = Park::query()->with('capital');
 
         return $this->applyScopes($parks);
     }
@@ -72,12 +72,12 @@ class ParkDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'orkID' => ['name' => 'orkID', 'data' => 'orkID'],
-            'name' => ['name' => 'name', 'data' => 'name'],
-            'rank' => ['name' => 'rank', 'data' => 'rank'],
-            'territory_id' => ['name' => 'territory_id', 'data' => 'territory_id'],
-            'midreign' => ['name' => 'midreign', 'data' => 'midreign'],
-            'coronation' => ['name' => 'coronation', 'data' => 'coronation']
+            'name' => ['title' => 'Settlement', 'name' => 'name', 'data' => 'name'],
+            'rank' => ['title' => 'Size', 'name' => 'rank', 'data' => 'rank'],
+            'territory_id' => ['title' => 'Capital', 'name' => 'territory_id', 'data' => 'capital.name'],
+            'midreign' => ['title' => 'Midreign', 'name' => 'midreign', 'data' => 'midreign'],
+            'coronation' => ['title' => 'Coronation', 'name' => 'coronation', 'data' => 'coronation'],
+			'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Park/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"']
         ];
     }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class PersonaController
@@ -99,6 +100,10 @@ class PersonaAPIController extends AppBaseController
         if (empty($persona)) {
             return $this->sendError('Persona not found');
         }
+        if(Gate::denies('mapkeeperOwn', $persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0) &&
+        		Gate::denies('own', $persona->id)){
+        	return $this->sendError('Permission Denied');
+        }
 
         $persona = $this->personaRepository->update($input, $id);
 
@@ -115,6 +120,9 @@ class PersonaAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Persona $persona */
         $persona = $this->personaRepository->findWithoutFail($id);
 

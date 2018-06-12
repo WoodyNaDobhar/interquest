@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Gate;
 
 /**
  * Class BuildingController
@@ -53,6 +54,9 @@ class BuildingAPIController extends AppBaseController
      */
     public function store(CreateBuildingAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         $buildings = $this->buildingRepository->create($input);
@@ -91,6 +95,9 @@ class BuildingAPIController extends AppBaseController
      */
     public function update($id, UpdateBuildingAPIRequest $request)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         $input = $request->all();
 
         /** @var Building $building */
@@ -115,6 +122,9 @@ class BuildingAPIController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	return $this->sendError('Permission Denied');
+        }
         /** @var Building $building */
         $building = $this->buildingRepository->findWithoutFail($id);
 

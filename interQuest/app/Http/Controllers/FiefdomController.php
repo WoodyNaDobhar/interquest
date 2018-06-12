@@ -10,6 +10,7 @@ use App\Repositories\FiefdomRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Gate;
 
 class FiefdomController extends AppBaseController
 {
@@ -29,6 +30,10 @@ class FiefdomController extends AppBaseController
      */
     public function index(FiefdomDataTable $fiefdomDataTable)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect('/');
+        }
         return $fiefdomDataTable->render('fiefdoms.index');
     }
 
@@ -39,6 +44,10 @@ class FiefdomController extends AppBaseController
      */
     public function create()
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefdoms.index'));
+        }
         return view('fiefdoms.create');
     }
 
@@ -51,6 +60,10 @@ class FiefdomController extends AppBaseController
      */
     public function store(CreateFiefdomRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefdoms.index'));
+        }
         $input = $request->all();
 
         $fiefdom = $this->fiefdomRepository->create($input);
@@ -89,6 +102,10 @@ class FiefdomController extends AppBaseController
      */
     public function edit($id)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefdoms.index'));
+        }
         $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 
         if (empty($fiefdom)) {
@@ -110,6 +127,10 @@ class FiefdomController extends AppBaseController
      */
     public function update($id, UpdateFiefdomRequest $request)
     {
+        if(Gate::denies('mapkeeper')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefdoms.index'));
+        }
         $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 
         if (empty($fiefdom)) {
@@ -134,11 +155,14 @@ class FiefdomController extends AppBaseController
      */
     public function destroy($id)
     {
+        if(Gate::denies('admin')){
+        	Flash::error('Permission Denied');
+        	return redirect(route('fiefdoms.index'));
+        }
         $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 
         if (empty($fiefdom)) {
             Flash::error('Fiefdom not found');
-
             return redirect(route('fiefdoms.index'));
         }
 
