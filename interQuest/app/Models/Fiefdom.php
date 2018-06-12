@@ -59,7 +59,7 @@ class Fiefdom extends Model
 	/**
 	 * Accessors & Mutators
 	 */
-	public function getCapitolAttribute()
+	public function getCapitalAttribute()
 	{
 		return $this->fiefs
 			->sortByDesc(function($fief) { 
