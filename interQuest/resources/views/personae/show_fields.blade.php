@@ -158,7 +158,6 @@
 							</div>
 							<div class="col-md-7">
 								<div id="mapContainer" data-center="{!! $persona->territory_id ? $persona->territory_id : $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
-								map div (territory controls on hover)
 							</div>
 						</div>
 					</div>

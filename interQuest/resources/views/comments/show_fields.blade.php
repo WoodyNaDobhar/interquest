@@ -1,9 +1,3 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $comment->id !!}</p>
-</div>
-
 <!-- Commented Id Field -->
 <div class="form-group">
     {!! Form::label('commented_id', 'Commented Id:') !!}

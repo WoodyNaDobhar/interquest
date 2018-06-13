@@ -1,9 +1,3 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $actionPersona->id !!}</p>
-</div>
-
 <!-- Action Id Field -->
 <div class="form-group">
     {!! Form::label('action_id', 'Action Id:') !!}

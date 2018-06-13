@@ -1,9 +1,3 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $revision->id !!}</p>
-</div>
-
 <!-- Changed Id Field -->
 <div class="form-group">
     {!! Form::label('changed_id', 'Changed Id:') !!}
