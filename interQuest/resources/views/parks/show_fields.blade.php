@@ -1,3 +1,62 @@
+@section('css')
+    @include('layouts.datatables_css')
+@endsection
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">About {!! $park->name !!}</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+									<li><a href="#" class="setMonarch" data-parkID="{!! $park->id !!}">Switch Monarch</a></li>
+									<li><a href="#" class="setMapkeeper" data-parkID="{!! $park->id !!}">Switch Mapkeeper</a></li>
+									<li><a href="/parks/{!! $park->id !!}/edit">Edit Settlement</a></li>
+									@endif
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-3">
+									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}">
+										<img src="{!! is_array(getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg')) ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg' : 'asdf' !!}" alt="{!! $park->name !!}" width="100%">
+									</a><br><br>
+									<b>Population: </b>{!! $park->personae ? $park->personae->count() : '0' !!}<br>
+									<b>Monarch: </b>{!! $park->monarch ? $park->monarch->name : 'None!' !!}<br>
+									<b>Mapkeeper: </b>{!! $park->mapkeeper ? $park->mapkeeper->name : 'None!' !!}<br>
+									<b>Midreign: </b>{!! $park->midreign !!}<br>
+									<b>Coronation: </b>{!! $park->coronation !!}
+								</div>
+								<div class="col-md-1">
+									&nbsp;
+								</div>
+								<div class="col-md-7">
+									<div id="mapContainer" data-center="{!! $park->territory_id !!}" data-columns="10" data-rows="10"></div>
+								</div>
+								<div class="col-md-1">
+									<div class="parkLinks">
+										@if($park->orkID)
+										<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}" target="_blank">
+											<img src="/img/linkORK.png" width="50" height="50" alt="Online Record Keeper">
+										</a>
+										@endif
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
@@ -6,39 +65,36 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if($persona->user->is_admin || $persona->user->is_mapkeeper || $persona->user_id == Auth::user()->id)
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-									<i class="fa fa-wrench"></i></button>
+									<i class="fa fa-wrench"></i>
+								</button>
 								<ul class="dropdown-menu" role="menu">
-									@if($persona->user->is_admin)
-									<li><a href="/users/{!! $persona->user_id !!}/edit">User {!! $persona->user_id !!}</a></li>
+									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 									@endif
-									@if($persona->user->is_admin || $persona->user->is_mapkeeper)
-									<li><a href="#" class="makeMapkeeper">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
-									@endif
-									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
 								</ul>
 							</div>
-							@endif
 						</div>
 					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="personaLinks">
-									@if($persona->orkID)
-									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}" target="_blank">
-										<img src="/img/linkORK.png" width="50" height="50" alt="Online Record Keeper">
-									</a>
-									@endif
-								</div>
-								<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}">
-									<img src="{!! is_array(getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg')) ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg' : 'asdf' !!}" alt="{!! $park->name !!}">
-								</a>
-							</div>
-						</div>
+					<div class="box-body" id="relatedPersonae">
+						<table class="table table-bordered table-condensed" id="relatedPersonaeTable" data-parkID="{!! $park->id !!}">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Image</th>
+									<th>Title</th>
+									<th>Vocation</th>
+									<th>Race</th>
+									<th>Rebel?</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+@section('scripts')
+	@parent
+    @include('layouts.datatables_js')
+	<script src="/js/custom_park.js"></script>
+@endsection
