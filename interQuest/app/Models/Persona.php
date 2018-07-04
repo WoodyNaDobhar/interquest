@@ -44,90 +44,97 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer fiefs_assigned
  * @property date shattered
  * @property date deceased
+ * @property string validClaim
  */
 class Persona extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'personas';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'personas';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'orkID',
-        'user_id',
-        'name',
-        'long_name',
-        'image',
-        'vocation_id',
-        'race_id',
-        'background_public',
-        'background_private',
-        'park_id',
-        'territory_id',
-        'gold',
-        'iron',
-        'timber',
-        'stone',
-        'grain',
-        'action_id',
-        'is_knight',
-        'is_rebel',
-        'is_monarch',
-        'fiefs_assigned',
-        'shattered',
-        'deceased'
-    ];
+	protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'orkID' => 'integer',
-        'user_id' => 'integer',
-        'name' => 'string',
-        'long_name' => 'string',
-        'image' => 'string',
-        'vocation_id' => 'integer',
-        'race_id' => 'integer',
-        'background_public' => 'string',
-        'background_private' => 'string',
-        'park_id' => 'integer',
-        'territory_id' => 'integer',
-        'gold' => 'integer',
-        'iron' => 'integer',
-        'timber' => 'integer',
-        'stone' => 'integer',
-        'grain' => 'integer',
-        'action_id' => 'integer',
-        'is_knight' => 'boolean',
-        'is_rebel' => 'boolean',
-        'is_monarch' => 'boolean',
-        'fiefs_assigned' => 'integer',
-        'shattered' => 'date',
-        'deceased' => 'date'
-    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	public $fillable = [
+		'orkID',
+		'user_id',
+		'name',
+		'long_name',
+		'image',
+		'vocation_id',
+		'race_id',
+		'background_public',
+		'background_private',
+		'park_id',
+		'territory_id',
+		'gold',
+		'iron',
+		'timber',
+		'stone',
+		'grain',
+		'action_id',
+		'is_knight',
+		'is_rebel',
+		'is_monarch',
+		'fiefs_assigned',
+		'shattered',
+		'deceased',
+		'validClaim'
+	];
 
-    /**
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'orkID' => 'integer',
+		'user_id' => 'integer',
+		'name' => 'string',
+		'long_name' => 'string',
+		'image' => 'string',
+		'vocation_id' => 'integer',
+		'race_id' => 'integer',
+		'background_public' => 'string',
+		'background_private' => 'string',
+		'park_id' => 'integer',
+		'territory_id' => 'integer',
+		'gold' => 'integer',
+		'iron' => 'integer',
+		'timber' => 'integer',
+		'stone' => 'integer',
+		'grain' => 'integer',
+		'action_id' => 'integer',
+		'is_knight' => 'boolean',
+		'is_rebel' => 'boolean',
+		'is_monarch' => 'boolean',
+		'fiefs_assigned' => 'integer',
+		'shattered' => 'date',
+		'deceased' => 'date',
+		'validClaim' => 'string'
+	];
+
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
+	public function setShatteredAttribute($value)
+	{
+		$this->attributes['shattered'] = $value == '' ? NULL : $value;
+	}
 	public function getShatteredAttribute($value)
 	{
 		
@@ -142,6 +149,11 @@ class Persona extends Model
 			}
 		}
 	}
+	public function setDeceasedAttribute($value)
+	{
+		$this->attributes['deceased'] = $value == '' ? NULL : $value;
+	}
+	
 	public function getImageAttribute($value)
 	{
 		if($value){
@@ -301,76 +313,76 @@ class Persona extends Model
 	}
 
 	/**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function defaultAction()
-    {
-        return $this->belongsTo(\App\Models\Action::class, 'action_id');
-    }
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function defaultAction()
+	{
+		return $this->belongsTo(\App\Models\Action::class, 'action_id');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
 	public function home()
-    {
-        return $this->belongsTo(\App\Models\Territory::class, 'territory_id');
-    }
+	{
+		return $this->belongsTo(\App\Models\Territory::class, 'territory_id');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function park()
-    {
-        return $this->belongsTo(\App\Models\Park::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function park()
+	{
+		return $this->belongsTo(\App\Models\Park::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function race()
-    {
-        return $this->belongsTo(\App\Models\Race::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function race()
+	{
+		return $this->belongsTo(\App\Models\Race::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\User::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function user()
+	{
+		return $this->belongsTo(\App\Models\User::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function vocation()
-    {
-        return $this->belongsTo(\App\Models\Vocation::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 **/
+	public function vocation()
+	{
+		return $this->belongsTo(\App\Models\Vocation::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function actions()
-    {
-        return $this->hasMany(\App\Models\ActionPersona::class)->orderBy('created_at', 'DESC');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function actions()
+	{
+		return $this->hasMany(\App\Models\ActionPersona::class)->orderBy('created_at', 'DESC');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
 	public function equipment()
-    {
+	{
 		return $this->hasMany(\App\Models\EquipmentPersona::class);
-    }
+	}
 
-    /**
+	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
 	 **/
 	public function fiefdoms()
 	{
 		return $this->morphMany('\App\Models\Fiefdom', 'ruler');
-    }
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
@@ -381,12 +393,12 @@ class Persona extends Model
 	}
 
 	/**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
-    public function titles()
-    {
-        return $this->belongsToMany(\App\Models\Title::class, 'personas_titles');
-    }
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 **/
+	public function titles()
+	{
+		return $this->belongsToMany(\App\Models\Title::class, 'personas_titles');
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

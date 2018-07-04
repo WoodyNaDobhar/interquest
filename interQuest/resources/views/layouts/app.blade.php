@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="_token" content="{{ csrf_token() }}">
 	<title>InterQuest - Living the Dream</title>
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
@@ -60,24 +61,24 @@
 							<!-- Menu Toggle Button -->
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<!-- The user image in the navbar-->
-								<img src="{!! $persona->image ? $persona->image : '/img/profile.png' !!}"
-									 class="user-image" alt="{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}"/>
+								<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}"
+									 class="user-image" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 								<!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}</span>
+								<span class="hidden-xs">{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}</span>
 							</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
 								<li class="user-header">
-									<img src="{!! $persona->image ? $persona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}"/>
+									<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 									<p>
-										{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}
+										{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}
 										<small>Member since {!! Auth::user()->created_at->format('M. Y') !!}</small>
 									</p>
 								</li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="{!! $persona->id ? '/personas/' . $persona->id : '#' !!}" class="btn btn-default btn-flat">Profile</a>
+										<a href="{!! $userPersona->id ? '/personas/' . $userPersona->id : '#' !!}" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
 										<a href="{!! url('/logout') !!}" class="btn btn-default btn-flat">Sign out</a>
@@ -93,7 +94,7 @@
 		<!-- Left side column. contains the logo and sidebar -->
 		@include('layouts.sidebar')
 		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
+		<div class="content-wrapper" id="spinMe">
 			@yield('content')
 		</div>
 
@@ -132,7 +133,7 @@
 				<!-- Right Side Of Navbar -->
 				<ul class="nav navbar-nav navbar-right">
 					<!-- Authentication Links -->
-					<li><a href="redirect"><img src="/img/loginFacebook.png" width="160px"></a></li>
+					<li><a href="signin"><img src="/img/loginFacebook.png" width="160px"></a></li>
 				</ul>
 			</div>
 		</div>
@@ -141,7 +142,7 @@
 	<div id="page-content-wrapper">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12" id="spinMe">
 					@yield('content')
 				</div>
 			</div>

@@ -25,6 +25,7 @@ var spinnerOpts = {
   shadow: 'none', // Box-shadow for the lines
   position: 'absolute' // Element positioning
 };
+var spinnerTarget = document.getElementById('spinMe');
 
 /**
  * ajax common settings
@@ -76,6 +77,11 @@ var alertDialogVars = {
 		$('.noOverlayDialog').next('div').css( {'opacity':0.0} );
 	}
 };
+$.ajaxSetup({
+	headers: {
+		'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+	}
+});
 
 /**
  * various stuff that needs to be triggered both on page load, and when a dialog is opened.
@@ -124,7 +130,7 @@ function drawMap(territoryId, columns, rows){
 				error: function(error){
 					
 					//wind out the response
-					windDown(spinner, {'message':error.responseJSON.message}, true);
+					windDown(spinner, error.responseJSON, true);
 				}
 			})
 		).then(
@@ -250,31 +256,6 @@ function showMessage(type, message){
 				
 				//remove this
 				$(this).dialog('destroy').detach().remove();
-//				
-//				//generate a random ID
-//				var msgId = 'msg' + Math.floor(Math.random() * 1000000) + 1;
-				
-//				//add it to the message log on the index
-//				$.get('js/templates/elements/_message.tmpl.htm', function(templates) {
-//					$('body').append(templates);
-//					var preTemplate = $("#templateMessage" + capitalizeFirstOnly(type)).html();
-//					var template = preTemplate.format({
-//						id:			msgId,
-//						message:	today() + ' ' + now() + ' - ' + message
-//					});
-//					$("#messageContainer").prepend(template);
-//				});
-//				
-//				//update the system message count
-//				$('#toggleSystemMessage').find('.n-count').text(parseInt($('#toggleSystemMessage').find('.n-count').text()) + 1);
-//				
-//				//set the timer
-//				setTimeout(
-//					function() {
-//						$('#' + msgId).fadeOut('slow');
-//					}, 
-//					120000
-//				);
 			}
 		}
 	})
@@ -288,3 +269,244 @@ function showMessage(type, message){
 function capitalizeFirstOnly(string) {
 	return string.charAt(0).toUpperCase() + string.toLowerCase().slice(1);
 };
+
+/**
+ * Generic formatter
+ * @param {string} the string being formatted
+ */
+String.prototype.format = function() {
+	var data = arguments[0];
+	return this.replace(/{{(\w*)}}/g, function(m,key){
+		return data.hasOwnProperty(key)?data[key]||"":"";
+	});
+};
+
+/**
+ * Main template loading function
+ * @param {templates} array of templates to get
+ */
+var loadTemplates = function(templates, callback){
+	
+	//setup
+	var templateIds = [];
+	
+	//iterate templates
+	$.each(templates, function(ti, template){
+
+		//get the template
+		$.get('/js/templates/' + template, function(thisTemplate){
+			
+			//get the id
+			var thisTemplateId = $(thisTemplate).attr('id');
+			
+			//clear it out if it already existed
+			$("#" + thisTemplateId).remove();
+			
+			//load the template to the page
+			$('body').append(thisTemplate);
+			
+			//make sure the template loaded
+			if($("#"+thisTemplateId).length){
+
+				//add the id to the list
+				templateIds.push(thisTemplateId);
+				
+				//if the list is the same length as numGets (ie, we're done loading)
+				if(templateIds.length == templates.length){
+					
+					//setup
+					var templateGuts = [];
+
+					//iterate to load the templates into memory
+					$.each(templateIds, function(tii, templateId) {
+						templateGuts[templateId] = $("#" + templateId).html();
+					});
+					
+					callback(templateGuts);
+				}
+			}else{
+				
+				//display message
+				showMessage('danger', 'Failed to fetch ' + thisTemplateId + '.	Please refresh the page and try again.	If it fails again, alert support immediately and tell them to uncomment the script tag on that view they were mucking with.');
+			}
+		});
+	});
+}
+
+/**
+ * Post widget info via ajax
+ */
+function postWidgetForm(formID, callback){
+
+	//validate
+//	if($("#" + formID).validationEngine('validate')){
+		
+		//any files?
+//		var numFiles = 0;
+//		for(var i in uploadFiles){
+//			numFiles++;
+//		}
+		
+		//route based on # of files
+//		if(numFiles > 0){
+//			postFileWidgetForm(formID, callback);
+//		}else{
+			postPostFileWidgetForm(formID, null, callback);
+//		}
+//	}
+}
+//function postFileWidgetForm(formID, callback){
+//	
+//	//spinner up
+//	var spinner = new Spinner(spinnerOpts).spin(spinnerTarget);
+//	
+//	//setup
+//	var fileData = new FormData();
+//	
+//	//iterate the files
+//	$.each(uploadFiles, function(fieldName, uploadFile){
+//		
+//		//add it to the form data
+//		fileData.append(fieldName, uploadFile['file']);
+//		
+//		//add the target folder to the form data
+//		fileData.append("targets[]", uploadFile['target']);
+//		
+//		//add the fieldName to the form data
+//		fileData.append("fieldNames[]", fieldName);
+//		
+//		//local?
+//		fileData.append("local[]", uploadFile['local'] ? true : false);
+//	});
+//	
+//	//clear out uploadFiles
+//	uploadFiles = Object.create(null);
+//	
+//	//add the token
+//	fileData.append("_token", $('meta[name="_token"]').attr('content'));
+//
+//	$.ajax({
+//		url:			'/fileWrangler',
+//		type:			'POST',
+//		data:			fileData,
+//		dataType:		'text',
+//		processData:	false, // Don't process the files
+//		contentType:	false, // Set content type to false as jQuery will tell the server its a query string request
+//		success:		function(files){
+//			
+//			//spinner down
+//			spinner.stop();
+//			
+//			//post the rest of the form
+//			postPostFileWidgetForm(formID, files, callback);
+//		},
+//		error: function(error){
+//			
+//			//wind out the response
+//			windDown(spinner, error.responseJSON, true);
+//			
+//			//close up
+//			$('form#' + formID).parent('div.widgetActionTemplate').dialog('destroy').detach().remove();
+//		}
+//	});
+//}
+function postPostFileWidgetForm(formID, files, callback){
+	
+	//spinner up
+	var spinner = new Spinner(spinnerOpts).spin(spinnerTarget);
+	
+	//set the data
+	var submitData = $('form#' + formID).serializeArray();
+	
+	//update the checkbox items in the array to a boolean
+	$.each($('form#' + formID + ' input[type=checkbox]:checked'), function(){
+		for(index = 0; index < submitData.length; ++index){
+			if(submitData[index].name == this.name){
+				submitData[index].value = "1";
+				break;
+			}
+		}
+	});
+	
+	//add the checkbox naughts to the array
+	$.each($('form#' + formID + ' input[type=checkbox]:not(:checked)'), function(){
+		if(this.name){
+			submitData[submitData.length] = {"name": this.name, "value": '0'};
+		}
+	});
+	
+	//add the token
+//	submitData[submitData.length] = { name: "_token", value: $('meta[name="_token"]').attr('content')};
+	
+	//for each files inputs that may have been set, update the list of files
+//	if(files && typeof files !== typeof undefined){
+//
+//		$.each(JSON.parse(files), function(fieldName, file){
+//
+//			//change dot notated multidemetional fieldName to bracketed
+//			var fieldNameSplit = fieldName.split('_');
+//			if(fieldNameSplit.length > 0){
+//				var fieldNameSplitBrackets = '';
+//				for(var i = 1; i < fieldNameSplit.length; i++){
+//					fieldNameSplitBrackets = fieldNameSplitBrackets + '[' + fieldNameSplit[i] + ']';
+//				}
+//				fieldName = fieldNameSplit[0] + fieldNameSplitBrackets;
+//			}
+//
+//			//send it all on
+//			submitData[submitData.length] = { name: fieldName, value: file.name };
+//		});
+//	}
+	
+	//for testing
+//	console.log(submitData);
+	
+	//if there's an action, do it
+	if(typeof $('form#' + formID).attr('action') !== typeof undefined && $('form#' + formID).attr('action') !== false && $('form#' + formID).attr('action') != ''){
+
+		//post the request
+		$.ajax({
+			type:		"POST",
+			url:		$('form#' + formID).attr('action'),
+			dataType:	"json",
+			data:		submitData,
+			context:	$(this),
+			success:	function(jsonData){
+				
+				//wind out the response
+				windDown(spinner, jsonData);
+				
+				//close up
+				$('form#' + formID).closest('div.widgetActionTemplate').dialog('destroy').detach().remove();
+
+				//callback?
+				if(callback && typeof callback !== typeof undefined){
+					(callback(jsonData));
+				}else{
+					//just dump it, I guess
+					return jsonData;
+				}
+			},
+			error: function(error){
+
+				//wind out the response
+				windDown(spinner, error.responseJSON ? error.responseJSON : {'message': error.responseText}, true);
+			}
+		});
+	}else{
+		
+		//wind out the response
+		windDown(spinner);
+		
+		//close up
+		$('form#' + formID).closest('div.widgetActionTemplate').dialog('destroy').detach().remove();
+
+		//callback?
+		if(callback && typeof callback !== typeof undefined){
+			callback(jsonData);
+		}else{
+			//just dump it, I guess
+			return jsonData;
+		}
+	}
+}

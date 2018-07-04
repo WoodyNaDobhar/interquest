@@ -9,28 +9,27 @@ use App\Models\User;
 class PersonaComposer
 {
 
-    /**
-     * Create a new profile composer.
-     *
-     * @param  UserRepository  $users
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+	/**
+	 * Create a new profile composer.
+	 *
+	 * @param  UserRepository  $users
+	 * @return void
+	 */
+	public function __construct()
+	{
+		//
+	}
 
-    /**
-     * Bind data to the view.
-     *
-     * @param  View  $view
-     * @return void
-     */
-    public function compose(View $view)
-    {
-    	if(Auth::check()){
-    		$user = User::findOrFail(Auth::user()->id);
-    		$view->with('persona', $user->persona);
-    	}
-    }
+	/**
+	 * Bind data to the view.
+	 *
+	 * @param  View  $view
+	 * @return void
+	 */
+	public function compose(View $view)
+	{
+		if(Auth::check()){
+			$view->with('userPersona', Auth::user()->persona);
+		}
+	}
 }

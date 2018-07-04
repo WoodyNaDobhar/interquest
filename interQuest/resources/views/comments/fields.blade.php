@@ -33,7 +33,7 @@
     {!! Form::label('show_mapkeepers', 'Show Mapkeepers:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('show_mapkeepers', false) !!}
-        {!! Form::checkbox('show_mapkeepers', '1', null) !!} 1
+        {!! Form::checkbox('show_mapkeepers', '1', null) !!}
     </label>
 </div>
 

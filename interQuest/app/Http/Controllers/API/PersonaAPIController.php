@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreatePersonaAPIRequest;
 use App\Http\Requests\API\UpdatePersonaAPIRequest;
+use App\Http\Requests\API\InvitePersonaAPIRequest;
 use App\Models\Persona;
 use App\Repositories\PersonaRepository;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Gate;
+use Mail;
+use Auth;
 
 /**
  * Class PersonaController
@@ -134,4 +137,31 @@ class PersonaAPIController extends AppBaseController
 
         return $this->sendResponse($id, 'Persona deleted successfully');
     }
+
+	/**
+	 * Invite someone to take over a Persona.
+	 *
+	 * @param InvitePersonaRequest $request
+	 *
+	 * @return Response
+	 */
+	public function invite(InvitePersonaAPIRequest $request)
+	{
+		
+		$input = $request->all();
+
+		//add email to persona validClaim
+		$persona = Persona::where('id', $input['persona_id'])->first();
+		$persona->validClaim = $input['email'];
+		$persona->save();
+
+		//send the invite out...
+		Mail::send('emails.invite', ['inviter' => Auth::user()], function ($m) use ($persona){
+			$m->from('doNotReply@interquestonline.com', 'InterQuest');
+			$m->to($persona->validClaim, $persona->name);
+			$m->subject('Join the Quest!');
+		});
+		
+		return $this->sendResponse($persona->id, 'Persona invite successfully sent.  The user will be sent a link to create an account with Facebook (for security), and their Persona will be attached to them at that time.');
+	}
 }

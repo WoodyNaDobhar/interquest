@@ -75,7 +75,7 @@
     {!! Form::label('is_wasteland', 'Is Wasteland:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('is_wasteland', false) !!}
-        {!! Form::checkbox('is_wasteland', '1', null) !!} 1
+        {!! Form::checkbox('is_wasteland', '1', null) !!}
     </label>
 </div>
 
@@ -84,7 +84,7 @@
     {!! Form::label('is_no_mans_land', 'Is No Mans Land:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('is_no_mans_land', false) !!}
-        {!! Form::checkbox('is_no_mans_land', '1', null) !!} 1
+        {!! Form::checkbox('is_no_mans_land', '1', null) !!}
     </label>
 </div>
 

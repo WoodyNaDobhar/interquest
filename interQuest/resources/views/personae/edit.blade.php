@@ -8,6 +8,9 @@
    </section>
    <div class="content">
        @include('adminlte-templates::common.errors')
+       <div class="clearfix"></div>
+       @include('flash::message')
+       <div class="clearfix"></div>
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
@@ -20,4 +23,8 @@
            </div>
        </div>
    </div>
+@endsection
+@section('scripts')
+	@parent
+	<script src="/js/custom_persona.js"></script>
 @endsection

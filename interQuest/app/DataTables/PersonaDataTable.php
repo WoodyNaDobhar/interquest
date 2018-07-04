@@ -112,7 +112,8 @@ class PersonaDataTable extends DataTable
 				'fiefs_assigned' => ['visible' => false, 'title' => 'Assigned Fiefs', 'name' => 'fiefs_assigned', 'data' => 'fiefs_assigned'],
 				'shattered' => ['title' => 'Shattered On', 'name' => 'shattered', 'data' => 'shattered'],
 				'deceased' => ['title' => 'Deceased On', 'name' => 'deceased', 'data' => 'deceased'],
-				'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Player/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"']
+				'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Player/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"'],
+				'validClaim' => ['visible' => false, 'title' => 'Claim Email', 'name' => 'validClaim', 'data' => 'validClaim']
 			];
 		}else{
 			return [

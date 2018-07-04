@@ -15,7 +15,7 @@
     {!! Form::label('personable', 'Personable:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('personable', false) !!}
-        {!! Form::checkbox('personable', '1', null) !!} 1
+        {!! Form::checkbox('personable', '1', null) !!}
     </label>
 </div>
 

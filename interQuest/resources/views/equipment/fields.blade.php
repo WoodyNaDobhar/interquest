@@ -72,14 +72,19 @@
 
 <!-- Building Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('building_id', 'Building Id:') !!}
-    {!! Form::number('building_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('building_id', 'Craft Building:') !!}
+    {!! Form::select('building_id', $buildings, null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Magic Type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('magic_type', 'Magic Type:') !!}
-    {!! Form::text('magic_type', null, ['class' => 'form-control']) !!}
+    {!! Form::select('magic_type', [
+			''			=> 'Not Magic',
+			'Trinket'	=> 'Trinket',
+			'Talisman'	=> 'Talisman',
+			'Artifact'	=> 'Artifact'
+		], null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

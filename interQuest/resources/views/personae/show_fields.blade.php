@@ -456,5 +456,5 @@
 @endif
 @section('scripts')
 	@parent
-	<script src="/js/custom_profile.js"></script>
+	<script src="/js/custom_persona.js"></script>
 @endsection

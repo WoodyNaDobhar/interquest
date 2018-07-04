@@ -28,7 +28,7 @@
 							<div class="col-md-12">
 								<div class="col-md-3">
 									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}">
-										<img src="{!! is_array(getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg')) ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg' : 'asdf' !!}" alt="{!! $park->name !!}" width="100%">
+										<img src="{!! @getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg') ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg' : '' !!}" alt="{!! $park->name !!} Heraldry" width="100%">
 									</a><br><br>
 									<b>Population: </b>{!! $park->personae ? $park->personae->count() : '0' !!}<br>
 									<b>Monarch: </b>{!! $park->monarch ? $park->monarch->name : 'None!' !!}<br>

@@ -28,24 +28,24 @@ class AuthServiceProvider extends ServiceProvider
 		$this->registerPolicies($gate);
 
 		//permissions
-		$gate->define('admin', function () {
-			return (bool) Auth::user()->is_admin;
+		$gate->define('admin', function ($user) {
+			return (bool) $user->is_admin;
 		});
-		$gate->define('mapkeeper', function () {
-			return (bool) Auth::user()->is_admin ? true : (
-				Auth::user()->is_mapkeeper ? true : false
+		$gate->define('mapkeeper', function ($user) {
+			return (bool) $user->is_admin ? true : (
+				$user->is_mapkeeper ? true : false
 			);
 		});
-		$gate->define('mapkeeperOwn', function ($personaID) {
-			return (bool) Auth::user()->is_admin ? true : (
-				Auth::user()->is_mapkeeper && 
-					Auth::user()->persona->id == $personaID ? true : false
+		$gate->define('mapkeeperOwn', function ($user, $personaID) {
+			return (bool) $user->is_admin ? true : (
+				$user->is_mapkeeper && 
+					$user->persona->id == $personaID ? true : false
 			);
 		});
-		$gate->define('own', function ($personaID) {
-			return (bool) Auth::user()->is_admin ? true : (
-				Auth::user()->is_mapkeeper ? true : (
-					Auth::user()->persona->id == $personaID ? true : false
+		$gate->define('own', function ($user, $personaID) {
+			return (bool) $user->is_admin ? true : (
+				$user->is_mapkeeper ? true : (
+					$user->persona->id == $personaID ? true : false
 				)
 			);
 		});

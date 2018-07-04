@@ -12,7 +12,8 @@
 	    "laravelcollective/html": "5.2.*",
 	    "infyomlabs/adminlte-templates": "5.2.x-dev",
 	    "doctrine/dbal": "~2.3",
-	    "yajra/laravel-datatables-oracle": "6.*"
+	    "yajra/laravel-datatables-oracle": "6.*",
+	    "guzzlehttp/guzzle": "~5.3|~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

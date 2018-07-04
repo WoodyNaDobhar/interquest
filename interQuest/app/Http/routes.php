@@ -17,7 +17,7 @@
 Route::auth();
 
 //social login stuff
-Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/signin', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
 
 //public stuff
@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function()
 	Route::resource('territories', 'TerritoryController');
 	Route::resource('titles', 'TitleController');
 	Route::resource('users', 'UserController');
+	Route::get('/users/create/{personaId}', 'UserController@create');
 	Route::resource('vocations', 'VocationController');
 });
 

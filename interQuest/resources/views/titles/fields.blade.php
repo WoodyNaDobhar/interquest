@@ -9,7 +9,7 @@
     {!! Form::label('is_landed', 'Is Landed:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('is_landed', false) !!}
-        {!! Form::checkbox('is_landed', '1', null) !!} 1
+        {!! Form::checkbox('is_landed', '1', null) !!}
     </label>
 </div>
 

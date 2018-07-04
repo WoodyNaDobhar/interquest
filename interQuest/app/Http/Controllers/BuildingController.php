@@ -11,162 +11,171 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
 use Gate;
+use App\Models\Building;
 
 class BuildingController extends AppBaseController
 {
-    /** @var  BuildingRepository */
-    private $buildingRepository;
+	/** @var  BuildingRepository */
+	private $buildingRepository;
 
-    public function __construct(BuildingRepository $buildingRepo)
-    {
-        $this->buildingRepository = $buildingRepo;
-    }
+	public function __construct(BuildingRepository $buildingRepo)
+	{
+		$this->buildingRepository = $buildingRepo;
+	}
 
-    /**
-     * Display a listing of the Building.
-     *
-     * @param BuildingDataTable $buildingDataTable
-     * @return Response
-     */
-    public function index(BuildingDataTable $buildingDataTable)
-    {
-        return $buildingDataTable->render('buildings.index');
-    }
+	/**
+	 * Display a listing of the Building.
+	 *
+	 * @param BuildingDataTable $buildingDataTable
+	 * @return Response
+	 */
+	public function index(BuildingDataTable $buildingDataTable)
+	{
+		return $buildingDataTable->render('buildings.index');
+	}
 
-    /**
-     * Show the form for creating a new Building.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        if(Gate::denies('admin')){
-        	Flash::error('Permission Denied');
-        	return redirect(route('buildings.index'));
-        }
-        return view('buildings.create');
-    }
+	/**
+	 * Show the form for creating a new Building.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('buildings.index'));
+		}
+		
+		//get buildings
+		$buildingsT = Building::pluck('name', 'id')->toArray();
+		$buildings = array_merge([
+			'' => 'None'
+		], $buildingsT);
+		
+		return view('buildings.create')
+			->with('buildings', $buildings);
+	}
 
-    /**
-     * Store a newly created Building in storage.
-     *
-     * @param CreateBuildingRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateBuildingRequest $request)
-    {
-        if(Gate::denies('admin')){
-        	Flash::error('Permission Denied');
-        	return redirect(route('buildings.index'));
-        }
-        $input = $request->all();
+	/**
+	 * Store a newly created Building in storage.
+	 *
+	 * @param CreateBuildingRequest $request
+	 *
+	 * @return Response
+	 */
+	public function store(CreateBuildingRequest $request)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('buildings.index'));
+		}
+		$input = $request->all();
 
-        $building = $this->buildingRepository->create($input);
+		$building = $this->buildingRepository->create($input);
 
-        Flash::success('Building saved successfully.');
+		Flash::success('Building saved successfully.');
 
-        return redirect(route('buildings.index'));
-    }
+		return redirect(route('buildings.index'));
+	}
 
-    /**
-     * Display the specified Building.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        $building = $this->buildingRepository->findWithoutFail($id);
+	/**
+	 * Display the specified Building.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$building = $this->buildingRepository->findWithoutFail($id);
 
-        if (empty($building)) {
-            Flash::error('Building not found');
+		if (empty($building)) {
+			Flash::error('Building not found');
 
-            return redirect(route('buildings.index'));
-        }
+			return redirect(route('buildings.index'));
+		}
 
-        return view('buildings.show')->with('building', $building);
-    }
+		return view('buildings.show')->with('building', $building);
+	}
 
-    /**
-     * Show the form for editing the specified Building.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
-    {
-        if(Gate::denies('admin')){
-        	Flash::error('Permission Denied');
-        	return redirect(route('buildings.index'));
-        }
-        $building = $this->buildingRepository->findWithoutFail($id);
+	/**
+	 * Show the form for editing the specified Building.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('buildings.index'));
+		}
+		$building = $this->buildingRepository->findWithoutFail($id);
 
-        if (empty($building)) {
-            Flash::error('Building not found');
+		if (empty($building)) {
+			Flash::error('Building not found');
 
-            return redirect(route('buildings.index'));
-        }
+			return redirect(route('buildings.index'));
+		}
 
-        return view('buildings.edit')->with('building', $building);
-    }
+		return view('buildings.edit')->with('building', $building);
+	}
 
-    /**
-     * Update the specified Building in storage.
-     *
-     * @param  int              $id
-     * @param UpdateBuildingRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateBuildingRequest $request)
-    {
-        if(Gate::denies('admin')){
-        	Flash::error('Permission Denied');
-        	return redirect(route('buildings.index'));
-        }
-        $building = $this->buildingRepository->findWithoutFail($id);
+	/**
+	 * Update the specified Building in storage.
+	 *
+	 * @param  int			  $id
+	 * @param UpdateBuildingRequest $request
+	 *
+	 * @return Response
+	 */
+	public function update($id, UpdateBuildingRequest $request)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('buildings.index'));
+		}
+		$building = $this->buildingRepository->findWithoutFail($id);
 
-        if (empty($building)) {
-            Flash::error('Building not found');
+		if (empty($building)) {
+			Flash::error('Building not found');
 
-            return redirect(route('buildings.index'));
-        }
+			return redirect(route('buildings.index'));
+		}
 
-        $building = $this->buildingRepository->update($request->all(), $id);
+		$building = $this->buildingRepository->update($request->all(), $id);
 
-        Flash::success('Building updated successfully.');
+		Flash::success('Building updated successfully.');
 
-        return redirect(route('buildings.index'));
-    }
+		return redirect(route('buildings.index'));
+	}
 
-    /**
-     * Remove the specified Building from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        if(Gate::denies('admin')){
-        	Flash::error('Permission Denied');
-        	return redirect(route('buildings.index'));
-        }
-        $building = $this->buildingRepository->findWithoutFail($id);
+	/**
+	 * Remove the specified Building from storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('buildings.index'));
+		}
+		$building = $this->buildingRepository->findWithoutFail($id);
 
-        if (empty($building)) {
-            Flash::error('Building not found');
+		if (empty($building)) {
+			Flash::error('Building not found');
 
-            return redirect(route('buildings.index'));
-        }
+			return redirect(route('buildings.index'));
+		}
 
-        $this->buildingRepository->delete($id);
+		$this->buildingRepository->delete($id);
 
-        Flash::success('Building deleted successfully.');
+		Flash::success('Building deleted successfully.');
 
-        return redirect(route('buildings.index'));
-    }
+		return redirect(route('buildings.index'));
+	}
 }

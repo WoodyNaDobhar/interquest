@@ -48,8 +48,11 @@
 
 <!-- Expandable Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('expandable', 'Expandable:') !!}
-    {!! Form::number('expandable', null, ['class' => 'form-control']) !!}
+    {!! Form::label('check_required', 'Expandable:') !!}
+    <label class="checkbox-inline">
+        {!! Form::hidden('expandable', false) !!}
+        {!! Form::checkbox('expandable', '1', null) !!}
+    </label>
 </div>
 
 <!-- Builds Maximum Field -->
@@ -61,13 +64,20 @@
 <!-- Resource Required Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('resource_required', 'Resource Required:') !!}
-    {!! Form::text('resource_required', null, ['class' => 'form-control']) !!}
+    {!! Form::select('resource_required', [
+        	'' => 'None',
+        	'Gold' => 'Gold', 
+        	'Iron' => 'Iron', 
+        	'Timber' => 'Timber', 
+        	'Stone' => 'Stone', 
+        	'Grain' => 'Grain'
+        ], null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Building Required Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('building_required', 'Building Required:') !!}
-    {!! Form::text('building_required', null, ['class' => 'form-control']) !!}
+    {!! Form::select('building_required', $buildings, null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Waterway Required Field -->
@@ -75,7 +85,7 @@
     {!! Form::label('waterway_required', 'Waterway Required:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('waterway_required', false) !!}
-        {!! Form::checkbox('waterway_required', '1', null) !!} 1
+        {!! Form::checkbox('waterway_required', '1', null) !!}
     </label>
 </div>
 

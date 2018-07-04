@@ -61,6 +61,76 @@ $(document).ready(function(){
 		//no clicky!
 		return false;
 	});
+	
+	//invitePersona
+	$('body').on('click', '.invitePersona', function(e){
+		
+		//no submit
+		e.preventDefault();
+		var clickedElement = $(this);
+		clickedElement.prop("disabled", true);
+
+		//spinner up
+		var spinner = new Spinner(spinnerOpts).spin(spinnerTarget);
+		
+		//save this for later
+		var templateId = "templatePersonaInvite";
+		var dialogId = 'personaAdminInviteUserForm';
+		var email = clickedElement.closest('form').find('#validClaim').val();
+		var personaId = clickedElement.data('persona_id');
+				
+		//load our templates
+		loadTemplates(
+			['personae/_invite.tmpl.htm'],
+			function(templateGuts){
+
+				//setup
+				clickedElement.prop("disabled", false);
+				var disabled = ' disabled';
+				
+				//template
+				var template = templateGuts[templateId].format({
+					dialogId:	dialogId,
+					personaId:	personaId,
+					value:		email
+				});
+				
+				//load the template to the page
+				$('body').append(template);
+				
+				//wind out the response
+				windDown(spinner);
+				
+				//listeners
+				
+				//if it's up, kill it
+				if($("#" + dialogId).hasClass('ui-dialog-content')){
+					$("#" + dialogId).dialog('destroy').detach().remove();
+				}
+
+				//display the dialog
+				$("#" + dialogId).dialog(mediumDialogVars, {
+					title: "Invite Persona User",
+					buttons: {
+						Submit: function(){
+							
+							//post the request
+							postWidgetForm($(this).find('form').attr('id'));
+						},
+						Cancel: function() {
+							$(this).dialog('destroy').detach().remove();
+						}
+					},
+					close: function(){
+						$(this).dialog('destroy').detach().remove()
+					}
+				});
+			}
+		);
+		
+		//no clicky!
+		return false;
+	});
 });
 
 function resetProfileHeight(){

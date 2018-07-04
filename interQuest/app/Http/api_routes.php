@@ -43,3 +43,5 @@ Route::resource('users', 'UserAPIController');
 Route::get('/users/makeMapkeeper/{id}', 'UserAPIController@makeMapkeeper');
 
 Route::resource('vocations', 'VocationAPIController');
+
+Route::post('/personae/invite', 'PersonaAPIController@invite');

@@ -6,13 +6,13 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{!! $persona->image ? $persona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}"/>
+                <img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
             </div>
             <div class="pull-left info">
                 @if (Auth::guest())
                 <p>InterQuest</p>
                 @else
-                <p>{!! $persona->long_name ? $persona->long_name : Auth::user()->name !!}</p>
+                <p>{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}</p>
                 @endif
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>

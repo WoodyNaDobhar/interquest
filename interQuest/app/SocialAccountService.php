@@ -3,7 +3,6 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\User as ProviderUser;
-use App\Models\Persona as Persona;
 
 class SocialAccountService
 {
@@ -42,14 +41,6 @@ class SocialAccountService
             //associate to user
             $account->user()->associate($user);
             $account->save();
-            
-            //make their persona
-            $persona = Persona::create([
-            	'user_id' => $user->id,
-            	'name' => $providerUser->getNickname() ? $providerUser->getNickname() : $providerUser->getName(),
-            	'long_name' => $providerUser->getNickname() ? $providerUser->getNickname() : $providerUser->getName(),
-            	'image' => $providerUser->getAvatar(),
-            ]);
 
             //dump user
             return $user;

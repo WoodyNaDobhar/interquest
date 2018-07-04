@@ -81,9 +81,6 @@ class ImportParks extends Command
 								$coords = explode(',-', $coordGroup[1]);
 								$lat = $coords[0];
 								$lon = $coords[1];
-					
-								//save the park
-								$park->save();
 								
 								//done here
 								break;
@@ -102,10 +99,6 @@ class ImportParks extends Command
 					$parkColumn = round(($lon - 50) * 58);
 					$parkColumn = $parkColumn < 4 ? 4 : $parkColumn;
 					$parkColumn = $parkColumn > 5995 ? 5995 : $parkColumn;
-					
-					//notify
-					$this->info('Added ' . $xml->getElementsByTagName('h3')[0]->nodeValue . '(' . $parkID . ')');
-					$this->info('Adding Territories for ' . $park->name);
 
 					//setup new territories
 					$resources = [
@@ -149,89 +142,134 @@ class ImportParks extends Command
 							'y'	=> 1
 						]
 					];
+					$takeHalf = 1;
+				
+					//get/set the home territory
+					$parkTerritory = Territory::where('row', $parkRow)->where('column', $parkColumn)->first();
+					if(!$parkTerritory){
+						$parkTerritory = new Territory;
+					}else{
+						//check for park w/ territory_id
+						if(Park::where('territory_id', $parkTerritory->id)->count() > 0){
+							$this->info($xml->getElementsByTagName('h3')[0]->nodeValue . ' (' . $parkID . ') has a duplicate location to another settlement.');
+							$parkID++;
+							continue;
+						}
+					}
+					
+					//add territory stuff
+					$primRes = array_rand($resources);
+					$secRes = ($primRes == 'Twice' ? array_rand($reroll) : null);
+					$primRes = ($primRes == 'Twice' ? array_rand($reroll) : $primRes);
+					$parkTerritory->row = $parkRow;
+					$parkTerritory->column = $parkColumn;
+					$parkTerritory->terrain_id = random_int(2, 7);
+					$parkTerritory->primary_resource = $primRes;
+					$parkTerritory->secondary_resource = $secRes;
+					$parkTerritory->castle_strength = 1;
+					$parkTerritory->save();
+					
+					//update park
+					$park->territory_id = $parkTerritory->id;
+					$park->save();
+					
+					//Fief exists?
+					if(Fief::where('territory_id', $parkTerritory->id)->count() > 0){
+							
+						//take it
+						$fief = Fief::where('territory_id', $parkTerritory->id)->first();
+					}else{
+							
+						//add Fief
+						$fief = new Fief;
+						$fief->territory_id = $parkTerritory->id;
+					}
+						
+					//update Fief data
+					$fief->fiefdom_id = $park->id;
+					$fief->fiefdom_type = 'App\Models\Park';
+					$fief->save();
+					
+					//notify
+					$this->info('Added ' . $xml->getElementsByTagName('h3')[0]->nodeValue . '(' . $parkID . ')');
+					$this->info('Adding Territories for ' . $park->name);
+					
+					//create bar
+					$bar = $this->output->createProgressBar(7);
+							
+					//advance
+					$bar->advance();
 					 
 					//set range
-					$bottomRow = $parkRow - 14 > -1 ? $parkRow - 14 : 0;
-					$rightCol = $parkColumn - 14 > -1 ? $parkColumn - 14 : 0;
-					$bar = $this->output->createProgressBar(900);
+					$bottomRow = $parkRow - 1 > -1 ? $parkRow - 1 : 0;
+					$rightCol = $parkColumn - 1 > -1 ? $parkColumn - 1 : 0;
 					
-					//add 'em
-					for($row=$bottomRow;$row<($bottomRow + 30);$row++){
-						for($column=$rightCol;$column<($rightCol + 30);$column++){
-
-							//if it doesn't exist already
-							if(Territory::where('row', $row)->where('column', $column)->count() == 0){
-					
-								$primRes = array_rand($resources);
-								$secRes = ($primRes == 'Twice' ? array_rand($reroll) : null);
-								$primRes = ($primRes == 'Twice' ? array_rand($reroll) : $primRes);
-								 
-								$territory = new Territory;
-								$territory->row = $row;
-								$territory->column = $column;
-								$territory->terrain_id = 1;
-								$territory->primary_resource = $primRes;
-								$territory->secondary_resource = $secRes;
-								$territory->save();
-							}else{
-								$territory = Territory::where('row', $row)->where('column', $column)->first();
+					//add territories
+					for($row=$bottomRow;$row<($bottomRow + 3);$row++){
+						for($column=$rightCol;$column<($rightCol + 3);$column++){
+							
+							//is this the park's home territory?
+							if($row == $parkRow && $column == $parkColumn){
+								
+								//did this already
+								continue;
 							}
 								
 							//is it adjascent to the park's home territory?
 							foreach($parkFiefdomMap as $coords){
-								
-								//check
 								if(($column == ($parkColumn + $coords['x'])) && ($row == ($parkRow + $coords['y']))){
+
+									//get/set territory
+									$territory = Territory::where('row', $row)->where('column', $column)->first();
+									if(!$territory){
+									
+										$primRes = array_rand($resources);
+										$secRes = ($primRes == 'Twice' ? array_rand($reroll) : null);
+										$primRes = ($primRes == 'Twice' ? array_rand($reroll) : $primRes);
+									
+										$territory = new Territory;
+										$territory->row = $row;
+										$territory->column = $column;
+										$territory->terrain_id = 1;
+										$territory->primary_resource = $primRes;
+										$territory->secondary_resource = $secRes;
+										$territory->save();
+									}
 									
 									//no Fief exists?
 									if(Fief::where('territory_id', $territory->id)->count() == 0){
-
+				
 										//add Fief
 										$fief = new Fief;
 										$fief->territory_id = $territory->id;
 										$fief->fiefdom_id = $park->id;
 										$fief->fiefdom_type = 'App\Models\Park';
 										$fief->save();
-										
-										//update territory to something less generic
+				
+										//update terrain to something less generic
 										$territory->terrain_id = random_int(2, 7);
 										$territory->save();
+									}else{
 											
-										//all done here
-										break;
+										//not if it's a park's home territory...doesn't count
+										if(Park::where('territory_id', $parkTerritory->id)->count() > 0){
+											continue 2;
+										}
+										
+										//this park is very close to another park...take half their overlaps, not the first one tho.
+										if($takeHalf%2 == 0){
+										
+											//load Fief
+											$fief = Fief::where('territory_id', $territory->id)->first();
+											
+											//take the Fief
+											$fief->fiefdom_id = $park->id;
+											$fief->fiefdom_type = 'App\Models\Park';
+											$fief->save();
+										}
+										$takeHalf++;
 									}
 								}
-							}
-							
-							//is this the park's home territory?
-							if($row == $parkRow && $column == $parkColumn){
-								
-								//update park
-								$park->territory_id = $territory->id;
-								$park->save();
-									
-								//Fief exists?
-								if(Fief::where('territory_id', $territory->id)->count() > 0){
-									
-									//take it
-									$fief = Fief::where('territory_id', $territory->id)->first();
-									$fief->fiefdom_id = $park->id;
-									$fief->fiefdom_type = 'App\Models\Park';
-									$fief->save();
-								}else{
-
-									//add Fief
-									$fief = new Fief;
-									$fief->territory_id = $territory->id;
-									$fief->fiefdom_id = $park->id;
-									$fief->fiefdom_type = 'App\Models\Park';
-									$fief->save();
-								}
-								
-								//update territory to something less generic
-								$territory->terrain_id = random_int(2, 7);
-								$territory->castle_strength = 1;
-								$territory->save();
 							}
 							
 							//advance
@@ -240,7 +278,7 @@ class ImportParks extends Command
 					}
 					$bar->finish();
 					$this->info(PHP_EOL);
-
+					
 				//This guy is empty
 				}else{
 					$endIfCount++;

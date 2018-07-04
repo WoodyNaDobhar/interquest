@@ -42,7 +42,8 @@ class PersonaRepository extends BaseRepository
         'is_monarch',
         'fiefs_assigned',
         'shattered',
-        'deceased'
+        'deceased',
+        'validClaim'
     ];
 
     /**

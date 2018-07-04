@@ -1,0 +1,18 @@
+
+		<script id="templatePersonaInvite" type="text/x-jQuery-tmpl">
+									<div id="{{dialogId}}" title="Invite Persona's User" class="widgetActionTemplate">
+										<form class="form-horizontal" role="form" method="POST" action="/api/v1/personae/invite" id="personaeInviteForm">
+											<div class="tab-container media">
+												<div class="form-group">
+													<div class="col-md-6">
+														<input type="text" class="form-control" name="email" value="{{value}}" placeholder="User's Facebook Email">
+														<input type="hidden" name="persona_id" value="{{personaId}}">
+													</div>
+													<div class="col-md-6">
+														When the invite is sent out, the persona will be claimable only by a new user who's Facebook email matches the one you enter here.  Sending the invite prevents the need to approve the connection later, but you'll have to be sure the emails match for this to work.  You can always update this later, if you enter the wrong email.
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+		</script>
