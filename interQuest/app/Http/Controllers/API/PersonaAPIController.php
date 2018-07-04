@@ -33,7 +33,7 @@ class PersonaAPIController extends AppBaseController
 
     /**
      * Display a listing of the Persona.
-     * GET|HEAD /personas
+     * GET|HEAD /personae
      *
      * @param Request $request
      * @return Response
@@ -49,7 +49,7 @@ class PersonaAPIController extends AppBaseController
 
     /**
      * Store a newly created Persona in storage.
-     * POST /personas
+     * POST /personae
      *
      * @param CreatePersonaAPIRequest $request
      *
@@ -66,7 +66,7 @@ class PersonaAPIController extends AppBaseController
 
     /**
      * Display the specified Persona.
-     * GET|HEAD /personas/{id}
+     * GET|HEAD /personae/{id}
      *
      * @param  int $id
      *
@@ -86,7 +86,7 @@ class PersonaAPIController extends AppBaseController
 
     /**
      * Update the specified Persona in storage.
-     * PUT/PATCH /personas/{id}
+     * PUT/PATCH /personae/{id}
      *
      * @param  int $id
      * @param UpdatePersonaAPIRequest $request
@@ -115,7 +115,7 @@ class PersonaAPIController extends AppBaseController
 
     /**
      * Remove the specified Persona from storage.
-     * DELETE /personas/{id}
+     * DELETE /personae/{id}
      *
      * @param  int $id
      *

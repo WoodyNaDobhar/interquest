@@ -17,7 +17,7 @@
 									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 									<li><a href="#" class="makeMapkeeper">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
 									@endif
-									<li><a href="/personas/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
+									<li><a href="/personae/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
 								</ul>
 							</div>
 							@endif
