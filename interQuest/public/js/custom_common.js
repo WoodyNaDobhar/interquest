@@ -93,6 +93,40 @@ $(document).ready(function(){
 	
 	//draw any maps showing
 	drawMap();
+	
+	/**
+	 * common jQuery functions
+	 */
+	//typeSelect
+	$('body').on('change', '.typeSelect', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//hide any related selects
+		$(this).parent().find('.typeTarget').hide();
+
+		//show the appropriate select
+		$(this).parent().find('select[data-type="' + $(this).val() + '"]').show('slow');
+		
+		//no clicky!
+		return false;
+	});
+
+	//typeTarget
+	$('body').on('change', '.typeTarget', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//update hidden
+		$(this).parent().find('#' + $(this).data('name')).val($(this).val());
+
+		console.log($(this).parent().find('#' + $(this).data('name')).val());
+		
+		//no clicky!
+		return false;
+	});
 });
 
 /**

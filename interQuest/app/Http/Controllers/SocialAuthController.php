@@ -39,10 +39,17 @@ class SocialAuthController extends Controller
 				$unclaimedPersona->user_id = $user->id;
 				$unclaimedPersona->validClaim = 'claimed';
 				$unclaimedPersona->save();
+				
+				//if this is the park's first player...
+				if($unclaimedPersona->park->personae->count() == 1){
+					$user->is_mapkeeper = 1;
+					$user->save();
+				}
 			
 				//send them to their persona to edit
-				Flash::success('Persona Claimed!  Take a moment to review and update your Persona.');
-				return redirect()->to('/personae/' . $unclaimedPersona->id . '/edit');
+				return redirect()
+					->to('/personae/' . $unclaimedPersona->id . '/edit')
+					->withErrors('Persona Claimed!  Take a moment to review and update your Persona.');
 			}
 			
 			//nothing unclaimed waiting for them, and no persona...

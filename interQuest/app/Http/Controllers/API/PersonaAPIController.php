@@ -44,7 +44,7 @@ class PersonaAPIController extends AppBaseController
         $this->personaRepository->pushCriteria(new LimitOffsetCriteria($request));
         $personas = $this->personaRepository->all();
 
-        return $this->sendResponse($personas->toArray(), 'Personas retrieved successfully');
+        return $this->sendResponse($personas->toArray(), 'Personae retrieved successfully');
     }
 
     /**

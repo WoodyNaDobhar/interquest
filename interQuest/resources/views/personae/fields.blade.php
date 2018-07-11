@@ -1,19 +1,19 @@
-<?php if(!isset($persona) || $persona->validClaim != 'claimed'){ ?>
+@if(!isset($persona) || $persona->validClaim != 'claimed')
 
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('validClaim', 'User Facebook Email:') !!}
-    {!! Form::text('validClaim', null, ['class' => 'form-control']) !!}
+    {!! Form::text('validClaim', old('validClaim'), ['class' => 'form-control']) !!}
 </div>
 
-<?php if(!isset($persona)){ ?>
+@if(!isset($persona))
 
 <!-- Email Instructions Field -->
 <div class="form-group col-sm-6">
     If you know, or can get, the email address the Persona's user signed up to Facebook with, we can verify them later and let them take control over some of their more superficial details (name, background, image, etc).  You can invite them later with a convenient button when you get that email address from them.  Not required.
 </div>
 
-<?php }else{ ?>
+@else
 
 <!-- Invite Field -->
 <div class="form-group col-sm-6">
@@ -23,27 +23,33 @@
 	&nbsp;
 </div>
 
-<?php } ?>
+@endif
 
-<?php } ?>
+@endif
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Common Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
 </div>
+
+@if(!isset($suppressSave) || $suppressSave === false)
 
 <!-- Long Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('long_name', 'Long Name:') !!}
-    {!! Form::text('long_name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('long_name', old('long_name'), ['class' => 'form-control']) !!}
 </div>
+
+@endif
 
 <!-- Orkid Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('orkID', 'Persona ORK Id:') !!}
-    {!! Form::number('orkID', null, ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number']) !!}
+    {!! Form::number(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? old('personaOrkID') : old('orkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number']) !!}
 </div>
+
+@if(!isset($suppressSave) || $suppressSave === false)
 
 <!-- Race Id Field -->
 <div class="form-group col-sm-6">
@@ -54,7 +60,7 @@
 <!-- Vocation Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('vocation_id', 'Declared Class:') !!}
-    {!! Form::select('vocation_id', $vocations, null, ['class' => 'form-control']) !!}
+    {!! Form::select('vocation_id', $vocations, old('vocation_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Image Field -->
@@ -66,61 +72,61 @@
 <!-- Background Public Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('background_public', 'Publicly Known Background:') !!}
-    {!! Form::textarea('background_public', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('background_public', old('background_public'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Background Private Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('background_private', 'Private Background Details:') !!}
-    {!! Form::textarea('background_private', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('background_private', old('background_private'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Park Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('park_id', 'Home Park:') !!}
-    {!! Form::select('park_id', $parks, null, ['class' => 'form-control']) !!}
+    {!! Form::select('park_id', $parks, old('park_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Action Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('action_id', 'Default Action:') !!}
-    {!! Form::select('action_id', $actions, null, ['class' => 'form-control']) !!}
+    {!! Form::select('action_id', $actions, old('action_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gold Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('gold', 'Gold On Persona:') !!}
-    {!! Form::number('gold', isset($persona) ? $persona->gold->persona->total : null, ['class' => 'form-control']) !!}
+    {!! Form::number('gold', isset($persona) ? $persona->gold->persona->total : old('gold'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Iron Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('iron', 'Iron On Persona:') !!}
-    {!! Form::number('iron', isset($persona) ? $persona->iron->persona->total : null, ['class' => 'form-control']) !!}
+    {!! Form::number('iron', isset($persona) ? $persona->iron->persona->total : old('iron'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Timber Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('timber', 'Timber On Persona:') !!}
-    {!! Form::number('timber', isset($persona) ? $persona->timber->persona->total : null, ['class' => 'form-control']) !!}
+    {!! Form::number('timber', isset($persona) ? $persona->timber->persona->total : old('timber'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Stone Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('stone', 'Stone On Persona:') !!}
-    {!! Form::number('stone', isset($persona) ? $persona->stone->persona->total : null, ['class' => 'form-control']) !!}
+    {!! Form::number('stone', isset($persona) ? $persona->stone->persona->total : old('stone'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Grain Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('grain', 'Grain On Persona:') !!}
-    {!! Form::number('grain', isset($persona) ? $persona->grain->persona->total : null, ['class' => 'form-control']) !!}
+    {!! Form::number('grain', isset($persona) ? $persona->grain->persona->total : old('grain'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fiefs Assigned Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fiefs_assigned', 'Fiefs Assigned:') !!}
-    {!! Form::number('fiefs_assigned', null, ['class' => 'form-control']) !!}
+    {!! Form::number('fiefs_assigned', old('fiefs_assigned'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Is Knight Field -->
@@ -153,14 +159,16 @@
 <!-- Shattered Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('shattered', 'Shattered:') !!}
-    {!! Form::date('shattered', null, ['class' => 'form-control']) !!}
+    {!! Form::date('shattered', old('shattered'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Deceased Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('deceased', 'Deceased:') !!}
-    {!! Form::date('deceased', null, ['class' => 'form-control']) !!}
+    {!! Form::date('deceased', old('deceased'), ['class' => 'form-control']) !!}
 </div>
+
+@endif
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

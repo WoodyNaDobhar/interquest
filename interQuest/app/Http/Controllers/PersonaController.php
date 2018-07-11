@@ -48,6 +48,12 @@ class PersonaController extends AppBaseController
 	public function create()
 	{
 		
+		//security
+		if(Gate::denies('admin') && Gate::denies('mapKeeper')){
+			Flash::error('Permission Denied');
+			return redirect(route('personae.index'));
+		}
+		
 		//get vocations
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
@@ -59,12 +65,13 @@ class PersonaController extends AppBaseController
 		if(Auth::user()->is_admin){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
 		}elseif(Auth::user()->is_mapkeeper){
-			$parks = Parks::orderBy('name')->pluck('name', 'id')->where('id', Auth::user()->persona->park->id)->toArray();
+			$parks = Parks::where('id', Auth::user()->orderBy('name')->pluck('name', 'id')->persona->park->id)->toArray();
 		}
 		
 		//get actions
 		$actions = Actions::pluck('name', 'id')->toArray();
 		
+		//respond
 		return view('personae.create')
 			->with('vocations', $vocations)
 			->with('races', $races)
@@ -81,12 +88,31 @@ class PersonaController extends AppBaseController
 	 */
 	public function store(CreatePersonaRequest $request)
 	{
+		
+		//security
+		if(Gate::denies('admin') && Gate::denies('mapKeeper')){
+			Flash::error('Permission Denied');
+			return redirect(route('personae.index'));
+		}
+		
+		//setup
 		$input = $request->all();
+		
+		//make sure the claim email is unique
+		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL)){
+			$currentUsers = Users::where('email', $input['validClaim'])->get();
+			if($currentUsers->count() > 0){
+				return redirect(route('personae.create'))
+					->withInput()
+					->withErrors('bPersona claim validation email is not unique...somebody is using it already.');
+			}
+		}
 
 		//add park's territory as home
 		$homePark = Parks::where('id', $input['park_id'])->first();
 		$input['territory_id'] = (string)$homePark->territory_id;
 		
+		//make it
 		$persona = $this->personaRepository->create($input);
 
 		//if there's an email, we'll need to send an invite out...
@@ -98,8 +124,8 @@ class PersonaController extends AppBaseController
 			});
 		}
 		
+		//respond
 		Flash::success('Persona saved successfully.');
-
 		return redirect(route('personae.index'));
 	}
 
@@ -113,16 +139,15 @@ class PersonaController extends AppBaseController
 	public function show($id)
 	{
 		$persona = $this->personaRepository->findWithoutFail($id);
-		
 		if (empty($persona)) {
 			Flash::error('Persona not found');
-
 			return redirect(route('personae.index'));
 		}
 		
 		//fetch actions
 		$actions = Actions::all();
 
+		//respond
 		return view('personae.show')->with('persona', $persona)->with('actions', $actions);
 	}
 
@@ -135,15 +160,18 @@ class PersonaController extends AppBaseController
 	 */
 	public function edit($id)
 	{
+		
+		//setup
 		$persona = $this->personaRepository->findWithoutFail($id);
-
-		if (empty($persona)) {
+		if(empty($persona)){
 			Flash::error('Persona not found');
 			return redirect(route('personae.index'));
 		}
 		
-		if(Gate::denies('mapkeeperOwn', ($persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0)) &&
-				Gate::denies('own', $persona->id)){
+		//security
+		if(Gate::denies('mapkeeperOwn', ($persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0))
+			&& Gate::denies('own', $persona->id)
+		){
 			Flash::error('Permission Denied');
 			return redirect(route('personae.index'));
 		}
@@ -156,15 +184,16 @@ class PersonaController extends AppBaseController
 		
 		//get parks?
 		$parks = [];
-		if(Auth::user()->is_admin){
+		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
-		}elseif(Auth::user()->is_mapkeeper){
-			$parks = Parks::orderBy('name')->pluck('name', 'id')->where('id', Auth::user()->persona->park->id)->toArray();
+		}else{
+			$parks = Parks::where('id', '=', Auth::user()->persona->park_id)->orderBy('name')->pluck('name', 'id')->toArray();
 		}
 		
 		//get actions
 		$actions = Actions::pluck('name', 'id')->toArray();
 
+		//respond
 		return view('personae.edit')
 			->with('persona', $persona)
 			->with('vocations', $vocations)
@@ -183,22 +212,26 @@ class PersonaController extends AppBaseController
 	 */
 	public function update($id, UpdatePersonaRequest $request)
 	{
-		$persona = $this->personaRepository->findWithoutFail($id);
-
-		if (empty($persona)) {
-			Flash::error('Persona not found');
-			return redirect(route('personae.index'));
-		}
+		
+		//security
 		if(Gate::denies('mapkeeperOwn', $persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0) &&
 				Gate::denies('own', $persona->id)){
 			Flash::error('Permission Denied');
 			return redirect(route('personae.index'));
 		}
+		
+		//setup
+		$persona = $this->personaRepository->findWithoutFail($id);
+		if (empty($persona)) {
+			Flash::error('Persona not found');
+			return redirect(route('personae.index'));
+		}
 
+		//update
 		$persona = $this->personaRepository->update($request->all(), $id);
 
+		//respond
 		Flash::success('Persona updated successfully.');
-
 		return redirect(route('personae.index'));
 	}
 
@@ -211,22 +244,25 @@ class PersonaController extends AppBaseController
 	 */
 	public function destroy($id)
 	{
+		
+		//security
 		if(Gate::denies('admin')){
 			Flash::error('Permission Denied');
 			return redirect(route('personae.index'));
 		}
+		
+		//setup
 		$persona = $this->personaRepository->findWithoutFail($id);
-
 		if (empty($persona)) {
 			Flash::error('Persona not found');
-
 			return redirect(route('personae.index'));
 		}
 
+		//update
 		$this->personaRepository->delete($id);
 
+		//respond
 		Flash::success('Persona deleted successfully.');
-
 		return redirect(route('personae.index'));
 	}
 }

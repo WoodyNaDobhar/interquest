@@ -1,7 +1,7 @@
 <!-- Orkid Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('orkID', 'Orkid:') !!}
-    {!! Form::number('orkID', null, ['class' => 'form-control']) !!}
+    {!! Form::number('orkID', old('orkID'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Rank Field -->
@@ -13,11 +13,13 @@
     	'Duchy' => 'Duchy', 
     	'Grand Duchy' => 'Grand Duchy', 
     	'Principality' => 'Principality'
-    ], null, ['class' => 'form-control']) !!}
+    ], old('rank'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->
+@if(!isset($suppressSave) || $suppressSave === false)
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('parks.index') !!}" class="btn btn-default">Cancel</a>
 </div>
+@endif

@@ -16,6 +16,12 @@ use DOMDocument;
 use App\Models\Fief as Fief;
 use App\Models\Park as Park;
 use App\Models\Territory as Territory;
+use App\Models\Action as Action;
+use App\Models\Vocation as Vocation;
+use App\Models\Race as Race;
+use App\Models\User as User;
+use App\Models\Persona as Persona;
+use Mail;
 
 class ParkController extends AppBaseController
 {
@@ -45,11 +51,35 @@ class ParkController extends AppBaseController
 	 */
 	public function create()
 	{
+		
+		//security
 		if(Gate::denies('admin')){
 			Flash::error('Permission Denied');
 			return redirect(route('parks.index'));
 		}
-		return view('parks.create');
+		
+		//get vocations
+		$vocations = Vocation::pluck('name', 'id')->toArray();
+		
+		//get races
+		$races = Race::pluck('name', 'id')->toArray();
+		
+		//get actions
+		$actions = Action::pluck('name', 'id')->toArray();
+		
+		//parks
+		$parks = [];
+		
+		if(Gate::denies('admin')){
+			Flash::error('Permission Denied');
+			return redirect(route('parks.index'));
+		}
+		return view('parks.create')
+			->with('vocations', $vocations)
+			->with('races', $races)
+			->with('actions', $actions)
+			->with('parks', $parks)
+			->with('suppressSave', true);
 	}
 
 	/**
@@ -68,6 +98,22 @@ class ParkController extends AppBaseController
 			return redirect(route('parks.index'));
 		}
 		$input = $request->all();
+		
+		//make sure the claim email exists and is unique
+		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL)){
+			$currentUsers = User::where('email', $input['validClaim'])->get();
+			if($currentUsers->count() > 0){
+				return redirect(route('parks.create'))
+					->withInput()
+					->withErrors('Persona claim validation email is not unique...somebody is using it already.');
+			}
+		}else{
+			
+			//This won't work without a Mapkeeper, so die
+			return redirect(route('park.create'))
+				->withInput()
+				->withErrors('Persona claim validation email is missing.  Gotta have a MK to make this work.');
+		}
 		
 		//setup
 		$resources = [
@@ -151,8 +197,9 @@ class ParkController extends AppBaseController
 							//done here
 							break;
 						}else{
-							Flash::error($xml->getElementsByTagName('h3')[0]->nodeValue . ' (' . $request->orkID . ') has no or malformed map data.');
-							return redirect(route('parks.index'));
+							return redirect(route('parks.create'))
+								->withInput()
+								->with('errors', $xml->getElementsByTagName('h3')[0]->nodeValue . ' (' . $request->orkID . ') has no or malformed map data.');
 						}
 					}
 				}
@@ -172,8 +219,9 @@ class ParkController extends AppBaseController
 				}else{
 					//check for park w/ territory_id
 					if(Park::where('territory_id', $parkTerritory->id)->count() > 0){
-						Flash::error($xml->getElementsByTagName('h3')[0]->nodeValue . ' (' . $parkID . ') has a duplicate location to another settlement.');
-						return redirect(route('parks.index'));
+						return redirect(route('parks.create'))
+							->withInput()
+							->with('errors', $xml->getElementsByTagName('h3')[0]->nodeValue . ' (' . $parkID . ') has a duplicate location to another settlement.');
 					}
 				}
 				
@@ -282,6 +330,24 @@ class ParkController extends AppBaseController
 							}
 						}
 					}
+				}
+					
+				//add the persona
+				$persona = new Persona;
+				$persona->orkID = $input['personaOrkID'];
+				$persona->name = $input['name'];
+				$persona->park_id = $park->id;
+				$persona->territory_id = $park->territory_id;
+				$persona->validClaim = $input['validClaim'];
+				$persona->save();
+				
+				//if there's an email, we'll need to send an invite out...
+				if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL)){
+					Mail::send('emails.invite', ['inviter' => Auth::user()], function ($m) use ($input){
+						$m->from('doNotReply@interquestonline.com', 'InterQuest');
+						$m->to($input['validClaim'], $input['name']);
+						$m->subject('Join the Quest!');
+					});
 				}
 			}
 			
