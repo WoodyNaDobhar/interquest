@@ -1,7 +1,7 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Is Landed Field -->
@@ -16,13 +16,13 @@
 <!-- Hierarchy Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('hierarchy', 'Hierarchy:') !!}
-    {!! Form::number('hierarchy', null, ['class' => 'form-control']) !!}
+    {!! Form::number('hierarchy', old('hierarchy'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fiefs Maximum Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fiefs_maximum', 'Fiefs Maximum:') !!}
-    {!! Form::number('fiefs_maximum', null, ['class' => 'form-control']) !!}
+    {!! Form::number('fiefs_maximum', old('fiefs_maximum'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

@@ -18,6 +18,7 @@ use Gate;
 use Auth;
 use Mail;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\Territory as Territories;
 
 class PersonaController extends AppBaseController
 {
@@ -60,12 +61,20 @@ class PersonaController extends AppBaseController
 		//get races
 		$races = Races::pluck('name', 'id')->toArray();
 		
-		//get parks?
-		$parks = [];
+		//get parks
+		$park = Auth::user()->persona->park;
 		if(Auth::user()->is_admin){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
 		}elseif(Auth::user()->is_mapkeeper){
-			$parks = Parks::where('id', Auth::user()->orderBy('name')->pluck('name', 'id')->persona->park->id)->toArray();
+			$parks = Parks::where('id', $park->id)->orderBy('name')->pluck('name', 'id')->toArray();
+		}
+
+		//get territories
+		$territoriesObjs = Territories::whereBetween('row', [$park->capital->row - 10, $park->capital->row + 10])
+			->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
+			->get();
+		foreach($territoriesObjs as $tObj){
+			$territories[$tObj->id] = $tObj->name;
 		}
 		
 		//get actions
@@ -76,6 +85,7 @@ class PersonaController extends AppBaseController
 			->with('vocations', $vocations)
 			->with('races', $races)
 			->with('parks', $parks)
+			->with('territories', $territories)
 			->with('actions', $actions);
 	}
 
@@ -107,10 +117,6 @@ class PersonaController extends AppBaseController
 					->withErrors('bPersona claim validation email is not unique...somebody is using it already.');
 			}
 		}
-
-		//add park's territory as home
-		$homePark = Parks::where('id', $input['park_id'])->first();
-		$input['territory_id'] = (string)$homePark->territory_id;
 		
 		//make it
 		$persona = $this->personaRepository->create($input);
@@ -182,12 +188,20 @@ class PersonaController extends AppBaseController
 		//get races
 		$races = Races::pluck('name', 'id')->toArray();
 		
-		//get parks?
-		$parks = [];
-		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
+		//get parks
+		$park = Auth::user()->persona->park;
+		if(Auth::user()->is_admin){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
-		}else{
-			$parks = Parks::where('id', '=', Auth::user()->persona->park_id)->orderBy('name')->pluck('name', 'id')->toArray();
+		}elseif(Auth::user()->is_mapkeeper){
+			$parks = Parks::where('id', $park->id)->orderBy('name')->pluck('name', 'id')->toArray();
+		}
+
+		//get territories
+		$territoriesObjs = Territories::whereBetween('row', [$park->capital->row - 10, $park->capital->row + 10])
+			->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
+			->get();
+		foreach($territoriesObjs as $tObj){
+			$territories[$tObj->id] = $tObj->name;
 		}
 		
 		//get actions
@@ -199,6 +213,7 @@ class PersonaController extends AppBaseController
 			->with('vocations', $vocations)
 			->with('races', $races)
 			->with('parks', $parks)
+			->with('territories', $territories)
 			->with('actions', $actions);
 	}
 

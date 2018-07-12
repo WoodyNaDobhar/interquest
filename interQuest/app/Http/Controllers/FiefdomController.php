@@ -50,10 +50,16 @@ class FiefdomController extends AppBaseController
 	 */
 	public function create()
 	{
+		
+		//security
 		if(Gate::denies('mapkeeper')){
 			Flash::error('Permission Denied');
 			return redirect(route('fiefdoms.index'));
 		}
+
+		//rulers
+		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
 		
 		//respond
 		return view('fiefdoms.create')

@@ -36,67 +36,67 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Territory extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'territories';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'territories';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'name',
-        'row',
-        'column',
-        'terrain_id',
-        'primary_resource',
-        'secondary_resource',
-        'castle_strength',
-        'gold',
-        'iron',
-        'timber',
-        'stone',
-        'grain',
-        'is_wasteland',
-        'is_no_mans_land'
-    ];
+	protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'row' => 'integer',
-        'column' => 'integer',
-        'terrain_id' => 'integer',
-        'primary_resource' => 'string',
-        'secondary_resource' => 'string',
-        'castle_strength' => 'integer',
-        'gold' => 'integer',
-        'iron' => 'integer',
-        'timber' => 'integer',
-        'stone' => 'integer',
-        'grain' => 'integer',
-        'is_wasteland' => 'boolean',
-        'is_no_mans_land' => 'boolean'
-    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	public $fillable = [
+		'name',
+		'row',
+		'column',
+		'terrain_id',
+		'primary_resource',
+		'secondary_resource',
+		'castle_strength',
+		'gold',
+		'iron',
+		'timber',
+		'stone',
+		'grain',
+		'is_wasteland',
+		'is_no_mans_land'
+	];
 
-    /**
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'string',
+		'row' => 'integer',
+		'column' => 'integer',
+		'terrain_id' => 'integer',
+		'primary_resource' => 'string',
+		'secondary_resource' => 'string',
+		'castle_strength' => 'integer',
+		'gold' => 'integer',
+		'iron' => 'integer',
+		'timber' => 'integer',
+		'stone' => 'integer',
+		'grain' => 'integer',
+		'is_wasteland' => 'boolean',
+		'is_no_mans_land' => 'boolean'
+	];
+
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
 	public function getNameAttribute($value)
@@ -108,10 +108,12 @@ class Territory extends Model
 				($value != '' || ($this->fief && $this->fief->name != '') ? ' - ' : '')
 			.
 				($this->fief && $this->fief->fiefdom && $this->fief->fiefdom->name != '' ? $this->fief->fiefdom->name : '')
+			.
+				(Park::where('territory_id', $this->id)->exists() ? ' (Capital)' : '')
 			;
-    }
+	}
 
-    /**
+	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 **/
 	public function terrain()
@@ -119,61 +121,61 @@ class Territory extends Model
 		return $this->belongsTo(\App\Models\Terrain::class);
 	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function personaActions()
-    {
-        return $this->hasMany(\App\Models\ActionPersona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function personaActions()
+	{
+		return $this->hasMany(\App\Models\ActionPersona::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
 	public function buildings()
-    {
-        return $this->hasMany(\App\Models\BuildingTerritory::class);
-    }
+	{
+		return $this->hasMany(\App\Models\BuildingTerritory::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function NpcEquipment()
-    {
-        return $this->hasMany(\App\Models\EquipmentsNpc::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function NpcEquipment()
+	{
+		return $this->hasMany(\App\Models\EquipmentsNpc::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function personaEquipment()
-    {
-        return $this->hasMany(\App\Models\EquipmentPersona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function personaEquipment()
+	{
+		return $this->hasMany(\App\Models\EquipmentPersona::class);
+	}
 
-    /**
+	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 **/
 	public function fief()
 	{
 		return $this->hasOne(\App\Models\Fief::class);
-    }
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function residentNpcs()
-    {
-        return $this->hasMany(\App\Models\Npc::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function residentNpcs()
+	{
+		return $this->hasMany(\App\Models\Npc::class);
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function residentPersonas()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function residentPersonas()
+	{
+		return $this->hasMany(\App\Models\Persona::class);
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany

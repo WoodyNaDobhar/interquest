@@ -54,7 +54,7 @@
 <!-- Race Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('race_id', 'Metatype:') !!}
-    {!! Form::select('race_id', $races, null, ['class' => 'form-control']) !!}
+    {!! Form::select('race_id', $races, old('race_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Vocation Id Field -->
@@ -91,6 +91,12 @@
 <div class="form-group col-sm-6">
     {!! Form::label('action_id', 'Default Action:') !!}
     {!! Form::select('action_id', $actions, old('action_id'), ['class' => 'form-control']) !!}
+</div>
+
+<!-- Territory Id Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('territory_id', 'Territory Id:') !!}
+    {!! Form::select('territory_id', ['' => 'Homeless'] + $territories, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gold Field -->

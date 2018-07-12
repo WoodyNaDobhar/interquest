@@ -29,7 +29,10 @@ class NpcDataTable extends DataTable
     {
         $npcs = Npc::query()
         	->with('vocation')
-        	->with('race');
+        	->with('race')
+        	->with('park')
+        	->with('home')
+			->with('defaultAction');
 
         return $this->applyScopes($npcs);
     }

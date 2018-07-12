@@ -16,7 +16,7 @@
 			'npc_ruler_id', 
 			['0' => 'Select One'] + $rulersNpcs, 
 			(
-				$fiefdom && $fiefdom->ruler_type == 'Npc' ? 
+				isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
 					(
 						old('ruler_id') ? 
 							old('ruler_id') : 
@@ -30,7 +30,7 @@
 				'data-name' => 'ruler_id', 
 				'style' => 
 					(
-						$fiefdom && $fiefdom->ruler_type == 'Npc' ? 
+						isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
 							'' : 
 							'display: none;'
 					)
@@ -41,7 +41,7 @@
 			'persona_ruler_id',
 			['0' => 'Select One'] + $rulersPersonae,
 			(
-				$fiefdom && $fiefdom->ruler_type == 'Persona' ?
+				isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
 					(
 						old('ruler_id') ?
 							old('ruler_id') :
@@ -55,7 +55,7 @@
 				'data-name' => 'ruler_id',
 				'style' => 
 					(
-						$fiefdom && $fiefdom->ruler_type == 'Persona' ?
+						isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
 							'' :
 							'display: none;'
 					)

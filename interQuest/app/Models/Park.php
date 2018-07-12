@@ -104,6 +104,14 @@ class Park extends Model
 	}
 
 	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function npcs()
+	{
+		return $this->hasMany(\App\Models\Npc::class);
+	}
+
+	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
 	 **/
 	public function fiefs()

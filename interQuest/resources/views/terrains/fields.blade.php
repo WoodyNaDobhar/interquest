@@ -1,13 +1,13 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Description Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('description', 'Description:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control']) !!}
+    {!! Form::text('description', old('description'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->
