@@ -2,7 +2,7 @@
 			<div class="col-md-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h3 class="box-title">{!! $persona->race->name !!} {!! $persona->vocation->name !!}{!! $persona->shattered ? ', in repose since: ' . $persona->shattered : '' !!}</h3>
+						<h3 class="box-title">{!! $persona->metatype->name !!} {!! $persona->vocation->name !!}{!! $persona->shattered ? ', in repose since: ' . $persona->shattered : '' !!}</h3>
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>

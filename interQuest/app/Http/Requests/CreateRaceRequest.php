@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\Race;
+use App\Models\Metatype;
 
-class CreateRaceRequest extends Request
+class CreateMetatypeRequest extends Request
 {
 
     /**
@@ -25,6 +25,6 @@ class CreateRaceRequest extends Request
      */
     public function rules()
     {
-        return Race::$rules;
+        return Metatype::$rules;
     }
 }

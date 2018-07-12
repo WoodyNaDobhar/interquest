@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Race;
+use App\Models\Metatype;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateRaceAPIRequest extends APIRequest
+class UpdateMetatypeAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class UpdateRaceAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Race::$rules;
+        return Metatype::$rules;
     }
 }

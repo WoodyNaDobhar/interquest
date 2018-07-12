@@ -3,15 +3,20 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Race
+            Metatype
         </h1>
     </section>
     <div class="content">
+        @include('adminlte-templates::common.errors')
         <div class="box box-primary">
+
             <div class="box-body">
-                <div class="row" style="padding-left: 20px">
-                    @include('races.show_fields')
-                    <a href="{!! route('races.index') !!}" class="btn btn-default">Back</a>
+                <div class="row">
+                    {!! Form::open(['route' => 'metatypes.store']) !!}
+
+                        @include('metatypes.fields')
+
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

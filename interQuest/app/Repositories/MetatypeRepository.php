@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\Race;
+use App\Models\Metatype;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class RaceRepository
+ * Class MetatypeRepository
  * @package App\Repositories
  * @version May 8, 2018, 2:37 pm MDT
  *
- * @method Race findWithoutFail($id, $columns = ['*'])
- * @method Race find($id, $columns = ['*'])
- * @method Race first($columns = ['*'])
+ * @method Metatype findWithoutFail($id, $columns = ['*'])
+ * @method Metatype find($id, $columns = ['*'])
+ * @method Metatype first($columns = ['*'])
 */
-class RaceRepository extends BaseRepository
+class MetatypeRepository extends BaseRepository
 {
     /**
      * @var array
@@ -30,6 +30,6 @@ class RaceRepository extends BaseRepository
      **/
     public function model()
     {
-        return Race::class;
+        return Metatype::class;
     }
 }

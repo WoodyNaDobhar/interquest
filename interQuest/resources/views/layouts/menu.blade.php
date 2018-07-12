@@ -1,5 +1,5 @@
 
-<li class="treeview {!! Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('races*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'menu-open' : '' !!}">
+<li class="treeview {!! Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('metatypes*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'menu-open' : '' !!}">
 	<a href="#">
 		<i class="fa fa-leanpub"></i>
 		<span>References</span>
@@ -7,7 +7,7 @@
 			<i class="fa fa-angle-left pull-right"></i>
 		</span>
 	</a>
-	<ul class="treeview-menu" {!! Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('races*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'style="display: block;"' : '' !!}>
+	<ul class="treeview-menu" {!! Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('metatypes*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'style="display: block;"' : '' !!}>
 		<li class="{!! Request::is('actions*') ? 'active' : '' !!}">
 			<a href="{!! route('actions.index') !!}"><i class="fa fa-play"></i><span>Actions</span></a>
 		</li>
@@ -17,8 +17,8 @@
 		<li class="{!! Request::is('equipment*') ? 'active' : '' !!}">
 			<a href="{!! route('equipment.index') !!}"><i class="fa fa-shield"></i><span>Equipment</span></a>
 		</li>
-		<li class="{!! Request::is('races*') ? 'active' : '' !!}">
-			<a href="{!! route('races.index') !!}"><i class="fa fa-users"></i><span>Races</span></a>
+		<li class="{!! Request::is('metatypes*') ? 'active' : '' !!}">
+			<a href="{!! route('metatypes.index') !!}"><i class="fa fa-users"></i><span>Metatypes</span></a>
 		</li>
 		<li class="{!! Request::is('terrains*') ? 'active' : '' !!}">
 			<a href="{!! route('terrains.index') !!}"><i class="fa fa-tree"></i><span>Terrains</span></a>

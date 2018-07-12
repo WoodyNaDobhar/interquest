@@ -51,10 +51,10 @@
 
 @if(!isset($suppressSave) || $suppressSave === false)
 
-<!-- Race Id Field -->
+<!-- Metatype Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('race_id', 'Metatype:') !!}
-    {!! Form::select('race_id', $races, old('race_id'), ['class' => 'form-control']) !!}
+    {!! Form::label('metatype_id', 'Metatype:') !!}
+    {!! Form::select('metatype_id', $metatypes, old('metatype_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Vocation Id Field -->

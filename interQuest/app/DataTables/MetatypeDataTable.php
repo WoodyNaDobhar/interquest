@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Race;
+use App\Models\Metatype;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
-class RaceDataTable extends DataTable
+class MetatypeDataTable extends DataTable
 {
 
     /**
@@ -16,7 +16,7 @@ class RaceDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'races.datatables_actions')
+            ->addColumn('action', 'metatypes.datatables_actions')
             ->make(true);
     }
 
@@ -27,9 +27,9 @@ class RaceDataTable extends DataTable
      */
     public function query()
     {
-        $races = Race::query();
+        $metatypes = Metatype::query();
 
-        return $this->applyScopes($races);
+        return $this->applyScopes($metatypes);
     }
 
     /**
@@ -72,7 +72,7 @@ class RaceDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['title' => 'Race', 'name' => 'name', 'data' => 'name'],
+            'name' => ['title' => 'Metatype', 'name' => 'name', 'data' => 'name'],
             'description' => ['title' => 'Description', 'name' => 'description', 'data' => 'description'],
             'personable' => ['title' => 'Personae Can Use', 'name' => 'personable', 'data' => 'personable']
         ];
@@ -85,6 +85,6 @@ class RaceDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'races';
+        return 'metatypes';
     }
 }

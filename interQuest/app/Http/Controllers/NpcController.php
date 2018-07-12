@@ -13,7 +13,7 @@ use Response;
 use Gate;
 use App\Models\Action as Actions;
 use App\Models\Vocation as Vocations;
-use App\Models\Race as Races;
+use App\Models\Metatype as Metatypes;
 use App\Models\Park as Parks;
 use App\Models\Territory as Territories;
 use Auth;
@@ -60,8 +60,8 @@ class NpcController extends AppBaseController
 		//get vocations
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
-		//get races
-		$races = Races::pluck('name', 'id')->toArray();
+		//get metatypes
+		$metatypes = Metatypes::pluck('name', 'id')->toArray();
 		
 		//get parks
 		$park = Auth::user()->persona->park;
@@ -85,7 +85,7 @@ class NpcController extends AppBaseController
 		//respond
 		return view('npcs.create')
 			->with('vocations', $vocations)
-			->with('races', $races)
+			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('park', $park)
 			->with('territories', $territories)
@@ -156,8 +156,8 @@ class NpcController extends AppBaseController
 		//get vocations
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
-		//get races
-		$races = Races::pluck('name', 'id')->toArray();
+		//get metatypes
+		$metatypes = Metatypes::pluck('name', 'id')->toArray();
 		
 		//get parks
 		$park = Auth::user()->persona->park;
@@ -181,7 +181,7 @@ class NpcController extends AppBaseController
 		return view('npcs.edit')
 			->with('npc', $npc)
 			->with('vocations', $vocations)
-			->with('races', $races)
+			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('park', $park)
 			->with('territories', $territories)

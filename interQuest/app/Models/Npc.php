@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property \App\Models\Action action
  * @property \App\Models\Territory territory
- * @property \App\Models\Race race
+ * @property \App\Models\Metatype metatype
  * @property \App\Models\Park park
  * @property \App\Models\Vocation vocation
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string private_name
  * @property string image
  * @property integer vocation_id
- * @property integer race_id
+ * @property integer metatype_id
  * @property string background_public
  * @property string background_private
  * @property integer park_id
@@ -53,7 +53,7 @@ class Npc extends Model
 		'private_name',
 		'image',
 		'vocation_id',
-		'race_id',
+		'metatype_id',
 		'background_public',
 		'background_private',
 		'park_id',
@@ -78,7 +78,7 @@ class Npc extends Model
 		'private_name' => 'string',
 		'image' => 'string',
 		'vocation_id' => 'integer',
-		'race_id' => 'integer',
+		'metatype_id' => 'integer',
 		'background_public' => 'string',
 		'background_private' => 'string',
 		'park_id' => 'integer',
@@ -264,9 +264,9 @@ class Npc extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 **/
-	public function race()
+	public function metatype()
 	{
-		return $this->belongsTo(\App\Models\Race::class);
+		return $this->belongsTo(\App\Models\Metatype::class);
 	}
 
 	/**

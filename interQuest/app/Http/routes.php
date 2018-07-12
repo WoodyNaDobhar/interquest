@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function()
 	Route::resource('equipment', 'EquipmentController');
 	Route::resource('fiefdoms', 'FiefdomController');
 	Route::resource('fiefs', 'FiefController');
-	Route::resource('races', 'RaceController');
+	Route::resource('metatypes', 'MetatypeController');
 	Route::resource('npcs', 'NpcController');
 	Route::resource('parks', 'ParkController');
 	Route::resource('personaActions', 'ActionPersonaController');

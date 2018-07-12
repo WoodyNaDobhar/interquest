@@ -38,9 +38,9 @@
 }(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
 // Support: Firefox 18+
-// Can't be in strict mode, several libs including ASP.NET trace
+// Can't be in strict mode, several libs including ASP.NET tmetatype
 // the stack via arguments.caller.callee and Firefox dies if
-// you try to trace through "use strict" call chains. (#13335)
+// you try to tmetatype through "use strict" call chains. (#13335)
 //"use strict";
 var deletedIds = [];
 
@@ -3773,7 +3773,7 @@ var acceptData = function( elem ) {
 
 
 
-var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
+var rbmetatype = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /([A-Z])/g;
 
 function dataAttr( elem, key, data ) {
@@ -3794,7 +3794,7 @@ function dataAttr( elem, key, data ) {
 
 					// Only convert to a number if it doesn't change the string
 					+data + "" === data ? +data :
-					rbrace.test( data ) ? jQuery.parseJSON( data ) :
+					rbmetatype.test( data ) ? jQuery.parseJSON( data ) :
 					data;
 			} catch ( e ) {}
 
@@ -10161,7 +10161,7 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject !== undefined ?
 		// See http://msdn.microsoft.com/en-us/library/ie/ms536648(v=vs.85).aspx
 		// and http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9
 		// Although this check for six methods instead of eight
-		// since IE also does not support "trace" and "connect"
+		// since IE also does not support "tmetatype" and "connect"
 		return /^(get|post|head|put|delete|options)$/i.test( this.type ) &&
 			createStandardXHR() || createActiveXHR();
 	} :

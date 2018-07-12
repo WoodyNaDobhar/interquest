@@ -33,7 +33,7 @@ class PersonaDataTable extends DataTable
 			
 			$personas = Persona::query()
 				->with('vocation')
-				->with('race')
+				->with('metatype')
 				->with('park')
 				->with('home')
 				->with('defaultAction');
@@ -41,7 +41,7 @@ class PersonaDataTable extends DataTable
 
 			$personas = Persona::query()
 				->with('vocation')
-				->with('race')
+				->with('metatype')
 				->with('park')
 				->with('home');
 		}
@@ -95,7 +95,7 @@ class PersonaDataTable extends DataTable
 				'long_name' => ['visible' => false, 'title' => 'Full Name', 'name' => 'long_name', 'data' => 'long_name'],
 				'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
 				'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
-				'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+				'metatype_id' => ['title' => 'Metatype', 'name' => 'metatype_id', 'data' => 'metatype.name'],
 				'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
 				'background_private' => ['visible' => false, 'title' => 'Secret Background', 'name' => 'background_private', 'data' => 'background_private'],
 				'park_id' => ['title' => 'Home Settlement', 'name' => 'park_id', 'data' => 'park.name'],
@@ -120,7 +120,7 @@ class PersonaDataTable extends DataTable
 				'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
 				'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
 				'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
-				'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+				'metatype_id' => ['title' => 'Metatype', 'name' => 'metatype_id', 'data' => 'metatype.name'],
 				'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
 				'park_id' => ['title' => 'Home Settlement', 'name' => 'park_id', 'data' => 'park.name'],
 				'territory_id' => ['title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.displayname'],

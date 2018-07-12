@@ -26,7 +26,7 @@ class PersonaRepository extends BaseRepository
         'long_name',
         'image',
         'vocation_id',
-        'race_id',
+        'metatype_id',
         'background_public',
         'background_private',
         'park_id',

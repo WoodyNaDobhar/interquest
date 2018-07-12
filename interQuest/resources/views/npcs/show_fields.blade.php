@@ -22,10 +22,10 @@
     <p>{!! $npc->vocation_id !!}</p>
 </div>
 
-<!-- Race Id Field -->
+<!-- Metatype Id Field -->
 <div class="form-group">
-    {!! Form::label('race_id', 'Race Id:') !!}
-    <p>{!! $npc->race_id !!}</p>
+    {!! Form::label('metatype_id', 'Metatype Id:') !!}
+    <p>{!! $npc->metatype_id !!}</p>
 </div>
 
 <!-- Background Public Field -->

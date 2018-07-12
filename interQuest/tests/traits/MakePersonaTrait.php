@@ -48,7 +48,7 @@ trait MakePersonaTrait
             'long_name' => $fake->word,
             'image' => $fake->word,
             'vocation_id' => $fake->randomDigitNotNull,
-            'race_id' => $fake->randomDigitNotNull,
+            'metatype_id' => $fake->randomDigitNotNull,
             'background_public' => $fake->text,
             'background_private' => $fake->text,
             'park_id' => $fake->randomDigitNotNull,

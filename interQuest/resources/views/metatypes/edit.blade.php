@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Race
+            Metatype
         </h1>
    </section>
    <div class="content">
@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($race, ['route' => ['races.update', $race->id], 'method' => 'patch']) !!}
+                   {!! Form::model($metatype, ['route' => ['metatypes.update', $metatype->id], 'method' => 'patch']) !!}
 
-                        @include('races.fields')
+                        @include('metatypes.fields')
 
                    {!! Form::close() !!}
                </div>

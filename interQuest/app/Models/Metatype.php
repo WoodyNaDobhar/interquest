@@ -6,7 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Race
+ * Class Metatype
  * @package App\Models
  * @version May 8, 2018, 2:37 pm MDT
  *
@@ -18,11 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string description
  * @property boolean personable
  */
-class Race extends Model
+class Metatype extends Model
 {
     use SoftDeletes;
 
-    public $table = 'races';
+    public $table = 'metatypes';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

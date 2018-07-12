@@ -8,7 +8,7 @@ use App\Http\Requests\CreatePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use App\Models\Action as Actions;
 use App\Models\Vocation as Vocations;
-use App\Models\Race as Races;
+use App\Models\Metatype as Metatypes;
 use App\Models\Park as Parks;
 use App\Repositories\PersonaRepository;
 use Flash;
@@ -58,8 +58,8 @@ class PersonaController extends AppBaseController
 		//get vocations
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
-		//get races
-		$races = Races::pluck('name', 'id')->toArray();
+		//get metatypes
+		$metatypes = Metatypes::pluck('name', 'id')->toArray();
 		
 		//get parks
 		$park = Auth::user()->persona->park;
@@ -83,7 +83,7 @@ class PersonaController extends AppBaseController
 		//respond
 		return view('personae.create')
 			->with('vocations', $vocations)
-			->with('races', $races)
+			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('territories', $territories)
 			->with('actions', $actions);
@@ -185,8 +185,8 @@ class PersonaController extends AppBaseController
 		//get vocations
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
-		//get races
-		$races = Races::pluck('name', 'id')->toArray();
+		//get metatypes
+		$metatypes = Metatypes::pluck('name', 'id')->toArray();
 		
 		//get parks
 		$park = Auth::user()->persona->park;
@@ -211,7 +211,7 @@ class PersonaController extends AppBaseController
 		return view('personae.edit')
 			->with('persona', $persona)
 			->with('vocations', $vocations)
-			->with('races', $races)
+			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('territories', $territories)
 			->with('actions', $actions);

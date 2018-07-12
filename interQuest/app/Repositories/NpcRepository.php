@@ -24,7 +24,7 @@ class NpcRepository extends BaseRepository
         'private_name',
         'image',
         'vocation_id',
-        'race_id',
+        'metatype_id',
         'background_public',
         'background_private',
         'park_id',

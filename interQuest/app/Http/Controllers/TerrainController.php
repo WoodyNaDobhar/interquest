@@ -42,7 +42,7 @@ class TerrainController extends AppBaseController
     {
         if(Gate::denies('admin')){
         	Flash::error('Permission Denied');
-        	return redirect(route('races.index'));
+        	return redirect(route('metatypes.index'));
         }
         return view('terrains.create');
     }
@@ -58,7 +58,7 @@ class TerrainController extends AppBaseController
     {
         if(Gate::denies('admin')){
         	Flash::error('Permission Denied');
-        	return redirect(route('races.index'));
+        	return redirect(route('metatypes.index'));
         }
         $input = $request->all();
 
@@ -100,7 +100,7 @@ class TerrainController extends AppBaseController
     {
         if(Gate::denies('admin')){
         	Flash::error('Permission Denied');
-        	return redirect(route('races.index'));
+        	return redirect(route('metatypes.index'));
         }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 
@@ -125,7 +125,7 @@ class TerrainController extends AppBaseController
     {
         if(Gate::denies('admin')){
         	Flash::error('Permission Denied');
-        	return redirect(route('races.index'));
+        	return redirect(route('metatypes.index'));
         }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 
@@ -153,7 +153,7 @@ class TerrainController extends AppBaseController
     {
         if(Gate::denies('admin')){
         	Flash::error('Permission Denied');
-        	return redirect(route('races.index'));
+        	return redirect(route('metatypes.index'));
         }
         $terrain = $this->terrainRepository->findWithoutFail($id);
 

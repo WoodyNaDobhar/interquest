@@ -28,7 +28,7 @@ Route::resource('parks', 'ParkAPIController');
 
 Route::resource('personae', 'PersonaAPIController');
 
-Route::resource('races', 'RaceAPIController');
+Route::resource('metatypes', 'MetatypeAPIController');
 
 Route::resource('revisions', 'RevisionAPIController');
 

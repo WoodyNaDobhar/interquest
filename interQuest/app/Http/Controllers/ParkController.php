@@ -18,7 +18,7 @@ use App\Models\Park as Park;
 use App\Models\Territory as Territory;
 use App\Models\Action as Action;
 use App\Models\Vocation as Vocation;
-use App\Models\Race as Race;
+use App\Models\Metatype as Metatype;
 use App\Models\User as User;
 use App\Models\Persona as Persona;
 use Mail;
@@ -61,8 +61,8 @@ class ParkController extends AppBaseController
 		//get vocations
 		$vocations = Vocation::pluck('name', 'id')->toArray();
 		
-		//get races
-		$races = Race::pluck('name', 'id')->toArray();
+		//get metatypes
+		$metatypes = Metatype::pluck('name', 'id')->toArray();
 		
 		//get actions
 		$actions = Action::pluck('name', 'id')->toArray();
@@ -76,7 +76,7 @@ class ParkController extends AppBaseController
 		}
 		return view('parks.create')
 			->with('vocations', $vocations)
-			->with('races', $races)
+			->with('metatypes', $metatypes)
 			->with('actions', $actions)
 			->with('parks', $parks)
 			->with('suppressSave', true);

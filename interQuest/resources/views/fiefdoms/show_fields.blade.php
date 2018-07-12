@@ -63,7 +63,7 @@
 									<th>Image</th>
 									<th>Title</th>
 									<th>Vocation</th>
-									<th>Race</th>
+									<th>Metatype</th>
 									<th>Rebel?</th>
 								</tr>
 							</thead>

@@ -1,43 +1,43 @@
 <?php
 
 use Faker\Factory as Faker;
-use App\Models\Race;
-use App\Repositories\RaceRepository;
+use App\Models\Metatype;
+use App\Repositories\MetatypeRepository;
 
-trait MakeRaceTrait
+trait MakeMetatypeTrait
 {
     /**
-     * Create fake instance of Race and save it in database
+     * Create fake instance of Metatype and save it in database
      *
-     * @param array $raceFields
-     * @return Race
+     * @param array $metatypeFields
+     * @return Metatype
      */
-    public function makeRace($raceFields = [])
+    public function makeMetatype($metatypeFields = [])
     {
-        /** @var RaceRepository $raceRepo */
-        $raceRepo = App::make(RaceRepository::class);
-        $theme = $this->fakeRaceData($raceFields);
-        return $raceRepo->create($theme);
+        /** @var MetatypeRepository $metatypeRepo */
+        $metatypeRepo = App::make(MetatypeRepository::class);
+        $theme = $this->fakeMetatypeData($metatypeFields);
+        return $metatypeRepo->create($theme);
     }
 
     /**
-     * Get fake instance of Race
+     * Get fake instance of Metatype
      *
-     * @param array $raceFields
-     * @return Race
+     * @param array $metatypeFields
+     * @return Metatype
      */
-    public function fakeRace($raceFields = [])
+    public function fakeMetatype($metatypeFields = [])
     {
-        return new Race($this->fakeRaceData($raceFields));
+        return new Metatype($this->fakeMetatypeData($metatypeFields));
     }
 
     /**
-     * Get fake data of Race
+     * Get fake data of Metatype
      *
      * @param array $postFields
      * @return array
      */
-    public function fakeRaceData($raceFields = [])
+    public function fakeMetatypeData($metatypeFields = [])
     {
         $fake = Faker::create();
 
@@ -48,6 +48,6 @@ trait MakeRaceTrait
             'created_at' => $fake->date('Y-m-d H:i:s'),
             'updated_at' => $fake->date('Y-m-d H:i:s'),
             'deleted_at' => $fake->date('Y-m-d H:i:s')
-        ], $raceFields);
+        ], $metatypeFields);
     }
 }

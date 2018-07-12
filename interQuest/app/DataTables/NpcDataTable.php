@@ -29,7 +29,7 @@ class NpcDataTable extends DataTable
 	{
 		$npcs = Npc::query()
 			->with('vocation')
-			->with('race')
+			->with('metatype')
 			->with('park')
 			->with('home')
 			->with('defaultAction');
@@ -81,7 +81,7 @@ class NpcDataTable extends DataTable
 			'private_name' => ['visible' => false, 'title' => 'Secret Name', 'name' => 'private_name', 'data' => 'private_name'],
 			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
 			'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
-			'race_id' => ['title' => 'Race', 'name' => 'race_id', 'data' => 'race.name'],
+			'metatype_id' => ['title' => 'Metatype', 'name' => 'metatype_id', 'data' => 'metatype.name'],
 			'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
 			'background_private' => ['visible' => false, 'title' => 'Secret Background', 'name' => 'background_private', 'data' => 'background_private'],
 			'park_id' => ['title' => 'Mapkeeper Park', 'name' => 'park_id', 'data' => 'park.name'],

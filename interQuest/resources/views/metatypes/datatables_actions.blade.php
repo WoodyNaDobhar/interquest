@@ -1,10 +1,10 @@
-{!! Form::open(['route' => ['races.destroy', $id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['metatypes.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
-    <a href="{{ route('races.show', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('metatypes.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
     @if(Auth::user()->is_admin)
-    <a href="{{ route('races.edit', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('metatypes.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
