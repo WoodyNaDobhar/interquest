@@ -1,36 +1,74 @@
-<!-- Name Field -->
-<div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{!! $fiefdom->name !!}</p>
-</div>
-
-<!-- Ruler Id Field -->
-<div class="form-group">
-    {!! Form::label('ruler_id', 'Ruler Id:') !!}
-    <p>{!! $fiefdom->ruler_id !!}</p>
-</div>
-
-<!-- Ruler Type Field -->
-<div class="form-group">
-    {!! Form::label('ruler_type', 'Ruler Type:') !!}
-    <p>{!! $fiefdom->ruler_type !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $fiefdom->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $fiefdom->updated_at !!}</p>
-</div>
-
-<!-- Deleted At Field -->
-<div class="form-group">
-    {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $fiefdom->deleted_at !!}</p>
-</div>
-
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">About {!! $fiefdom->name !!}</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+									<li><a href="/fiefdoms/{!! $fiefdom->id !!}/edit">Edit Fiefdom</a></li>
+									@endif
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<img src="{!! $fiefdom->image != '' ? $fiefdom->image : '/img/phoenixShield.jpg' !!}" alt="{!! $fiefdom->name !!} Heraldry" width="100%"><br><br>
+									<b>Population: </b>{!! $fiefdom->population !!}<br>
+									<b>Ruler: </b>{!! $fiefdom->ruler->name !!}<br>
+									<b>Mapkeeper: </b>{!! $fiefdom->ruler->park->mapkeeper->name !!}
+								</div>
+								<div class="col-md-8">
+									<div id="mapContainer" data-center="{!! $fiefdom->capital->territory->id !!}" data-columns="10" data-rows="10"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title">{!! $fiefdom->population !!} Notable Citizens</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench"></i>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+									@endif
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="box-body" id="relatedPersonae">
+						<table class="table table-bordered table-condensed" id="relatedPersonaeTable" data-fiefdomID="{!! $fiefdom->id !!}">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Image</th>
+									<th>Title</th>
+									<th>Vocation</th>
+									<th>Race</th>
+									<th>Rebel?</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>

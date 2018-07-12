@@ -4,6 +4,12 @@
 	{!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
 </div>
 
+<!-- Image Field -->
+<div class="form-group col-sm-6">
+	{!! Form::label('image', 'Image:') !!}
+	{!! Form::file('image', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Ruler Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('ruler_id', 'Ruler:') !!}

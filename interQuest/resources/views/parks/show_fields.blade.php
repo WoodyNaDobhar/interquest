@@ -26,7 +26,7 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<a href="https://amtgard.com/ork/orkui/?Route=Park/index/{!! $park->orkID !!}">
 										<img src="{!! @getimagesize('https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg') ? 'https://amtgard.com/ork/assets/heraldry/park/' . sprintf('%05d', $park->orkID) . '.jpg' : '' !!}" alt="{!! $park->name !!} Heraldry" width="100%">
 									</a><br><br>
@@ -35,9 +35,6 @@
 									<b>Mapkeeper: </b>{!! $park->mapkeeper ? $park->mapkeeper->name : 'None!' !!}<br>
 									<b>Midreign: </b>{!! $park->midreign !!}<br>
 									<b>Coronation: </b>{!! $park->coronation !!}
-								</div>
-								<div class="col-md-1">
-									&nbsp;
 								</div>
 								<div class="col-md-7">
 									<div id="mapContainer" data-center="{!! $park->territory_id !!}" data-columns="10" data-rows="10"></div>

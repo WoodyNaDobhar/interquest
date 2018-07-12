@@ -425,7 +425,7 @@
 															@foreach($persona->equipment as $equipment)
 															<tr>
 																<td>{!! $equipment->name !!}</td>
-																<td>{!! $equipment->territory_id != null ? $equipment->territory->name : 'On Persona' !!}</td>
+																<td>{!! $equipment->territory_id != null ? $equipment->territory->displayname : 'On Persona' !!}</td>
 																<td>{!! $equipment->territory_id != null ? ($equipment->territory->vaulted == 1 ? 'Yes' : 'No') : 'No' !!}</td>
 																<td class="pull-right">
 																	<div class="btn-group">

@@ -74,7 +74,7 @@ class PersonaController extends AppBaseController
 			->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
 			->get();
 		foreach($territoriesObjs as $tObj){
-			$territories[$tObj->id] = $tObj->name;
+			$territories[$tObj->id] = $tObj->displayname;
 		}
 		
 		//get actions
@@ -201,7 +201,7 @@ class PersonaController extends AppBaseController
 			->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
 			->get();
 		foreach($territoriesObjs as $tObj){
-			$territories[$tObj->id] = $tObj->name;
+			$territories[$tObj->id] = $tObj->displayname;
 		}
 		
 		//get actions

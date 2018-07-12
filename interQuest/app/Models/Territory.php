@@ -97,9 +97,16 @@ class Territory extends Model
 	];
 
 	/**
+	 * Accessor Appending
+	 *
+	 * @var array
+	 */
+	protected $appends = ['displayname'];
+
+	/**
 	 * Accessors & Mutators
 	 */
-	public function getNameAttribute($value)
+	public function getDisplaynameAttribute($value)
 	{
 		return
 		

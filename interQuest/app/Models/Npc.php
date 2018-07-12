@@ -192,7 +192,7 @@ class Npc extends Model
 						$locations[$fief->territory->id] = (object) [
 							'total'		=> $fief->territory->$resource,
 							'vaulted'	=> $vaulted,
-							'name'		=> $fief->territory->name
+							'name'		=> $fief->territory->displayname
 						];
 					}
 				}
@@ -220,7 +220,7 @@ class Npc extends Model
 					$locations[$fief->territory->id] = (object) [
 						'total'		=> $fief->territory->$resource,
 						'vaulted'	=> $vaulted,
-						'name'		=> $fief->territory->name
+						'name'		=> $fief->territory->displayname
 					];
 				}
 			}

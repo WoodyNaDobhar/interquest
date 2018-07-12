@@ -13,48 +13,51 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
+ * @property string image
  * @property integer ruler_id
  * @property string ruler_type
  */
 class Fiefdom extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'fiefdoms';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'fiefdoms';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'name',
-        'ruler_id',
-        'ruler_type'
-    ];
+	protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'ruler_id' => 'integer',
-        'ruler_type' => 'string'
-    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	public $fillable = [
+		'name',
+		'image',
+		'ruler_id',
+		'ruler_type'
+	];
+
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'string',
+		'image' => 'string',
+		'ruler_id' => 'integer',
+		'ruler_type' => 'string'
+	];
+
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
 	/**
 	 * Accessors & Mutators
@@ -68,7 +71,7 @@ class Fiefdom extends Model
 			->sortBy('created_at')
 			->first();
 	}
-    
+	
 	public function getZoomAttribute()
 	{
 		
@@ -92,6 +95,20 @@ class Fiefdom extends Model
 		
 		//return the greater of them
 		return ($xDiff > $yDiff ? $xDiff : $yDiff) + 1;
+	}
+	
+	public function getPopulationAttribute()
+	{
+		
+		//setup
+		$count = 0;
+		
+		//iterate territories
+		foreach($this->fiefs as $fief){
+			$count = $count + $fief->territory->residentPersonas->count() + $fief->territory->residentNpcs->count();
+		}
+		
+		return $count;
 	}
 
 	/**

@@ -16,20 +16,21 @@ use InfyOm\Generator\Common\BaseRepository;
 */
 class FiefdomRepository extends BaseRepository
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        'name',
-        'ruler_id',
-        'ruler_type'
-    ];
+	/**
+	 * @var array
+	 */
+	protected $fieldSearchable = [
+		'name',
+		'image',
+		'ruler_id',
+		'ruler_type'
+	];
 
-    /**
-     * Configure the Model
-     **/
-    public function model()
-    {
-        return Fiefdom::class;
-    }
+	/**
+	 * Configure the Model
+	 **/
+	public function model()
+	{
+		return Fiefdom::class;
+	}
 }
