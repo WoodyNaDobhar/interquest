@@ -41,7 +41,7 @@ class ParkAPIController extends AppBaseController
         $this->parkRepository->pushCriteria(new LimitOffsetCriteria($request));
         $parks = $this->parkRepository->all();
 
-        return $this->sendResponse($parks->toArray(), 'Parks retrieved successfully');
+        return $this->sendResponse($parks->toArray(), 'Settlements retrieved successfully');
     }
 
     /**

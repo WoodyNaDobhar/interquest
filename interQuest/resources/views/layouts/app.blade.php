@@ -42,7 +42,7 @@
 		<header class="main-header">
 
 			<!-- Logo -->
-			<a href="#" class="logo">
+			<a href="/" class="logo">
 				<img src="/img/InterQuestLogo.png" height="50">
 				<b>InterQuest</b>
 			</a>

@@ -110,6 +110,19 @@ class Fiefdom extends Model
 		
 		return $count;
 	}
+	
+	public function getImageAttribute($value)
+	{
+		if($value){
+			if(strpos($value, 'http') !== null){
+				return $value;
+			}else{
+				return '/storage/fiefdoms/' . $value;
+			}
+		}else{
+			return '/img/fiefdom.png';
+		}
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphTo

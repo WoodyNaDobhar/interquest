@@ -109,7 +109,7 @@ class Npc extends Model
 			if(strpos($value, 'http') !== null){
 				return $value;
 			}else{
-				return '/storage/personae/' . $value;
+				return '/storage/npcs/' . $value;
 			}
 		}else{
 			return '/img/npc.png';
