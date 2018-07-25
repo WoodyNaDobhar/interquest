@@ -54,30 +54,46 @@ class PersonaDataTable extends DataTable
 	 *
 	 * @return \Yajra\Datatables\Html\Builder
 	 */
-	public function html()
+	public function html($columns = null)
 	{
+		
+		//column/button visibility
+		$buttons = [
+			'print',
+			'reset',
+			'reload',
+			[
+				 'extend'  => 'collection',
+				 'text'	=> '<i class="fa fa-download"></i> Export',
+				 'buttons' => [
+					 'csv',
+					 'excel',
+					 'pdf',
+				 ],
+			],
+			'colvis'
+		];
+		if($columns){
+			$buttons = [
+				[
+					 'extend'  => 'collection',
+					 'text'	=> '<i class="fa fa-download"></i> Export',
+					 'buttons' => [
+						 'csv',
+						 'excel',
+						 'pdf',
+					 ],
+				]
+			];
+		}
 		return $this->builder()
-			->columns($this->getColumns())
-			->addAction(['width' => '10%'])
+			->columns($columns ? $columns : $this->getColumns())
+			->addAction(['width' => $columns ? '27%' : '10%'])
 			->ajax('')
 			->parameters([
 				'dom' => 'Bfrtip',
 				'scrollX' => false,
-				'buttons' => [
-					'print',
-					'reset',
-					'reload',
-					[
-						 'extend'  => 'collection',
-						 'text'	=> '<i class="fa fa-download"></i> Export',
-						 'buttons' => [
-							 'csv',
-							 'excel',
-							 'pdf',
-						 ],
-					],
-					'colvis'
-				]
+				'buttons' => $buttons
 			]);
 	}
 

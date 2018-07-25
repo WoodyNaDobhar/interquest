@@ -72,10 +72,4 @@ Route::group(['middleware' => 'auth'], function()
 	Route::resource('vocations', 'VocationController');
 });
 
-Route::get('/', function(){
-	if(!Auth::check()){
-		return view('welcome');
-	}else{
-		return view('landing');
-	}
-});
+Route::get('/', 'HomeController@index');
