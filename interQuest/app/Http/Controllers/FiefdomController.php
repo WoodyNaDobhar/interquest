@@ -102,7 +102,6 @@ class FiefdomController extends AppBaseController
 
 		if (empty($fiefdom)) {
 			Flash::error('Fiefdom not found');
-
 			return redirect(route('fiefdoms.index'));
 		}
 

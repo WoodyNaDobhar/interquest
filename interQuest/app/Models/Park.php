@@ -86,14 +86,6 @@ class Park extends Model
 			return null;
 		}
 	}
-	public function getMonarchAttribute()
-	{
-		return $this->personae()
-			->whereHas('user', function($query){
-				$query->where('is_monarch', 1);
-			})
-			->first();
-	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -125,6 +117,14 @@ class Park extends Model
 	public function capital()
 	{
 		return $this->belongsTo(\App\Models\Territory::class, 'territory_id');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphTo
+	 **/
+	public function ruler()
+	{
+		return $this->morphTo();
 	}
 
 	/**

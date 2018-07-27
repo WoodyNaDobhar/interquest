@@ -28,9 +28,23 @@ class HomeController extends Controller
 	public function index(PersonaDataTable $personaDataTable)
 	{
 		$dataTable = $personaDataTable
-			->html([
-				'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
-			])
+			->html(
+				[
+					'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
+				],
+				[
+					[
+						 'extend'  => 'collection',
+						 'text'	=> '<i class="fa fa-download"></i> Export',
+						 'buttons' => [
+							 'csv',
+							 'excel',
+							 'pdf',
+						 ],
+					]
+				],
+				'27%'
+			)
 			->ajax([
 				'url' => route('personae.index'),
 				'type' => 'GET',

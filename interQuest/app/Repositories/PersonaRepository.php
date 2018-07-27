@@ -39,7 +39,6 @@ class PersonaRepository extends BaseRepository
         'action_id',
         'is_knight',
         'is_rebel',
-        'is_monarch',
         'fiefs_assigned',
         'shattered',
         'deceased',

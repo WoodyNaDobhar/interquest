@@ -179,9 +179,108 @@ function drawMap(territoryId, columns, rows){
 				//do it
 				$('#mapContainer').hexGridWidget(radius, columns ? columns : 10, colMod, rows ? rows : 10, rowMod, 'hex', territories)
 				.on('hexclick', 
-					function(e){ 
-						console.log('clicked [' + e.column + ',' + e.row +']' +
-						' hex with center at [' + e.center.x + ',' + e.center.y + ']');
+					function(e){
+						
+						//spinner up
+						var target = document.getElementById('mapContainer');
+						var spinner = new Spinner(spinnerOpts).spin(target);
+						
+						//save this for later
+						var templateId = "templateTerritoryShow";
+						var dialogId = 'commonAdminShowTerritoryForm';
+						
+						//all the ajax calls
+						$.when(
+
+							//get the requisite data
+							$.ajax({
+								type:		"GET",
+								url:		"/api/v1/territories/" + e.territory_id,
+								dataType:	"json",
+								error: function(error){
+									//wind out the response
+									windDown(spinner, error.error ? error.error : {'message':error.message}, true);
+								}
+							})
+						).then(
+
+							function(preterritory){
+
+								//setup
+								var territory = preterritory.data;
+
+								//load our templates
+								loadTemplates(
+									['territories/_show.tmpl.htm'],
+									function(templateGuts){
+										
+										//buildings
+										var buildings = '';
+										if(territory.buildings && territory.buildings.length > 0){
+											
+											//build list
+											territory.buildings.forEach(function(building){
+												
+												//setup
+												var buildingSize = (building.expandable ?
+													' (' + building.pivot.size + ')' :
+													''
+												);
+												
+												//update
+												buildings = buildings + 
+													(building.pivot.name ? 
+														building.pivot.name + ' (' + building.name + buildingSize + ')' : 
+														building.name + buildingSize
+													)
+													+ ',<br>'
+											});
+											buildings = buildings.substring(0, buildings.length - 5);
+										};
+										
+										//template
+										var template = templateGuts[templateId].format({
+											dialogId:		dialogId,
+											name:			territory.name,
+											id:				territory.id,
+											ruler:			territory.fief && territory.fief.fiefdom.ruler ? territory.fief.fiefdom.ruler.name : '',
+											steward:		territory.fief && territory.fief.steward ? territory.fief.steward.name : '',
+											fiefdomName:	territory.fief.fiefdom.name,
+											column:			territory.column,
+											row:			territory.row,
+											terrain:		territory.terrain.name,
+											resource1:		territory.primary_resource,
+											resource2:		territory.secondary_resource ? territory.secondary_resource : '',
+											cs:				territory.castle_strength,
+											buildings:		buildings,
+											wasteland:		territory.is_wasteland ? 'Yes!' : 'No',
+											noMans:			territory.is_no_mans_land ?  'Yes!' : 'No'
+										});
+										
+										//load the template to the page
+										$('body').append(template);
+										
+										//wind out the response
+										windDown(spinner);
+										
+										//listeners
+										
+										//if it's up, kill it
+										if($("#" + dialogId).hasClass('ui-dialog-content')){
+											$("#" + dialogId).dialog('destroy').detach().remove();
+										}
+
+										//display the dialog
+										$("#" + dialogId).dialog(mediumDialogVars, {
+											title: territory.name,
+											close: function(){
+												$(this).dialog('destroy').detach().remove()
+											}
+										});
+									}
+								);
+							}
+						)
 					}
 				)
 				.on('hexhoveron', 

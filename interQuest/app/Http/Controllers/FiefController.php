@@ -115,7 +115,7 @@ class FiefController extends AppBaseController
 					$fief->fiefdom->ruler_id :
 					0
 			) :
-			$fief->fiefdom->monarch ? $fief->fiefdom->monarch->id : 0;
+			0;
 		if(Gate::denies('mapkeeperOwn', $fiefRulerMapkeeperId) &&
 			Gate::denies('own', $fiefRulerPersonaId)
 			){
@@ -154,7 +154,7 @@ class FiefController extends AppBaseController
 					$fief->fiefdom->ruler_id :
 					0
 			) :
-			$fief->fiefdom->monarch ? $fief->fiefdom->monarch->id : 0;
+			0;
 		if(Gate::denies('mapkeeperOwn', $fiefRulerMapkeeperId) &&
 			Gate::denies('own', $fiefRulerPersonaId)
 			){
@@ -196,7 +196,7 @@ class FiefController extends AppBaseController
 					$fief->fiefdom->ruler_id :
 					0
 			) :
-			$fief->fiefdom->monarch ? $fief->fiefdom->monarch->id : 0;
+			0;
 		if(Gate::denies('mapkeeperOwn', $fiefRulerMapkeeperId) &&
 			Gate::denies('own', $fiefRulerPersonaId)
 			){

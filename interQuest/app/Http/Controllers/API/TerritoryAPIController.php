@@ -81,7 +81,13 @@ class TerritoryAPIController extends AppBaseController
         	return $this->sendError('Permission Denied');
         }
 		/** @var Territory $territory */
-		$territory = $this->territoryRepository->findWithoutFail($id);
+		$territory = $this->territoryRepository
+			->with('fief.fiefdom.ruler')
+			->with('fief.steward')
+			->with('buildings')
+// 			->findWithoutFail($id)
+			->find($id)
+		;
 
 		if (empty($territory)) {
 			return $this->sendError('Territory not found');

@@ -78,12 +78,12 @@ class FiefdomAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Fiefdom $fiefdom */
-        $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
+        $fiefdom = $this->fiefdomRepository->with('ruler')->findWithoutFail($id);
 
         if (empty($fiefdom)) {
             return $this->sendError('Fiefdom not found');
         }
-
+        
         return $this->sendResponse($fiefdom->toArray(), 'Fiefdom retrieved successfully');
     }
 

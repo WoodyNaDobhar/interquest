@@ -61,7 +61,6 @@ Route::group(['middleware' => 'auth'], function()
 	Route::resource('metatypes', 'MetatypeController');
 	Route::resource('npcs', 'NpcController');
 	Route::resource('parks', 'ParkController');
-	Route::resource('personaActions', 'ActionPersonaController');
 	Route::resource('personae', 'PersonaController');
 	Route::resource('revisions', 'RevisionController');
 	Route::resource('terrains', 'TerrainController');

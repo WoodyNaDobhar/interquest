@@ -10,8 +10,6 @@
 */
 Route::resource('actions', 'ActionAPIController');
 
-Route::resource('action_personas', 'ActionPersonaAPIController');
-
 Route::resource('buildings', 'BuildingAPIController');
 
 Route::resource('comments', 'CommentAPIController');

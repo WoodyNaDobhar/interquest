@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\DataTables\ParkDataTable;
+use App\DataTables\PersonaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateParkRequest;
 use App\Http\Requests\UpdateParkRequest;
@@ -366,17 +367,34 @@ class ParkController extends AppBaseController
 	 *
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id, PersonaDataTable $personaDataTable)
 	{
 		$park = $this->parkRepository->findWithoutFail($id);
 
 		if (empty($park)) {
 			Flash::error('Park not found');
-
 			return redirect(route('parks.index'));
 		}
+		
+		//park personae
+		$dataTable = $personaDataTable
+		->html([
+			'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'long_name'],
+			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+			'vocation' => ['title' => 'Vocation', 'name' => 'persona', 'data' => 'vocation.name'],
+			'metatype' => ['title' => 'Metatype', 'name' => 'metatype', 'data' => 'metatype.name'],
+			'home' => ['title' => 'Home', 'name' => 'home', 'data' => 'home.displayname', 'defaultContent' => 'Homeless!'],
+			'rebel' => ['title' => 'Rebel?', 'name' => 'rebel', 'data' => 'is_rebel'],
+		])
+		->ajax([
+			'url' => route('personae.index'),
+			'type' => 'GET',
+			'data' => 'function(d) {
+				d.park_id = ' . Auth::user()->persona->park_id . ';
+			}',
+		]);
 
-		return view('parks.show')->with('park', $park);
+		return view('parks.show', compact('dataTable'))->with('park', $park);
 	}
 
 	/**

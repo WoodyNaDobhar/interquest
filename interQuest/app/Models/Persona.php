@@ -16,10 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Metatype metatype
  * @property \App\Models\User user
  * @property \App\Models\Vocation vocation
- * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Comment
- * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property integer orkID
  * @property integer user_id
@@ -40,7 +38,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer action_id
  * @property boolean is_knight
  * @property boolean is_rebel
- * @property boolean is_monarch
  * @property integer fiefs_assigned
  * @property date shattered
  * @property date deceased
@@ -79,7 +76,6 @@ class Persona extends Model
 		'action_id',
 		'is_knight',
 		'is_rebel',
-		'is_monarch',
 		'fiefs_assigned',
 		'shattered',
 		'deceased',
@@ -112,7 +108,6 @@ class Persona extends Model
 		'action_id' => 'integer',
 		'is_knight' => 'boolean',
 		'is_rebel' => 'boolean',
-		'is_monarch' => 'boolean',
 		'fiefs_assigned' => 'integer',
 		'shattered' => 'date',
 		'deceased' => 'date',
@@ -131,6 +126,21 @@ class Persona extends Model
 	/**
 	 * Accessors & Mutators
 	 */
+	public function getLongNameAttribute($value){
+		
+		//knight?
+		$knight = $this->is_knight ? 'Sir ' : '';
+		
+		//titles?
+		$titlesArray = $this->titles()->pluck('name')->toArray();
+		$titles = 
+			count($titlesArray) > 0 ? 
+				implode(' ', $titlesArray) . ' ' : 
+				'';
+		
+		//get/dump holdings
+		return $titles . $knight . $value;
+	}
 	public function setShatteredAttribute($value)
 	{
 		$this->attributes['shattered'] = $value == '' ? NULL : $value;
@@ -254,7 +264,7 @@ class Persona extends Model
 					$vaulted = 0;
 					if($fief->territory->buildings){
 						foreach($fief->territory->buildings as $building){
-							if($building->building->name == 'Vault'){
+							if($building->name == 'Vault'){
 								$vaulted = 1;
 								break;
 							}
@@ -312,6 +322,12 @@ class Persona extends Model
 		return (object) $response;
 	}
 
+	public function getIsMonarchAttribute($value){
+	
+		//get/dump holdings
+		return count($this->rulerships) > 0 ? TRUE : FALSE;
+	}
+
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 **/
@@ -360,21 +376,21 @@ class Persona extends Model
 		return $this->belongsTo(\App\Models\Vocation::class);
 	}
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 **/
-	public function actions()
-	{
-		return $this->hasMany(\App\Models\ActionPersona::class)->orderBy('created_at', 'DESC');
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function actions()
+    {
+        return $this->belongsToMany(\App\Models\Action::class)->withPivot('source_territory_id', 'target_territory_id', 'result');
+    }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 **/
-	public function equipment()
-	{
-		return $this->hasMany(\App\Models\EquipmentPersona::class);
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function equipment()
+    {
+        return $this->belongsToMany(\App\Models\Equipment::class)->withPivot('name', 'territory_id');
+    }
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
@@ -382,6 +398,14 @@ class Persona extends Model
 	public function fiefdoms()
 	{
 		return $this->morphMany('\App\Models\Fiefdom', 'ruler');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function rulerships()
+	{
+		return $this->morphOne('\App\Models\Park', 'ruler');
 	}
 
 	/**
@@ -397,7 +421,7 @@ class Persona extends Model
 	 **/
 	public function titles()
 	{
-		return $this->belongsToMany(\App\Models\Title::class, 'personas_titles');
+		return $this->belongsToMany(\App\Models\Title::class)->orderBy('hierarchy', 'DESC');
 	}
 
 	/**
@@ -406,7 +430,7 @@ class Persona extends Model
 	public function territories()
 	{
 		return $this->hasMany(\App\Models\Territory::class);
-}
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany

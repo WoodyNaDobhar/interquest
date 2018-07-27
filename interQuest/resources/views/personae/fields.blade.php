@@ -153,15 +153,6 @@
     </label>
 </div>
 
-<!-- Is Monarch Field -->
-<div class="form-group col-sm-3">
-    {!! Form::label('is_monarch', 'Is Monarch:') !!}
-    <label>
-        {!! Form::hidden('is_monarch', false) !!}
-        {!! Form::checkbox('is_monarch', '1', null) !!}
-    </label>
-</div>
-
 <!-- Shattered Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('shattered', 'Shattered:') !!}

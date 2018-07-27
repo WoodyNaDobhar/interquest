@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  * @version May 8, 2018, 2:27 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection ActionPersona
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
@@ -66,11 +65,11 @@ class Action extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function actionsByPersona()
+    public function personae()
     {
-        return $this->hasMany(\App\Models\ActionPersona::class);
+        return $this->belongsToMany(\App\Models\Persona::class)->withPivot('source_territory_id', 'target_territory_id', 'result');
     }
 
     /**
@@ -84,10 +83,10 @@ class Action extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function personasWithDefault()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+//     public function personasWithDefault()
+//     {
+//         return $this->belongsTo(\App\Models\Persona::class);
+//     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\morphMany

@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Building building
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
- * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property integer price
@@ -119,11 +118,11 @@ class Equipment extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
     public function ownedByPersonae()
     {
-        return $this->hasMany(\App\Models\EquipmentPersona::class);
+        return $this->belongsToMany(\App\Models\Persona::class)->withPivot('name', 'territory_id');
     }
 
     /**

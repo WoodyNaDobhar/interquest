@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  * @version May 8, 2018, 2:33 pm MDT
  *
- * @property \Illuminate\Database\Eloquent\Collection BuildingTerritory
  * @property \Illuminate\Database\Eloquent\Collection Equipment
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
@@ -86,21 +85,21 @@ class Building extends Model
     public static $rules = [
         
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function buildingsInTerritories()
-    {
-        return $this->hasMany(\App\Models\BuildingTerritory::class);
-    }
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function equipmentRequiring()
     {
         return $this->hasMany(\App\Models\Equipment::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function territories()
+    {
+        return $this->belongsToMany(\App\Models\Territory::class)->withPivot('name', 'size');
     }
 
     /**

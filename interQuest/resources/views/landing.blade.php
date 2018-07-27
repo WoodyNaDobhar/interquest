@@ -21,26 +21,18 @@
 							
 							<div class="row">
 								<div class="col-md-12">
-									<div class="col-md-5">
-										<b>Local Personae</b>
-									</div>
-									<div class="col-md-6">
-										<b>Local Map</b>
-									</div>
-									<div class="col-md-1">
-										<div class="box-tools pull-right">
-											<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+									<div class="box-tools pull-right">
+										<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+										</button>
+										<div class="btn-group">
+											<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+												<i class="fa fa-wrench"></i>
 											</button>
-											<div class="btn-group">
-												<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-													<i class="fa fa-wrench"></i>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
-													<li><a href="#" class="#">#</a></li>
-													@endif
-												</ul>
-											</div>
+											<ul class="dropdown-menu" role="menu">
+												@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+												<li><a href="#" class="#">#</a></li>
+												@endif
+											</ul>
 										</div>
 									</div>
 								</div>

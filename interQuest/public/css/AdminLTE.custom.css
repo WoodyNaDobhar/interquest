@@ -41,6 +41,16 @@
 /* } */
 
 /*
+* Datatables stuff
+*/
+div.dataTables_wrapper div.dataTables_processing {
+    z-index: 1;
+}
+.dataTables_wrapper .dataTables_processing {
+	height: 60px !important;
+}
+
+/*
 * Map stuff
 */
 #mapContainer {

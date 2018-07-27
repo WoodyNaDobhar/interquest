@@ -11,10 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version May 8, 2018, 2:38 pm MDT
  *
  * @property \App\Models\Terrain terrain
- * @property \Illuminate\Database\Eloquent\Collection ActionPersona
- * @property \Illuminate\Database\Eloquent\Collection BuildingTerritory
  * @property \Illuminate\Database\Eloquent\Collection EquipmentsNpc
- * @property \Illuminate\Database\Eloquent\Collection EquipmentPersona
  * @property \Illuminate\Database\Eloquent\Collection Fiefe
  * @property \Illuminate\Database\Eloquent\Collection Npc
  * @property \Illuminate\Database\Eloquent\Collection Persona
@@ -101,24 +98,36 @@ class Territory extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['displayname'];
+	protected $appends = [
+		'displayname'
+	];
 
 	/**
 	 * Accessors & Mutators
 	 */
-	public function getDisplaynameAttribute($value)
+	public function getDisplaynameAttribute()
 	{
 		return
 		
-				($this->fief && $this->fief->name != '' ? $this->fief->name : ($value != '' ? $value : $this->id . ' - '))
+				($this->fief && $this->fief->name != '' ? $this->fief->name : ($this->name != '' ? $this->name : $this->id . ' - '))
 			. 
-				($value != '' || ($this->fief && $this->fief->name != '') ? ' - ' : '')
+				($this->name != '' || ($this->fief && $this->fief->name != '') ? ' - ' : '')
 			.
 				($this->fief && $this->fief->fiefdom && $this->fief->fiefdom->name != '' ? $this->fief->fiefdom->name : '')
 			.
 				(Park::where('territory_id', $this->id)->exists() ? ' (Capital)' : '')
 			;
 	}
+
+	/**
+	 * Relationship Appending
+	 *
+	 * @var array
+	 */
+	protected $with = [
+		'terrain',
+		'buildings'
+	];
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -133,15 +142,15 @@ class Territory extends Model
 	 **/
 	public function personaActions()
 	{
-		return $this->hasMany(\App\Models\ActionPersona::class);
+		return $this->hasMany(\App\Models\Actions::class);
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 **/
 	public function buildings()
 	{
-		return $this->hasMany(\App\Models\BuildingTerritory::class);
+		return $this->belongsToMany(\App\Models\Building::class)->withPivot('name', 'size');
 	}
 
 	/**
@@ -155,10 +164,10 @@ class Territory extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 **/
-	public function personaEquipment()
-	{
-		return $this->hasMany(\App\Models\EquipmentPersona::class);
-	}
+// 	public function personaEquipment()
+// 	{
+// 		return $this->hasMany(\App\Models\EquipmentPersona::class);
+// 	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne

@@ -64,14 +64,14 @@
 								<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}"
 									 class="user-image" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 								<!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}</span>
+								<span class="hidden-xs">{!! $userPersona->name ? $userPersona->name : Auth::user()->name !!}</span>
 							</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
 								<li class="user-header">
 									<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 									<p>
-										{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}
+										{!! $userPersona->name ? $userPersona->name : Auth::user()->name !!}
 										<small>Member since {!! Auth::user()->created_at->format('M. Y') !!}</small>
 									</p>
 								</li>
