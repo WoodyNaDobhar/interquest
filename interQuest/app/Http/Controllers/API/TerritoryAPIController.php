@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateTerritoryAPIRequest;
 use App\Http\Requests\API\UpdateTerritoryAPIRequest;
-use App\Models\Territory;
+use App\Models\Territory as Territory;
+use App\Models\Npc as Npc;
+use App\Models\Persona as Persona;
+use App\Models\Fiefdom as Fiefdom;
+use App\Models\Fief as Fief;
 use App\Repositories\TerritoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -37,9 +41,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function index(Request $request)
 	{
-        if(Gate::denies('admin')){
-        	return $this->sendError('Permission Denied');
-        }
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
 		$this->territoryRepository->pushCriteria(new RequestCriteria($request));
 		$this->territoryRepository->pushCriteria(new LimitOffsetCriteria($request));
 		$territories = $this->territoryRepository->all();
@@ -57,14 +61,60 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function store(CreateTerritoryAPIRequest $request)
 	{
-        if(Gate::denies('admin')){
-        	return $this->sendError('Permission Denied');
-        }
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
 		$input = $request->all();
 
 		$territories = $this->territoryRepository->create($input);
 
-		return $this->sendResponse($territories->toArray(), 'Territory saved successfully');
+		//is there a ruler?
+		if($input['ruler_id'] && $input['ruler_id'] != ''){
+			
+			//setup
+			if($input['ruler_type'] == 'Npc'){
+				$ruler = Npc::where('id', $input['ruler_id'])->first();
+			}else{
+				$ruler = Persona::where('id', $input['ruler_id'])->first();
+			}
+			
+			//!fiefdom_id ? Make one
+			if(!$input['fiefdom_id'] || $input['fiefdom_id'] == ''){
+				$fiefdom = new Fiefdom;
+				$fiefdom->name = 'Domain of ' . $ruler->name;
+				$fiefdom->image = null;
+				$fiefdom->ruler_id = $input['ruler_id'];
+				$fiefdom->ruler_type = $input['ruler_type'];
+				$fiefdom->save();
+			}else{
+				$fiefdom = Fiefdom::find($input['fiefdom_id']);
+			}
+			
+			//make the fief
+			$fief = new Fief;
+			$fief->territory_id = $territories->id;
+			$fief->fiefdom_id = (!$input['fiefdom_id'] || $input['fiefdom_id'] == '') ? $fiefdom->id : $input['fiefdom_id'];
+			$fief->fiefdom_type = 'Fiefdom';
+			$fief->save();
+			
+			//update ruler to this home (if homeless)
+			if(!$ruler->territory_id){
+				$ruler->territory_id = $territories->id;
+				$ruler->save();
+			}
+		}
+		
+		$response = 
+			$territories->toArray() + 
+			[
+				'terrain'	=> $territories->terrain->toArray()
+			]
+		;
+		if($input['ruler_id'] && $input['ruler_id'] != ''){
+			$response['fief']['fiefdom']['ruler']['name'] = $ruler->name;
+		}
+		
+		return $this->sendResponse($response, 'Territory saved successfully');
 	}
 
 	/**
@@ -77,9 +127,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function show($id)
 	{
-        if(Gate::denies('mapkeeper')){
-        	return $this->sendError('Permission Denied');
-        }
+		if(Gate::denies('mapkeeper')){
+			return $this->sendError('Permission Denied');
+		}
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository
 			->with('fief.fiefdom.ruler')
@@ -107,9 +157,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function update($id, UpdateTerritoryAPIRequest $request)
 	{
-        if(Gate::denies('mapkeeper')){
-        	return $this->sendError('Permission Denied');
-        }
+		if(Gate::denies('mapkeeper')){
+			return $this->sendError('Permission Denied');
+		}
 		$input = $request->all();
 
 		/** @var Territory $territory */
@@ -134,9 +184,9 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function destroy($id)
 	{
-        if(Gate::denies('admin')){
-        	return $this->sendError('Permission Denied');
-        }
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository->findWithoutFail($id);
 

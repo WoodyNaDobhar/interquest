@@ -6,7 +6,7 @@
 
 <!-- Image Field -->
 <div class="form-group col-sm-6">
-	{!! Form::label('image', 'Image:') !!}
+	{!! Form::label('image', 'Heraldry:') !!}
 	{!! Form::file('image', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -14,19 +14,21 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('ruler_id', 'Ruler:') !!}
 	{!! Form::select('ruler_type', [
-		'' => 'Select Ruler Type',
+		'' => 'No Ruler',
 		'Npc' => 'NPC',
 		'Persona' => 'Persona'
-	], old('ruler_type'), ['class' => 'form-control typeSelect']) !!}
+	], $rulerType ? $rulerType : old('ruler_type'), ['class' => 'form-control typeSelect']) !!}
 	{!! Form::select(
-			'npc_ruler_id', 
-			['0' => 'Select One'] + $rulersNpcs, 
+			'npc_ruler_id',  
+			['' => 'Select One'] + 
+			['npcCreateWidget' => 'Create New'] + 
+			$rulersNpcs, 
 			(
-				isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
+				$rulerType && $rulerType == 'Npc' ? 
 					(
 						old('ruler_id') ? 
 							old('ruler_id') : 
-							$fiefdom->ruler_id
+							$rulerId
 					) : 
 					null
 			), 
@@ -36,7 +38,7 @@
 				'data-name' => 'ruler_id', 
 				'style' => 
 					(
-						isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
+						$rulerType && $rulerType  == 'Npc' ? 
 							'' : 
 							'display: none;'
 					)
@@ -47,11 +49,11 @@
 			'persona_ruler_id',
 			['0' => 'Select One'] + $rulersPersonae,
 			(
-				isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
+				$rulerType && $rulerType  == 'Persona' ?
 					(
 						old('ruler_id') ?
 							old('ruler_id') :
-							$fiefdom->ruler_id
+							$rulerId
 					) : 
 					null
 			),
@@ -61,18 +63,20 @@
 				'data-name' => 'ruler_id',
 				'style' => 
 					(
-						isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
+						$rulerType && $rulerType  == 'Persona' ?
 							'' :
 							'display: none;'
 					)
 			]
 		)
 	!!}
-	{!! Form::hidden('ruler_id', old('ruler_id')) !!}
+	{!! Form::hidden('ruler_id', $rulerId ? $rulerId : old('ruler_id')) !!}
 </div>
 
 <!-- Submit Field -->
+@if(Request::segment(1) != 'sparse')
 <div class="form-group col-sm-12">
 	{!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
 	<a href="{!! route('fiefdoms.index') !!}" class="btn btn-default">Cancel</a>
 </div>
+@endif

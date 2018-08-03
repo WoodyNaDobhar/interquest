@@ -15,7 +15,7 @@
 									<li><a href="/users/{!! $persona->user_id !!}/edit">Update User</a></li>
 									@endif
 									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
-									<li><a href="#" class="makeMapkeeper">{!! $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
+									<li><a href="#" class="makeMapkeeper">{!! $persona->user && $persona->user->is_mapkeeper ? 'Make' : 'Revoke' !!} Mapkeeper</a></li>
 									@endif
 									<li><a href="/personae/{!! $persona->id !!}/edit">Edit Persona Details</a></li>
 								</ul>
@@ -32,7 +32,7 @@
 										<img src="/img/linkORK.png" width="50" height="50" alt="Online Record Keeper">
 									</a>
 									@endif
-									@if($persona->user->social->provider_user_id)
+									@if($persona->user && $persona->user->social->provider_user_id)
 									<a href="http://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}" target="_blank">
 										<img src="/img/linkFacebook.png" width="50" height="50" alt="Facebook">
 									</a>
@@ -75,7 +75,7 @@
 												@if($persona->is_monarch)
 												<img class="overlayMonarch" src="/img/overlayMonarch.png">
 												@endif
-												@if($persona->user->is_mapkeeper)
+												@if($persona->user && $persona->user->is_mapkeeper)
 												<img class="overlayMapkeeper" src="/img/overlayMapkeeper.png">
 												@endif
 												@if($persona->deceased)

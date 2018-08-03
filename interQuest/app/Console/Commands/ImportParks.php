@@ -168,6 +168,14 @@ class ImportParks extends Command
 					$parkTerritory->secondary_resource = $secRes;
 					$parkTerritory->castle_strength = 1;
 					$parkTerritory->save();
+
+					//attach their castle
+					$parkTerritory->buildings()->attach(
+						23,
+						[
+							'size' => 1,
+						]
+					);
 					
 					//update park
 					$park->territory_id = $parkTerritory->id;
@@ -187,7 +195,7 @@ class ImportParks extends Command
 						
 					//update Fief data
 					$fief->fiefdom_id = $park->id;
-					$fief->fiefdom_type = 'App\Models\Park';
+					$fief->fiefdom_type = 'Park';
 					$fief->save();
 					
 					//notify
@@ -243,7 +251,7 @@ class ImportParks extends Command
 										$fief = new Fief;
 										$fief->territory_id = $territory->id;
 										$fief->fiefdom_id = $park->id;
-										$fief->fiefdom_type = 'App\Models\Park';
+										$fief->fiefdom_type = 'Park';
 										$fief->save();
 				
 										//update terrain to something less generic
@@ -264,7 +272,7 @@ class ImportParks extends Command
 											
 											//take the Fief
 											$fief->fiefdom_id = $park->id;
-											$fief->fiefdom_type = 'App\Models\Park';
+											$fief->fiefdom_type = 'Park';
 											$fief->save();
 										}
 										$takeHalf++;

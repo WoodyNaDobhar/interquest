@@ -7,11 +7,14 @@ use App\Http\Requests;
 use App\Http\Requests\CreateTerritoryRequest;
 use App\Http\Requests\UpdateTerritoryRequest;
 use App\Repositories\TerritoryRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Flash;
 use Response;
 use Gate;
+use Auth;
 use App\Models\Terrain as Terrain;
+use App\Models\Persona as Persona;
+use App\Models\Npc as Npc;
 
 class TerritoryController extends AppBaseController
 {
@@ -43,7 +46,7 @@ class TerritoryController extends AppBaseController
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($column, $row)
 	{
 		
 		//security
@@ -52,10 +55,24 @@ class TerritoryController extends AppBaseController
 			return redirect(route('territories.index'));
 		}
 		
+		//location
+		$location = [
+			'column'	=> $column,
+			'row'		=> $row
+		];
+
+		//rulers
+		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		
 		//get terrains
 		$terrains = Terrain::pluck('name', 'id')->toArray();
 		
-		return view('territories.create')->with('terrains', $terrains);
+		return view('territories.create')
+			->with('location', $location)
+			->with('terrains', $terrains)
+			->with('rulersPersonae', $rulersPersonae)
+			->with('rulersNpcs', $rulersNpcs);
 	}
 
 	/**

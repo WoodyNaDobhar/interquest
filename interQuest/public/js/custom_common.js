@@ -91,8 +91,10 @@ $(document).ready(function(){
 	//tooltips
 	$('[data-toggle="tooltip"]').tooltip();
 	
-	//draw any maps showing
-	drawMap();
+	//draw any empty maps showing
+	if($('#mapContainer').html() == ''){
+		drawMap();
+	}
 	
 	/**
 	 * common jQuery functions
@@ -103,11 +105,14 @@ $(document).ready(function(){
 		//no submit
 		e.preventDefault();
 		
+		//setup
+		var context = $(this);
+		
 		//hide any related selects
-		$(this).parent().find('.typeTarget').hide();
+		context.parent().find('.typeTarget').hide();
 
 		//show the appropriate select
-		$(this).parent().find('select[data-type="' + $(this).val() + '"]').show('slow');
+		context.parent().find('select[data-type="' + context.val() + '"]').show('slow');
 		
 		//no clicky!
 		return false;
@@ -119,11 +124,190 @@ $(document).ready(function(){
 		//no submit
 		e.preventDefault();
 		
-		//update hidden
-		$(this).parent().find('#' + $(this).data('name')).val($(this).val());
-
-		console.log($(this).parent().find('#' + $(this).data('name')).val());
+		//setup
+		context = $(this);
 		
+		//act based on value
+		if(context.val() == 'npcCreateWidget'){
+			
+			//open new NPC window
+			loadPage(context, 'Create NPC', '/sparse/npcs/create', null, function(jsonData){
+				
+				//add to dd & select
+				context.val('');
+				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
+				
+				//update hidden
+				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
+				
+				//show the fiefdom dd
+				context.parent().find('#ruler_fiefdom_id').show('slow');
+			});
+		}else if(context.val() == 'newFiefdom'){
+		
+			//open new Fiefdom window
+			loadPage(context, 'Create Fiefdom', '/sparse/fiefdoms/create', null, function(jsonData){
+				
+				//add to dd & select
+				context.val('');
+				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
+				
+				//update hidden
+				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
+			});
+		}else if(context.val() > 0){
+		
+			//update hidden
+			$(this).parent().find('#' + $(this).data('name')).val($(this).val());
+			
+			//get their fiefdoms
+			
+			//spinner up
+			var target = document.getElementById(context.closest('form').attr('id'));
+			var spinner = new Spinner(spinnerOpts).spin(target);
+			
+			//all the ajax calls
+			$.when(
+
+				//get the requisite data
+				$.ajax({
+					type:		"GET",
+					url:		"/api/v1/fiefdoms/" + context.val(),
+					dataType:	"json",
+					error: function(error){
+						
+						//wind out the response
+						windDown(spinner, error.responseJSON, true);
+					}
+				})
+			).then(
+
+				function(preTerritories){
+
+					//setup
+					var territories = preTerritories['data']['territories'];
+					
+					//show the fiefdom dd
+					context.parent().find('#ruler_fiefdom_id').show('slow');
+				}
+			);
+		}
+		
+		//no clicky!
+		return false;
+	});
+	
+	//open a link in a dialog modal
+	$('body').on('click', '.openInDialog', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		var params = [];
+		var context = $(this);
+		var callback = null;
+		if(context.attr('id') == 'territoryCreateWidget'){
+			callback = function(jsonData){
+
+				//update all the things
+				var territoryDisplay = context.closest('.ui-dialog');
+				territoryDisplay.find('.ui-dialog-title').html(jsonData.data.displayname);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(0).children().eq(1).html(jsonData.data.fief ? jsonData.data.fief.fiefdom.name : '');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(1).children().eq(1).html(jsonData.data.fief ? jsonData.data.fief.fiefdom.ruler.name : '');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(2).children().eq(1).html('');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(5).children().eq(1).html(jsonData.data.terrain.name);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(6).children().eq(1).html(jsonData.data.primary_resource);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(7).children().eq(1).html(jsonData.data.secondary_resource);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(8).children().eq(1).html(jsonData.data.castle_strength);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(9).children().eq(1).html('');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(10).children().eq(1).html(jsonData.data.is_wasteland ? 'Yes!' : 'No');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(11).children().eq(1).html(jsonData.data.is_no_mans_land ? 'Yes!' : 'No');
+				
+				//don't need $(this) anymore
+				loadTemplates(
+					['common/_button.tmpl.htm'],
+					function(templateGuts){
+						context.parent().html(getTerritoryLinks(templateGuts, jsonData.data));
+					}
+				);
+			}
+		}
+		
+		//load the page
+		loadPage(context, context.html(), context.attr('href'), params, callback);
+		
+		//no clicky!
+		return false;
+	});
+	
+	//randomize various stuff on a new territory
+	$('body').on('click', '.randomizeTerritory', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		var context = $(this).parent().parent().parent().find('form');
+		
+		//set Terrain
+		var terrainOptions = context.find("#terrain_id > option");
+		var whichOne = Math.floor(Math.random() * (terrainOptions.length - 1)) + 1;
+		terrainOptions[whichOne].selected = true;
+		
+		//(re)set Resource(s)
+		var firstPick = Math.floor((Math.random() * 6));
+		var secondPick = Math.floor((Math.random() * 4)) + 1;
+		var primaryOptions = context.find('#primary_resource > option');
+		var secondaryOptions = context.find('#secondary_resource > option');
+		secondaryOptions[0].selected = true;
+		if(firstPick == 5){
+			var anotherPick = Math.floor((Math.random() * 5));
+			primaryOptions[anotherPick].selected = true;
+			secondaryOptions[secondPick].selected = true;
+		}else{
+			primaryOptions[firstPick].selected = true;
+		}
+		
+		//(re)set stored resources
+		var primaryResource = context.find('#primary_resource').val() == 'Trade' ? 'Gold' : context.find('#primary_resource').val();
+		var secondaryResource = context.find('#secondary_resource').val() == 'Trade' ? 'Gold' : context.find('#secondary_resource').val();
+		var firstAmount = Math.floor(Math.random() * 19) + 1;
+		var secondAmount = Math.floor(Math.random() * 19) + 1;
+		context.find('#gold, #iron, #grain, #stone, #timber').val('');
+		context.find('#' + primaryResource.toLowerCase()).val(parseInt(context.find('#' + primaryResource.toLowerCase()).val() != '' ? context.find('#' + primaryResource.toLowerCase()).val() : 0) + firstAmount);
+		if(secondaryResource != ''){
+			context.find('#' + secondaryResource.toLowerCase()).val(parseInt(context.find('#' + secondaryResource.toLowerCase()).val() != '' ? context.find('#' + secondaryResource.toLowerCase()).val() : 0) + secondAmount);
+		}
+
+		//no clicky!
+		return false;
+	});
+
+	//Ruler Fiefdom
+	$('body').on('change', '#ruler_fiefdom_id', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		context = $(this);
+		
+		//act based on value
+		if(context.val() == 'newFiefdom'){
+			
+			//open new Fiefdom window
+			loadPage(context, 'Create Fiefdom', '/sparse/fiefdoms/create/' + context.parent().find('#ruler_id').val() + '/' + context.parent().find('#ruler_type').val(), null, function(jsonData){
+				
+				//add to dd & select
+				context.val('');
+				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
+				
+				//update hidden
+				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
+			});
+		}
+
 		//no clicky!
 		return false;
 	});
@@ -177,122 +361,166 @@ function drawMap(territoryId, columns, rows){
 				var colMod = preTerritories['data']['colMod'];
 				
 				//do it
-				$('#mapContainer').hexGridWidget(radius, columns ? columns : 10, colMod, rows ? rows : 10, rowMod, 'hex', territories)
-				.on('hexclick', 
-					function(e){
-						
-						//spinner up
-						var target = document.getElementById('mapContainer');
-						var spinner = new Spinner(spinnerOpts).spin(target);
-						
-						//save this for later
-						var templateId = "templateTerritoryShow";
-						var dialogId = 'commonAdminShowTerritoryForm';
-						
-						//all the ajax calls
-						$.when(
+				$('#mapContainer')
+					.hexGridWidget(radius, columns ? columns : 10, colMod, rows ? rows : 10, rowMod, 'hex', territories)
+					.on('hexclick', 
+						function(e){
+							
+							//spinner up
+							var target = document.getElementById('mapContainer');
+							var spinner = new Spinner(spinnerOpts).spin(target);
+							
+							//save this for later
+							var templateId = "templateTerritoryShow";
+							var dialogId = 'commonAdminShowTerritoryForm';
+							var thisRow = e.row;
+							var thisColumn = e.column;
 
-							//get the requisite data
-							$.ajax({
-								type:		"GET",
-								url:		"/api/v1/territories/" + e.territory_id,
-								dataType:	"json",
-								error: function(error){
-									//wind out the response
-									windDown(spinner, error.error ? error.error : {'message':error.message}, true);
-								}
-							})
-						).then(
-
-							function(preterritory){
-
-								//setup
-								var territory = preterritory.data;
-
-								//load our templates
-								loadTemplates(
-									['territories/_show.tmpl.htm'],
-									function(templateGuts){
-										
-										//buildings
-										var buildings = '';
-										if(territory.buildings && territory.buildings.length > 0){
-											
-											//build list
-											territory.buildings.forEach(function(building){
-												
-												//setup
-												var buildingSize = (building.expandable ?
-													' (' + building.pivot.size + ')' :
-													''
-												);
-												
-												//update
-												buildings = buildings + 
-													(building.pivot.name ? 
-														building.pivot.name + ' (' + building.name + buildingSize + ')' : 
-														building.name + buildingSize
-													)
-													+ ',<br>'
-											});
-											buildings = buildings.substring(0, buildings.length - 5);
-										};
-										
-										//template
-										var template = templateGuts[templateId].format({
-											dialogId:		dialogId,
-											name:			territory.name,
-											id:				territory.id,
-											ruler:			territory.fief && territory.fief.fiefdom.ruler ? territory.fief.fiefdom.ruler.name : '',
-											steward:		territory.fief && territory.fief.steward ? territory.fief.steward.name : '',
-											fiefdomName:	territory.fief.fiefdom.name,
-											column:			territory.column,
-											row:			territory.row,
-											terrain:		territory.terrain.name,
-											resource1:		territory.primary_resource,
-											resource2:		territory.secondary_resource ? territory.secondary_resource : '',
-											cs:				territory.castle_strength,
-											buildings:		buildings,
-											wasteland:		territory.is_wasteland ? 'Yes!' : 'No',
-											noMans:			territory.is_no_mans_land ?  'Yes!' : 'No'
-										});
-										
-										//load the template to the page
-										$('body').append(template);
-										
-										//wind out the response
-										windDown(spinner);
-										
-										//listeners
-										
-										//if it's up, kill it
-										if($("#" + dialogId).hasClass('ui-dialog-content')){
-											$("#" + dialogId).dialog('destroy').detach().remove();
-										}
-
-										//display the dialog
-										$("#" + dialogId).dialog(mediumDialogVars, {
-											title: territory.name,
-											close: function(){
-												$(this).dialog('destroy').detach().remove()
+							//premise
+							var premise = {
+								data:	{
+									name:				'Undiscovered',
+									fief:				{
+										fiefdom:	{
+											name:	'Undiscovered',
+											ruler:	{
+												name:	'Undiscovered'
 											}
-										});
-									}
-								);
+										},
+										steward:	{
+											name:	'Undiscovered'
+										}
+									},
+									steward:			'Undiscovered',
+									column:				thisColumn,
+									row:				thisRow,
+									terrain:		{
+										name:	'Undiscovered'
+									},
+									primary_resource:	'Undiscovered',
+									secondary_resource:	'Undiscovered',
+									castle_strength:	'Undiscovered',
+									buildings:			'Undiscovered',
+									is_wasteland:		'Undiscovered',
+									is_no_mans_land:	'Undiscovered'
+								}
 							}
-						)
-					}
-				)
-				.on('hexhoveron', 
-					function(e){ 
-						
-					}
-				)
-				.on('hexhoveroff', 
-					function(e){ 
-						
-					}
-				);
+							if(e.territory_id != ''){
+								var premise = $.ajax({
+									type:		"GET",
+									url:		"/api/v1/territories/" + e.territory_id,
+									dataType:	"json",
+									error: 		function(error){
+										//wind out the response
+										windDown(spinner, error.error ? error.error : {'message':error.message}, true);
+									}
+								})
+							}
+							
+							//all the ajax calls
+							$.when( 
+								premise
+							).then(
+	
+								function(preterritory){
+	
+									//setup
+									var territory = preterritory.data;
+	
+									//load our templates
+									loadTemplates(
+										['territories/_show.tmpl.htm',
+										 'common/_button.tmpl.htm'],
+										function(templateGuts){
+											
+											//buildings
+											var buildings = 'None';
+											if(territory.buildings && 
+												territory.buildings != 'Undiscovered' && 
+												territory.buildings.length > 0){
+												
+												//build list
+												buildings = '';
+												territory.buildings.forEach(function(building){
+													
+													//setup
+													var buildingSize = (building.expandable ?
+														' (' + building.pivot.size + ')' :
+														''
+													);
+													
+													//update
+													buildings = buildings + 
+														(building.pivot.name ? 
+															building.pivot.name + ' (' + building.name + buildingSize + ')' : 
+															building.name + buildingSize
+														)
+														+ ',<br>'
+												});
+												buildings = buildings.substring(0, buildings.length - 5);
+											}else{
+												buildings = territory.buildings;
+											};
+											
+											//buttons
+											var links = getTerritoryLinks(templateGuts, territory);
+											
+											//template
+											var template = templateGuts[templateId].format({
+												dialogId:		dialogId,
+												name:			territory.name,
+												id:				territory.id,
+												ruler:			territory.fief && territory.fief.fiefdom.ruler ? territory.fief.fiefdom.ruler.name : '',
+												steward:		territory.fief && territory.fief.steward ? territory.fief.steward.name : '',
+												fiefdomName:	territory.fief && territory.fief.fiefdom.name,
+												column:			territory.column,
+												row:			territory.row,
+												terrain:		territory.terrain.name,
+												resource1:		territory.primary_resource,
+												resource2:		territory.secondary_resource ? territory.secondary_resource : '',
+												cs:				territory.castle_strength,
+												buildings:		buildings,
+												wasteland:		territory.is_wasteland ? (territory.is_wasteland == 'Undiscovered' ? territory.is_wasteland : 'Yes!') : 'No',
+												noMans:			territory.is_no_mans_land ?  (territory.is_no_mans_land == 'Undiscovered' ? territory.is_no_mans_land : 'Yes!') : 'No',
+												links:			links
+											});
+											
+											//load the template to the page
+											$('body').append(template);
+											
+											//wind out the response
+											windDown(spinner);
+											
+											//listeners
+											
+											//if it's up, kill it
+											if($("#" + dialogId).hasClass('ui-dialog-content')){
+												$("#" + dialogId).dialog('destroy').detach().remove();
+											}
+	
+											//display the dialog
+											$("#" + dialogId).dialog(mediumDialogVars, {
+												title: territory.name,
+												close: function(){
+													$(this).dialog('destroy').detach().remove()
+												}
+											});
+										}
+									);
+								}
+							)
+						}
+					)
+					.on('hexhoveron', 
+						function(e){ 
+							
+						}
+					)
+					.on('hexhoveroff', 
+						function(e){ 
+							
+						}
+					);
 
 				//tooltips
 				$('[data-toggle="tooltip"]').tooltip({position: { my: "left center-15", at: "right center" }});
@@ -302,6 +530,66 @@ function drawMap(territoryId, columns, rows){
 			}
 		);
 	}
+}
+
+/**
+ * All the control buttons for a given territory's widget
+ * @param {object}	template
+ * @param {object}	territory in question
+ */
+function getTerritoryLinks(templateGuts, territory){
+	
+	//setup
+	var links = '';
+
+	//depending on territory stuff
+	if(territory.id && territory.id != ''){
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/territories/' + territory.id + '/edit',
+			etc:	'id="territoryEditWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Update Territory'
+		}) + '<br><br>';
+	}else{
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/territories/create/' + territory.column + '/' + territory.row,
+			etc:	'id="territoryCreateWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Create Territory'
+		}) + '<br><br>';
+	}
+	if(territory.fief && territory.fief.id && territory.fief.id != ''){
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/fiefs/' + territory.fief.id + '/edit',
+			etc:	'id="fiefEditWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Add/Update Steward'
+		}) + '<br><br>';
+	}else if(territory.id && territory.id != ''){
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/fiefs/create',
+			etc:	'id="fiefCreateWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Assign Fief'
+		}) + '<br><br>';
+	}
+	if(territory.fief && territory.fief.fiefdom_id && territory.fief.fiefdom_id != ''){
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/fiefdoms/' + territory.fief.fiefdom_id + '/edit',
+			etc:	'id="fiefdomEditWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Update Fiefdom'
+		}) + '<br><br>';
+	}else if(territory.id && territory.id != ''){
+		links = links + templateGuts['templateCommonButton'].format({
+			href:	'/sparse/fiefdoms/create',
+			etc:	'id="fiefdomCreateWidget" target="_blank"',
+			css:	'pull-right openInDialog',
+			label:	'Create/Assign Fiefdom'
+		}) + '<br><br>';
+	}
+
+	return links;
 }
 
 /**
@@ -415,6 +703,53 @@ String.prototype.format = function() {
 };
 
 /**
+ * Main page dialog loading function
+ * @param {title} string dialog title
+ * @param {contentUrl} string of page to get
+ * @param {params} array of params to pass to page
+ * @param {callback} function to pass to postWidgetForm
+ */
+var loadPage = function(context, title, contentUrl, params, callback){
+	
+	//set up the dialog
+	var dialogId = 'show' + (typeof context.attr('id') == typeof undefined ? (context.val() == '' ? 'newWidget' : context.val()) : context.attr('id'));
+	var pageDialog = $('<div id="' + dialogId + '">').dialog(
+		mediumDialogVars, 
+		{
+			autoOpen: false,
+			modal: true,
+			title: title,
+			close: function(e, ui) {
+				$(this).dialog('destroy').detach().remove();
+			},
+			buttons: {
+				Submit: function(){
+					
+					//post the request
+					postWidgetForm($(this), callback);
+				},
+				Cancel: function() {
+					$(this).dialog('destroy').detach().remove();
+				}
+			},
+			minHeight: 300
+		}
+	);
+	
+	//open it
+	pageDialog.dialog('open');
+	
+	//spinner up
+	var target = document.getElementById(dialogId);
+	var spinner = new Spinner(spinnerOpts).spin(target);
+	
+	//load contents
+	pageDialog.load(contentUrl, params && params.length > 0 ? params : null, function(){
+		spinner.stop();
+	});
+}
+
+/**
  * Main template loading function
  * @param {templates} array of templates to get
  */
@@ -469,7 +804,10 @@ var loadTemplates = function(templates, callback){
 /**
  * Post widget info via ajax
  */
-function postWidgetForm(formID, callback){
+function postWidgetForm(context, callback){
+	
+	//setup
+	var formID = context.find('form').attr('id');
 
 	//validate
 //	if($("#" + formID).validationEngine('validate')){
@@ -482,19 +820,20 @@ function postWidgetForm(formID, callback){
 		
 		//route based on # of files
 //		if(numFiles > 0){
-//			postFileWidgetForm(formID, callback);
+//			postFileWidgetForm(context, callback);
 //		}else{
-			postPostFileWidgetForm(formID, null, callback);
+			postPostFileWidgetForm(context, null, callback);
 //		}
 //	}
 }
-//function postFileWidgetForm(formID, callback){
+//function postFileWidgetForm(context, callback){
 //	
 //	//spinner up
 //	var spinner = new Spinner(spinnerOpts).spin(spinnerTarget);
 //	
 //	//setup
 //	var fileData = new FormData();
+//	var formID = context.find('form').attr('id');
 //	
 //	//iterate the files
 //	$.each(uploadFiles, function(fieldName, uploadFile){
@@ -543,10 +882,14 @@ function postWidgetForm(formID, callback){
 //		}
 //	});
 //}
-function postPostFileWidgetForm(formID, files, callback){
+function postPostFileWidgetForm(context, files, callback){
 	
 	//spinner up
-	var spinner = new Spinner(spinnerOpts).spin(spinnerTarget);
+	var target = document.getElementById(context.find('form').attr('id'));
+	var spinner = new Spinner(spinnerOpts).spin(target);
+	
+	//setup
+	var formID = context.find('form').attr('id');
 	
 	//set the data
 	var submitData = $('form#' + formID).serializeArray();
@@ -567,9 +910,6 @@ function postPostFileWidgetForm(formID, files, callback){
 			submitData[submitData.length] = {"name": this.name, "value": '0'};
 		}
 	});
-	
-	//add the token
-//	submitData[submitData.length] = { name: "_token", value: $('meta[name="_token"]').attr('content')};
 	
 	//for each files inputs that may have been set, update the list of files
 //	if(files && typeof files !== typeof undefined){
@@ -610,7 +950,7 @@ function postPostFileWidgetForm(formID, files, callback){
 				windDown(spinner, jsonData);
 				
 				//close up
-				$('form#' + formID).closest('div.widgetActionTemplate').dialog('destroy').detach().remove();
+				context.dialog('destroy').detach().remove();
 
 				//callback?
 				if(callback && typeof callback !== typeof undefined){

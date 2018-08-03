@@ -36,7 +36,18 @@
 </head>
 
 <body class="skin-purple sidebar-mini">
-@if (!Auth::guest())
+@if (Request::segment(1) == 'sparse')
+	<div id="page-content-wrapper">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12" id="spinMe">
+					@yield('content')
+				</div>
+			</div>
+		</div>
+	</div>
+@else
+	@if (!Auth::guest())
 	<div class="wrapper">
 		<!-- Main Header -->
 		<header class="main-header">
@@ -104,7 +115,7 @@
 		</footer>
 
 	</div>
-@else
+	@else
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -171,5 +182,6 @@
 
 	<!-- Page-Specific -->
 	@yield('scripts')
+@endif
 </body>
 </html>

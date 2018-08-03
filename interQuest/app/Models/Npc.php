@@ -236,6 +236,21 @@ class Npc extends Model
 		//dump it
 		return (object) $response;
 	}
+	
+	public function setTerritoryIdAttribute($value)
+	{
+		$this->attributes['territory_id'] = ($value != '' ? $value : null);
+	}
+	
+	public function setVocationIdAttribute($value)
+	{
+		$this->attributes['vocation_id'] = ($value != '' ? $value : null);
+	}
+	
+	public function setActionIdAttribute($value)
+	{
+		$this->attributes['action_id'] = ($value != '' ? $value : null);
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

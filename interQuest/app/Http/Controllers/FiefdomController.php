@@ -14,6 +14,7 @@ use Gate;
 use App\Models\Persona as Persona;
 use App\Models\Npc as Npc;
 use App\Models\Fief as Fief;
+use App\Models\Fiefdom as Fiefdom;
 use Auth;
 use App\DataTables\FiefDataTable;
 use Datatables;
@@ -48,7 +49,7 @@ class FiefdomController extends AppBaseController
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($rulerId = null, $rulerType = null)
 	{
 		
 		//security
@@ -60,11 +61,17 @@ class FiefdomController extends AppBaseController
 		//rulers
 		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
 		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$rulerFiefdoms = $rulerId ? 
+			Fiefdom::where('ruler_id', $rulerId)->where('ruler_type', $rulerType)->pluck('name', 'id')->toArray():
+			[];
 		
 		//respond
 		return view('fiefdoms.create')
 			->with('rulersPersonae', $rulersPersonae)
-			->with('rulersNpcs', $rulersNpcs);
+			->with('rulersNpcs', $rulersNpcs)
+			->with('rulerFiefdoms', $rulerFiefdoms)
+			->with('rulerId', $rulerId)
+			->with('rulerType', $rulerType);
 	}
 
 	/**
@@ -132,11 +139,13 @@ class FiefdomController extends AppBaseController
 		//rulers
 		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
 		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
-
+		$rulerFiefdoms = $fiefdom->ruler->fiefdoms->pluck('name', 'id')->toArray();
+		dd($rulerFiefdoms);
 		return view('fiefdoms.edit')
 			->with('fiefdom', $fiefdom)
 			->with('rulersPersonae', $rulersPersonae)
-			->with('rulersNpcs', $rulersNpcs);
+			->with('rulersNpcs', $rulersNpcs)
+			->with('rulerFiefdoms', $rulerFiefdoms);
 	}
 
 	/**

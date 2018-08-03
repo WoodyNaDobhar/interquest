@@ -327,6 +327,11 @@ class Persona extends Model
 		//get/dump holdings
 		return count($this->rulerships) > 0 ? TRUE : FALSE;
 	}
+	
+	public function setTerritoryIdAttribute($value)
+	{
+		$this->attributes['territory_id'] = $value != '' ? $value : null;
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

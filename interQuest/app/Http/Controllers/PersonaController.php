@@ -10,6 +10,8 @@ use App\Models\Action as Actions;
 use App\Models\Vocation as Vocations;
 use App\Models\Metatype as Metatypes;
 use App\Models\Park as Parks;
+use App\Models\Title as Titles;
+use App\Models\User as Users;
 use App\Repositories\PersonaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -80,13 +82,17 @@ class PersonaController extends AppBaseController
 		//get actions
 		$actions = Actions::pluck('name', 'id')->toArray();
 		
+		//get titles
+		$titles = Titles::pluck('name', 'id')->toArray();
+		
 		//respond
 		return view('personae.create')
 			->with('vocations', $vocations)
 			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('territories', $territories)
-			->with('actions', $actions);
+			->with('actions', $actions)
+			->with('titles', $titles);
 	}
 
 	/**
@@ -114,7 +120,7 @@ class PersonaController extends AppBaseController
 			if($currentUsers->count() > 0){
 				return redirect(route('personae.create'))
 					->withInput()
-					->withErrors('bPersona claim validation email is not unique...somebody is using it already.');
+					->withErrors('Persona claim validation email is not unique...somebody is using it already.');
 			}
 		}
 		
@@ -206,6 +212,9 @@ class PersonaController extends AppBaseController
 		
 		//get actions
 		$actions = Actions::pluck('name', 'id')->toArray();
+		
+		//get titles
+		$titles = Titles::pluck('name', 'id')->toArray();
 
 		//respond
 		return view('personae.edit')
@@ -214,7 +223,8 @@ class PersonaController extends AppBaseController
 			->with('metatypes', $metatypes)
 			->with('parks', $parks)
 			->with('territories', $territories)
-			->with('actions', $actions);
+			->with('actions', $actions)
+			->with('titles', $titles);
 	}
 
 	/**

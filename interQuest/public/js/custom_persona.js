@@ -115,7 +115,7 @@ $(document).ready(function(){
 						Submit: function(){
 							
 							//post the request
-							postWidgetForm($(this).find('form').attr('id'));
+							postWidgetForm($(this));
 						},
 						Cancel: function() {
 							$(this).dialog('destroy').detach().remove();

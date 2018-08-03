@@ -4,50 +4,63 @@
 .deleteMe, .mapZoom{
 	cursor: pointer;
 }
+.btn-default {
+	color: #444 !important;
+}
+h1 .btn {
+	font-size: 14px !important;
+}
 
 /*
 * Tooltips
 */
 /* .tooltip{ */
-/*     position:absolute; */
-/*     z-index:1020; */
-/*     display:block; */
-/*     visibility:visible; */
-/*     padding:5px; */
-/*     font-size:13px; */
-/*     opacity:0; */
-/*     filter:alpha(opacity=0) */
+/*	 position:absolute; */
+/*	 z-index:1020; */
+/*	 display:block; */
+/*	 visibility:visible; */
+/*	 padding:5px; */
+/*	 font-size:13px; */
+/*	 opacity:0; */
+/*	 filter:alpha(opacity=0) */
 /* } */
 /* .tooltip.in{ */
-/*     opacity:.8; */
-/*     filter:alpha(opacity=80) */
+/*	 opacity:.8; */
+/*	 filter:alpha(opacity=80) */
 /* } */
 /* .tooltip-inner{ */
-/*     padding:3px 8px; */
-/*     color:#314A5B; */
-/*     text-align:center; */
-/*     font-weight:900; */
-/*     background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #A2BBCC), to(#FFFFFF));  */
-/*     background: -moz-linear-gradient(top, #FFFFFF, #A2BBCC 1px, #FFFFFF 25px);  */
-/*     -webkit-border-radius:5px; */
-/*     -moz-border-radius:5px; */
-/*     border-radius:15px; */
-/*     border: 1px solid #314A5B; */
+/*	 padding:3px 8px; */
+/*	 color:#314A5B; */
+/*	 text-align:center; */
+/*	 font-weight:900; */
+/*	 background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #A2BBCC), to(#FFFFFF));  */
+/*	 background: -moz-linear-gradient(top, #FFFFFF, #A2BBCC 1px, #FFFFFF 25px);  */
+/*	 -webkit-border-radius:5px; */
+/*	 -moz-border-radius:5px; */
+/*	 border-radius:15px; */
+/*	 border: 1px solid #314A5B; */
 /* } */
 /* .tooltip-arrow{ */
-/*     position:absolute; */
-/*     width:0; */
-/*     height:0 */
+/*	 position:absolute; */
+/*	 width:0; */
+/*	 height:0 */
 /* } */
 
 /*
 * Datatables stuff
 */
 div.dataTables_wrapper div.dataTables_processing {
-    z-index: 1;
+	z-index: 1;
 }
 .dataTables_wrapper .dataTables_processing {
 	height: 60px !important;
+}
+
+/*
+* Dialog stuff
+*/
+.ui-dialog > .ui-dialog-content > #page-content-wrapper > .container-fluid > .row > #spinMe > .content > .box {
+	background: none;
 }
 
 /*
@@ -116,7 +129,7 @@ div.dataTables_wrapper div.dataTables_processing {
 	fill: blue;
 }
 .hex-castle {
-    position: absolute;
+	position: absolute;
 }
 .hex.fief1{
 	stroke: white;

@@ -52,23 +52,10 @@ Route::group(['middleware' => 'auth'], function()
 			require config('infyom.laravel_generator.path.api_routes');
 		});
 	});
-	Route::resource('actions', 'ActionController');
-	Route::resource('buildings', 'BuildingController');
-	Route::resource('comments', 'CommentController');
-	Route::resource('equipment', 'EquipmentController');
-	Route::resource('fiefdoms', 'FiefdomController');
-	Route::resource('fiefs', 'FiefController');
-	Route::resource('metatypes', 'MetatypeController');
-	Route::resource('npcs', 'NpcController');
-	Route::resource('parks', 'ParkController');
-	Route::resource('personae', 'PersonaController');
-	Route::resource('revisions', 'RevisionController');
-	Route::resource('terrains', 'TerrainController');
-	Route::resource('territories', 'TerritoryController');
-	Route::resource('titles', 'TitleController');
-	Route::resource('users', 'UserController');
-	Route::get('/users/create/{personaId}', 'UserController@create');
-	Route::resource('vocations', 'VocationController');
+	Route::group(['prefix' => 'sparse'], function () {
+		require app_path('Http/regular_routes.php');
+	});
+	require app_path('Http/regular_routes.php');
 });
 
 Route::get('/', 'HomeController@index');

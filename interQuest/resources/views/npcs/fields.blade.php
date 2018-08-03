@@ -95,7 +95,9 @@
 </div>
 
 <!-- Submit Field -->
+@if(Request::segment(1) != 'sparse')
 <div class="form-group col-sm-12">
 	{!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
 	<a href="{!! route('npcs.index') !!}" class="btn btn-default">Cancel</a>
 </div>
+@endif
