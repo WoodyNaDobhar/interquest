@@ -158,43 +158,18 @@ $(document).ready(function(){
 		}else if(context.val() > 0){
 		
 			//update hidden
-			$(this).parent().find('#' + $(this).data('name')).val($(this).val());
-			
-			//get their fiefdoms
-			
-			//spinner up
-			var target = document.getElementById(context.closest('form').attr('id'));
-			var spinner = new Spinner(spinnerOpts).spin(target);
-			
-			//all the ajax calls
-			$.when(
-
-				//get the requisite data
-				$.ajax({
-					type:		"GET",
-					url:		"/api/v1/fiefdoms/" + context.val(),
-					dataType:	"json",
-					error: function(error){
-						
-						//wind out the response
-						windDown(spinner, error.responseJSON, true);
-					}
-				})
-			).then(
-
-				function(preTerritories){
-
-					//setup
-					var territories = preTerritories['data']['territories'];
-					
-					//show the fiefdom dd
-					context.parent().find('#ruler_fiefdom_id').show('slow');
-				}
-			);
+			context.parent().find('#' + context.data('name')).val(context.val());
 		}
 		
 		//no clicky!
 		return false;
+	});
+	
+	//showSource
+	$('body').on('change', '.showSource', function(e){
+
+		//show the related whatever
+		$(this).siblings('.showTarget').show('slow');
 	});
 	
 	//open a link in a dialog modal
@@ -231,6 +206,9 @@ $(document).ready(function(){
 						context.parent().html(getTerritoryLinks(templateGuts, jsonData.data));
 					}
 				);
+				
+				//refresh the map
+				drawMap();
 			}
 		}
 		
@@ -306,10 +284,76 @@ $(document).ready(function(){
 				//update hidden
 				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
 			});
+		}else if(context.val() > 0){
+			
+			//update hidden
+			context.parent().find('#' + context.data('name')).val(context.val());
 		}
 
 		//no clicky!
 		return false;
+	});
+	
+	//related dd population
+	$('body').on('change', '.relatedSource', function(e){
+		
+		//setup
+		var context = $(this);
+		var relatedTarget = context.siblings('.relatedTarget');
+		
+		//remove anythign already there
+		relatedTarget.find('option[value="newFiefdom"]').nextAll().remove();
+			
+		//spinner up
+		var target = document.getElementById(context.closest('form').attr('id'));
+		var spinner = new Spinner(spinnerOpts).spin(target);
+		
+		//the ajax calls
+		$.when(
+
+			//get the requisite data
+			$.ajax({
+				type:		"GET",
+				url:		"/api/v1/" + context.data('type').toLowerCase() + "s/" + context.val(),
+				dataType:	"json",
+				error: function(error){
+					
+					//wind out the response
+					windDown(spinner, error.responseJSON, true);
+				}
+			})
+		).then(
+
+			function(preResults){
+				
+				//spinner down
+				spinner.stop();
+
+				//setup
+				var results = preResults['data'];
+				var data = preResults['data'][relatedTarget.data('name').substring(0, relatedTarget.data('name').length - 3) + 's'];
+				var options = '';
+				
+				//load our templates
+				loadTemplates(
+					['common/_selectOption.tmpl.htm'],
+					function(templateGuts){
+
+						//iterate and build options
+						$.each(data, function(i, fiefdom){
+
+							options = options + templateGuts['templateCommonSelectOption'].format({
+								value:		fiefdom.id,
+								label:		fiefdom.name
+							});
+						});
+						
+						//add options to select
+						relatedTarget.append(options);
+					}
+				);
+			}
+		);
 	});
 });
 

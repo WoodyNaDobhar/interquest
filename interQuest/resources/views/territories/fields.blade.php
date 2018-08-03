@@ -80,7 +80,7 @@
 					null
 			), 
 			[
-				'class' => 'form-control typeTarget', 
+				'class' => 'form-control typeTarget showSource relatedSource', 
 				'data-type' => 'Npc', 
 				'data-name' => 'ruler_id', 
 				'style' => 
@@ -105,7 +105,7 @@
 					null
 			),
 			[
-				'class' => 'form-control typeTarget',
+				'class' => 'form-control typeTarget showSource relatedSource',
 				'data-type' => 'Persona',
 				'data-name' => 'ruler_id',
 				'style' => 
@@ -134,7 +134,7 @@
 			),
 			[
 				'id' => 'ruler_fiefdom_id',
-				'class' => 'form-control',
+				'class' => 'form-control showTarget relatedTarget',
 				'data-name' => 'fiefdom_id',
 				'style' => 
 					(
