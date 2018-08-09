@@ -1,23 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Npc
-        </h1>
-   </section>
-   <div class="content">
-       @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($npc, ['route' => ['npcs.update', $npc->id], 'method' => 'patch']) !!}
+	<section class="content-header">
+		<h1>
+			Npc
+		</h1>
+	</section>
+	<div class="content">
+		@include('adminlte-templates::common.errors')
+		<div class="box box-primary">
+			<div class="box-body">
+				<div class="row">
+				@if(Request::segment(1) != 'sparse')
+					{!! Form::open(['route' => ['npcs.update', $npc->id], 'method' => 'patch', 'id' => 'editNpc']) !!}
+				@else
+					{!! Form::open(['route' => ['api.v1.npcs.update', $npc->id], 'method' => 'patch', 'id' => 'editNpc']) !!}
+				@endif
 
-                        @include('npcs.fields')
+						@include('npcs.fields')
 
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+					{!! Form::close() !!}
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection

@@ -62,7 +62,13 @@ class TerritoryController extends AppBaseController
 		];
 
 		//rulers
-		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$parkPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->get();
+		$rulersPersonae = [];
+		foreach($parkPersonae as $persona){
+			if($persona->fiefs_assigned < $persona->fiefs_count){
+				$rulersPersonae[$persona->id] = $persona->name;
+			}
+		}
 		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
 		
 		//get terrains
@@ -72,7 +78,8 @@ class TerritoryController extends AppBaseController
 			->with('location', $location)
 			->with('terrains', $terrains)
 			->with('rulersPersonae', $rulersPersonae)
-			->with('rulersNpcs', $rulersNpcs);
+			->with('rulersNpcs', $rulersNpcs)
+			->with('park', Auth::user()->persona->park);
 	}
 
 	/**
@@ -138,16 +145,43 @@ class TerritoryController extends AppBaseController
 
 		if (empty($territory)) {
 			Flash::error('Territory not found');
-
 			return redirect(route('territories.index'));
 		}
+		
+		//location
+		$location = [
+			'column'	=> $territory->column,
+			'row'		=> $territory->row
+		];
+
+		//rulers
+		$parkPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->get();
+		$rulersPersonae = [];
+		foreach($parkPersonae as $persona){
+			if($persona->fiefs_assigned < $persona->fiefs_count){
+				$rulersPersonae[$persona->id] = $persona->name;
+			}
+		}
+		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
 		
 		//get terrains
 		$terrains = Terrain::pluck('name', 'id')->toArray();
 
+		//ruler stuff?
+		$rulerFiefdoms = null;
+		if($territory->fief && $territory->fief->fiefdom_type == 'Fiefdom'){
+			$rulerFiefdoms = $territory->fief->fiefdom->ruler->fiefdoms->pluck('name', 'id')->toArray();
+		}
+		
 		return view('territories.edit')
 			->with('territory', $territory)
-			->with('terrains', $terrains);
+			->with('terrains', $terrains)
+			->with('rulersPersonae', $rulersPersonae)
+			->with('rulersNpcs', $rulersNpcs)
+			->with('location', $location)
+			->with('park', Auth::user()->persona->park)
+			->with('fief', $territory->fief)
+			->with('rulerFiefdoms', $rulerFiefdoms);
 	}
 
 	/**

@@ -57,21 +57,9 @@ class FiefdomController extends AppBaseController
 			Flash::error('Permission Denied');
 			return redirect(route('fiefdoms.index'));
 		}
-
-		//rulers
-		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
-		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
-		$rulerFiefdoms = $rulerId ? 
-			Fiefdom::where('ruler_id', $rulerId)->where('ruler_type', $rulerType)->pluck('name', 'id')->toArray():
-			[];
 		
 		//respond
-		return view('fiefdoms.create')
-			->with('rulersPersonae', $rulersPersonae)
-			->with('rulersNpcs', $rulersNpcs)
-			->with('rulerFiefdoms', $rulerFiefdoms)
-			->with('rulerId', $rulerId)
-			->with('rulerType', $rulerType);
+		return view('fiefdoms.create');
 	}
 
 	/**
@@ -124,28 +112,23 @@ class FiefdomController extends AppBaseController
 	 */
 	public function edit($id)
 	{
+		
+		//security
 		if(Gate::denies('mapkeeper')){
 			Flash::error('Permission Denied');
 			return redirect(route('fiefdoms.index'));
 		}
+		
+		//get fiefdom
 		$fiefdom = $this->fiefdomRepository->findWithoutFail($id);
-
-		if (empty($fiefdom)) {
+		if(empty($fiefdom)){
 			Flash::error('Fiefdom not found');
-
 			return redirect(route('fiefdoms.index'));
 		}
 
-		//rulers
-		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
-		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
-		$rulerFiefdoms = $fiefdom->ruler->fiefdoms->pluck('name', 'id')->toArray();
-		dd($rulerFiefdoms);
+		//respond
 		return view('fiefdoms.edit')
-			->with('fiefdom', $fiefdom)
-			->with('rulersPersonae', $rulersPersonae)
-			->with('rulersNpcs', $rulersNpcs)
-			->with('rulerFiefdoms', $rulerFiefdoms);
+			->with('fiefdom', $fiefdom);
 	}
 
 	/**

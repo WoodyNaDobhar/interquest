@@ -3,7 +3,7 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('validClaim', 'User Facebook Email:') !!}
-	{!! Form::text('validClaim', old('validClaim'), ['class' => 'form-control']) !!}
+	{!! Form::text('validClaim', isset($persona) ? $persona->validClaim : old('validClaim'), ['class' => 'form-control']) !!}
 </div>
 
 @if(!isset($persona))
@@ -30,7 +30,7 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('name', 'Common Name:') !!}
-	{!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
+	{!! Form::text('name', isset($persona) ? $persona->name : old('name'), ['class' => 'form-control']) !!}
 </div>
 
 @if(!isset($suppressSave) || $suppressSave === false)
@@ -38,7 +38,7 @@
 <!-- Long Name Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('long_name', 'Long Name:') !!}
-	{!! Form::text('long_name', old('long_name'), ['class' => 'form-control']) !!}
+	{!! Form::text('long_name', isset($persona) ? $persona->long_name : old('long_name'), ['class' => 'form-control']) !!}
 </div>
 
 @endif
@@ -54,13 +54,13 @@
 <!-- Metatype Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('metatype_id', 'Metatype:') !!}
-	{!! Form::select('metatype_id', $metatypes, old('metatype_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('metatype_id', $metatypes, isset($persona) ? $persona->metatype_id : old('metatype_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Vocation Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('vocation_id', 'Declared Class:') !!}
-	{!! Form::select('vocation_id', $vocations, old('vocation_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('vocation_id', $vocations, isset($persona) ? $persona->vocation_id : old('vocation_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Image Field -->
@@ -72,37 +72,37 @@
 <!-- Background Public Field -->
 <div class="form-group col-sm-12 col-lg-12">
 	{!! Form::label('background_public', 'Publicly Known Background:') !!}
-	{!! Form::textarea('background_public', old('background_public'), ['class' => 'form-control']) !!}
+	{!! Form::textarea('background_public', isset($persona) ? $persona->background_public : old('background_public'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Background Private Field -->
 <div class="form-group col-sm-12 col-lg-12">
 	{!! Form::label('background_private', 'Private Background Details:') !!}
-	{!! Form::textarea('background_private', old('background_private'), ['class' => 'form-control']) !!}
+	{!! Form::textarea('background_private', isset($persona) ? $persona->background_private : old('background_private'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Park Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('park_id', 'Home Park:') !!}
-	{!! Form::select('park_id', $parks, old('park_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : old('park_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Action Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('action_id', 'Default Action:') !!}
-	{!! Form::select('action_id', $actions, old('action_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('action_id', $actions, isset($persona) ? $persona->action_id : old('action_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('territory_id', 'Home Territory:') !!}
-	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, old('territory_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($persona) ? $persona->territory_id : old('territory_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Titles Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('titles', 'Titles:') !!}
-	{!! Form::select('titles[]', $titles, old('titles'), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+	{!! Form::select('titles[]', $titles, isset($persona) ? $persona->titles : old('titles'), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
 </div>
 
 <!-- Gold Field -->
@@ -138,15 +138,15 @@
 <!-- Fiefs Assigned Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('fiefs_assigned', 'Fiefs Assigned:') !!}
-	{!! Form::number('fiefs_assigned', old('fiefs_assigned'), ['class' => 'form-control']) !!}
+	{!! Form::number('fiefs_assigned', isset($persona) ? $persona->fiefs_assigned : old('fiefs_assigned'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Is Knight Field -->
 <div class="form-group col-sm-offset-1 col-sm-4">
 	{!! Form::label('is_knight', 'Is Knight:') !!}
 	<label>
-		{!! Form::hidden('is_knight', false) !!}
-		{!! Form::checkbox('is_knight', '1', null) !!}
+		{!! Form::hidden('is_knight', isset($persona) ? ($persona->is_knight == 1 ? 'true' : 'false') : (old('is_knight') == 1 ? 'true' : 'false')) !!}
+		{!! Form::checkbox('is_knight', '1', isset($persona) ? ($persona->is_knight == 1 ? ['checked' => 'checked'] : null) : (old('is_knight') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
 
@@ -154,27 +154,29 @@
 <div class="form-group col-sm-4">
 	{!! Form::label('is_rebel', 'Is Rebel:') !!}
 	<label>
-		{!! Form::hidden('is_rebel', false) !!}
-		{!! Form::checkbox('is_rebel', '1', null) !!}
+		{!! Form::hidden('is_rebel', isset($persona) ? ($persona->is_rebel == 1 ? 'true' : 'false') : (old('is_rebel') == 1 ? 'true' : 'false')) !!}
+		{!! Form::checkbox('is_rebel', '1', isset($persona) ? ($persona->is_rebel == 1 ? ['checked' => 'checked'] : null) : (old('is_rebel') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
 
 <!-- Shattered Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('shattered', 'Shattered:') !!}
-	{!! Form::date('shattered', old('shattered'), ['class' => 'form-control']) !!}
+	{!! Form::date('shattered', isset($persona) ? $persona->shattered : old('shattered'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Deceased Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('deceased', 'Deceased:') !!}
-	{!! Form::date('deceased', old('deceased'), ['class' => 'form-control']) !!}
+	{!! Form::date('deceased', isset($persona) ? $persona->deceased : old('deceased'), ['class' => 'form-control']) !!}
 </div>
 
 @endif
 
 <!-- Submit Field -->
+@if(Request::segment(1) != 'sparse')
 <div class="form-group col-sm-12">
 	{!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
 	<a href="{!! route('personae.index') !!}" class="btn btn-default">Cancel</a>
 </div>
+@endif

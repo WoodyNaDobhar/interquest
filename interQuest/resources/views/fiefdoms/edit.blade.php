@@ -11,7 +11,11 @@
 		<div class="box box-primary">
 			<div class="box-body">
 				<div class="row">
-					{!! Form::model($fiefdom, ['route' => ['fiefdoms.update', $fiefdom->id], 'method' => 'patch']) !!}
+				@if(Request::segment(1) != 'sparse')
+					{!! Form::open(['route' => ['fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom']) !!}
+				@else
+					{!! Form::open(['route' => ['api.v1.fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom']) !!}
+				@endif
 
 						@include('fiefdoms.fields')
 

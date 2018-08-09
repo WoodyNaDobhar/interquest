@@ -11,6 +11,10 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
 use Gate;
+use App\Models\Territory as Territory;
+use App\Models\Persona as Persona;
+use App\Models\Npc as Npc;
+use Auth;
 
 class FiefController extends AppBaseController
 {
@@ -38,13 +42,57 @@ class FiefController extends AppBaseController
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($territoryId = null)
 	{
 		if(Gate::denies('mapkeeper')){
 			Flash::error('Permission Denied');
 			return redirect(route('fiefs.index'));
 		}
-		return view('fiefs.create');
+		
+		//get territories
+		$centerTarget = $territoryId ? 
+			Territory::where('id', $territoryId)->first() : 
+			Auth::user()->persona->park->capital;
+		
+		$centerLong = $centerTarget->column;
+		$centerLat = $centerTarget->row;
+		$territories = Territory::wherebetween('column', [$centerLong-5, $centerLong+4])
+			->wherebetween('row', [$centerLat-5, $centerLat+4])
+			->get()
+			->pluck('displayname', 'id')
+			->toArray();
+		
+		//get territory?
+		$territory = null;
+		if($territoryId){
+			$territory = Territory::where('id', $territoryId)
+				->first();
+		}
+		
+		//get fiefdoms
+		$fiefdoms = new \Illuminate\Database\Eloquent\Collection;;
+		foreach(Auth::user()->persona->park->npcs as $npc){
+			if(count($npc->fiefdoms) > 0){
+				$fiefdoms = $fiefdoms->merge($npc->fiefdoms);
+			}
+		}
+		foreach(Auth::user()->persona->park->personae as $persona){
+			if(count($persona->fiefdoms) > 0){
+				$fiefdoms = $fiefdoms->merge($persona->fiefdoms);
+			}
+		}
+
+		//stewards
+		$stewardsPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$stewardsNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+			
+		return view('fiefs.create')
+			->with('territories', $territories)
+			->with('territory', $territory)
+			->with('park', Auth::user()->persona->park)
+			->with('fiefdoms', array_pluck($fiefdoms, 'name', 'id'))
+			->with('stewardsPersonae', $stewardsPersonae)
+			->with('stewardsNpcs', $stewardsNpcs);
 	}
 
 	/**
@@ -84,8 +132,22 @@ class FiefController extends AppBaseController
 			Flash::error('Fief not found');
 			return redirect(route('fiefs.index'));
 		}
+		
+		//get territories
+		$centerTarget = $fief->territory;
+		$centerLong = $centerTarget->column;
+		$centerLat = $centerTarget->row;
+		$territories = Territory::wherebetween('column', [$centerLong-5, $centerLong+4])
+			->wherebetween('row', [$centerLat-5, $centerLat+4])
+			->get()
+			->pluck('displayname', 'id')
+			->toArray();
 
-		return view('fiefs.show')->with('fief', $fief);
+		return view('fiefs.show')
+			->with('fief', $fief)
+			->with('territories', $territories)
+			->with('territory', $fief->territory)
+			->with('park', Auth::user()->persona->park);
 	}
 
 	/**

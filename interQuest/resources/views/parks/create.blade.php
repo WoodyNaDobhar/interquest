@@ -12,7 +12,11 @@
 
 			<div class="box-body">
 				<div class="row">
-					{!! Form::open(['route' => 'parks.store']) !!}
+				@if(Request::segment(1) != 'sparse')
+					{!! Form::open(['route' => 'parks.store', 'id' => 'createPark']) !!}
+				@else
+					{!! Form::open(['route' => 'api.v1.parks.store', 'id' => 'createPark']) !!}
+				@endif
 
 						@include('parks.fields')
 

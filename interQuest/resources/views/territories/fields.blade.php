@@ -1,13 +1,13 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('name', 'Name:') !!}
-	{!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
+	{!! Form::text('name', isset($territory) ? $territory->name : old('name'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Terrain Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('terrain_id', 'Terrain:') !!}
-	{!! Form::select('terrain_id', $terrains, old('terrain_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('terrain_id', $terrains, isset($territory) ? $territory->terrain_id : old('terrain_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Column Field -->
@@ -31,7 +31,7 @@
 		'Stone' => 'Stone',
 		'Timber' => 'Timber',
 		'Trade' => 'Trade'
-	], old('primary_resource'), ['class' => 'form-control']) !!}
+	], isset($territory) ? $territory->primary_resource : old('primary_resource'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Secondary Resource Field -->
@@ -44,12 +44,54 @@
 		'Stone' => 'Stone',
 		'Timber' => 'Timber',
 		'Trade' => 'Trade'
-	], old('secondary_resource'), ['class' => 'form-control']) !!}
+	], isset($territory) ? $territory->secondary_resource : old('secondary_resource'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Ruler Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('ruler_id', 'Ruler:') !!}
+	{!! Form::select(
+			'fiefdom_type', 
+			[
+				'' => 'No Ruler',
+				'Park' => 'Settlement',
+				'Ruler' => 'Local Noble or NPC'
+			], 
+			(
+				isset($fief) ?
+					($fief->fiefdom_type == 'Park' ? $fief->fiefdom_type : 'Ruler') :
+					old('fiefdom_type')
+			),
+			[
+				'class' => 'form-control typeSelect',
+				'id' => 'fiefdom_type'
+			]
+		) 
+	!!}
+	{!! Form::select(
+			'fiefdom_id', 
+			[
+				''			=> 'Select One',
+				$park->id	=> $park->name
+			], 
+			(
+				isset($fief) && $fief->fiefdom_type == 'Park' ? 
+					$fief->fiefdom->id :
+					old('fiefdom_id')
+			), 
+			[
+				'class' => 'form-control typeTarget',
+				'data-type' => 'Park', 
+				'data-name' => 'fiefdom_id', 
+				'id' => 'fiefdom_id', 
+				'style' => (
+					isset($fief) && $fief->fiefdom_type == 'Park' ? 
+						'' : 
+						'display: none;'
+				)
+			]
+		) 
+	!!}
 	{!! Form::select(
 			'ruler_type', 
 			[
@@ -59,8 +101,14 @@
 			], 
 			old('ruler_type'), 
 			[
-				'class' => 'form-control typeSelect',
-				'id' => 'ruler_type'
+				'class' => 'form-control typeSelect typeTarget',
+				'data-type' => 'Ruler', 
+				'id' => 'ruler_type', 
+				'style' => (
+					isset($fief) && $fief->fiefdom_type == 'Ruler' ? 
+						'' : 
+						'display: none;'
+				)
 			]
 		) 
 	!!}
@@ -68,24 +116,24 @@
 			'npc_ruler_id', 
 			[
 				'' => 'Select One',
-				'npcCreateWidget' => 'Create New'
+				'newNpc' => 'Create New'
 			] + $rulersNpcs, 
 			(
-				isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
+				isset($fief) && $fief->fiefdom_type == 'Fiefdom' && $fief->fiefdom->ruler_type == 'Npc' ? 
 					(
-						old('ruler_id') ? 
-							old('ruler_id') : 
-							$fiefdom->ruler_id
+						$fief->fiefdom->ruler_id ? 
+							$fief->fiefdom->ruler_id : 
+							old('ruler_id')
 					) : 
 					null
 			), 
 			[
-				'class' => 'form-control typeTarget showSource relatedSource', 
+				'class' => 'form-control makeNew typeTarget showSource relatedSource', 
 				'data-type' => 'Npc', 
 				'data-name' => 'ruler_id', 
 				'style' => 
 					(
-						isset($fiefdom) && $fiefdom->ruler_type == 'Npc' ? 
+						isset($fief) && $fief->fiefdom_type == 'Fiefdom' && $fief->fiefdom->ruler_type == 'Npc' ? 
 							'' : 
 							'display: none;'
 					)
@@ -96,11 +144,12 @@
 			'persona_ruler_id',
 			['0' => 'Select One'] + $rulersPersonae,
 			(
-				isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
+				isset($fief) && $fief->fiefdom_type == 'Fiefdom' && $fief->fiefdom->ruler_type == 'Persona' ?
 					(
-						old('ruler_id') ?
-							old('ruler_id') :
-							$fiefdom->ruler_id
+						$fief->fiefdom->ruler_id ?
+							$fief->fiefdom->ruler_id :
+							old('ruler_id')
+							
 					) : 
 					null
 			),
@@ -110,42 +159,40 @@
 				'data-name' => 'ruler_id',
 				'style' => 
 					(
-						isset($fiefdom) && $fiefdom->ruler_type == 'Persona' ?
+						isset($fief) && $fief->fiefdom_type == 'Fiefdom' && $fief->fiefdom->ruler_type == 'Persona' ?
 							'' :
 							'display: none;'
 					)
 			]
 		)
 	!!}
-	{!! Form::hidden('ruler_id', old('ruler_id')) !!}
+	{!! Form::hidden('ruler_id', isset($fief) ? $fief->fiefdom->ruler_id : old('ruler_id'), ['id' => 'ruler_id']) !!}
 	{!! Form::select(
 			'ruler_fiefdom_id',
-			array_merge(
-				[
-					'' => 'Auto Generate Fiefdom',
-					'newFiefdom' => 'Create New Fiefdom'
-				], 
-				isset($rulerFiefdoms) && is_array($rulerFiefdoms) ? $rulerFiefdoms : []
-			),
+			[
+				'' => 'Auto Generate Fiefdom',
+				'newFiefdom' => 'Create New Fiefdom'
+			] + 
+			(isset($rulerFiefdoms) && is_array($rulerFiefdoms) ? $rulerFiefdoms : []),
 			(
-				isset($fiefdom) ?
-					$fiefdom->id :
-					old('ruler_id')
+				isset($fief) ?
+					$fief->fiefdom_id :
+					old('fiefdom_id')
 			),
 			[
 				'id' => 'ruler_fiefdom_id',
-				'class' => 'form-control showTarget relatedTarget',
+				'class' => 'form-control makeNew showTarget relatedTarget',
 				'data-name' => 'fiefdom_id',
 				'style' => 
 					(
-						isset($fiefdom) ?
+						isset($fief) && $fief->fiefdom_type == 'Fiefdom' ?
 							'' :
 							'display: none;'
 					)
 			]
 		)
 	!!}
-	{!! Form::hidden('fiefdom_id', old('fiefdom_id'), ['id' => 'fiefdom_id']) !!}
+	{!! Form::hidden('fiefdom_id', isset($fief) ? $fief->fiefdom_id : old('fiefdom_id'), ['id' => 'fiefdom_id']) !!}
 </div>
 
 <!-- Castle Strength Field -->
@@ -159,45 +206,45 @@
 		4 => '4',
 		5 => '5',
 		6 => '6',
-	], old('castle_strength'), ['class' => 'form-control']) !!}
+	], isset($territory) ? $territory->castle_strength : old('castle_strength'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gold Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('gold', 'Gold:') !!}
-	{!! Form::number('gold', old('gold'), ['class' => 'form-control']) !!}
+	{!! Form::number('gold', isset($territory) ? $territory->gold : old('gold'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Iron Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('iron', 'Iron:') !!}
-	{!! Form::number('iron', old('iron'), ['class' => 'form-control']) !!}
+	{!! Form::number('iron', isset($territory) ? $territory->iron : old('iron'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Timber Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('timber', 'Timber:') !!}
-	{!! Form::number('timber', old('timber'), ['class' => 'form-control']) !!}
+	{!! Form::number('timber', isset($territory) ? $territory->timber : old('timber'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Stone Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('stone', 'Stone:') !!}
-	{!! Form::number('stone', old('stone'), ['class' => 'form-control']) !!}
+	{!! Form::number('stone', isset($territory) ? $territory->stone : old('stone'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Grain Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('grain', 'Grain:') !!}
-	{!! Form::number('grain', old('grain'), ['class' => 'form-control']) !!}
+	{!! Form::number('grain', isset($territory) ? $territory->grain : old('grain'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Is Wasteland Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('is_wasteland', 'Is Wasteland:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_wasteland', false) !!}
-		{!! Form::checkbox('is_wasteland', '1', null) !!}
+		{!! Form::hidden('is_wasteland', isset($territory) ? ($territory->is_wasteland == 1 ? 'true' : 'false') : (old('is_wasteland') == 1 ? 'true' : 'false')) !!}
+		{!! Form::checkbox('is_wasteland', '1', isset($territory) ? ($territory->is_wasteland == 1 ? ['checked' => 'checked'] : null) : (old('is_wasteland') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
 
@@ -205,8 +252,8 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_no_mans_land', 'Is No Mans Land:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_no_mans_land', false) !!}
-		{!! Form::checkbox('is_no_mans_land', '1', null) !!}
+		{!! Form::hidden('is_no_mans_land', isset($territory) ? ($territory->is_no_mans_land == 1 ? 'true' : 'false') : (old('is_no_mans_land') == 1 ? 'true' : 'false')) !!}
+		{!! Form::checkbox('is_no_mans_land', '1', isset($territory) ? ($territory->is_no_mans_land == 1 ? ['checked' => 'checked'] : null) : (old('is_no_mans_land') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
 

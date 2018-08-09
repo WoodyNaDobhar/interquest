@@ -109,7 +109,7 @@ class Park extends Model
 	public function fiefs()
 	{
 		return $this->morphMany('\App\Models\Fief', 'fiefdom');
-}
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

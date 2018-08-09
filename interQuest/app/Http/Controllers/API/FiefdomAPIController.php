@@ -20,123 +20,126 @@ use Gate;
 
 class FiefdomAPIController extends AppBaseController
 {
-    /** @var  FiefdomRepository */
-    private $fiefdomRepository;
+	/** @var  FiefdomRepository */
+	private $fiefdomRepository;
 
-    public function __construct(FiefdomRepository $fiefdomRepo)
-    {
-        $this->fiefdomRepository = $fiefdomRepo;
-    }
+	public function __construct(FiefdomRepository $fiefdomRepo)
+	{
+		$this->fiefdomRepository = $fiefdomRepo;
+	}
 
-    /**
-     * Display a listing of the Fiefdom.
-     * GET|HEAD /fiefdoms
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function index(Request $request)
-    {
-        if(Gate::denies('mapkeeper')){
-        	return $this->sendError('Permission Denied');
-        }
-        $this->fiefdomRepository->pushCriteria(new RequestCriteria($request));
-        $this->fiefdomRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $fiefdoms = $this->fiefdomRepository->all();
+	/**
+	 * Display a listing of the Fiefdom.
+	 * GET|HEAD /fiefdoms
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function index(Request $request)
+	{
+		if(Gate::denies('mapkeeper')){
+			return $this->sendError('Permission Denied');
+		}
+		$this->fiefdomRepository->pushCriteria(new RequestCriteria($request));
+		$this->fiefdomRepository->pushCriteria(new LimitOffsetCriteria($request));
+		$fiefdoms = $this->fiefdomRepository->all();
 
-        return $this->sendResponse($fiefdoms->toArray(), 'Fiefdoms retrieved successfully');
-    }
+		return $this->sendResponse($fiefdoms->toArray(), 'Fiefdoms retrieved successfully');
+	}
 
-    /**
-     * Store a newly created Fiefdom in storage.
-     * POST /fiefdoms
-     *
-     * @param CreateFiefdomAPIRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateFiefdomAPIRequest $request)
-    {
-        if(Gate::denies('mapkeeper')){
-        	return $this->sendError('Permission Denied');
-        }
-        $input = $request->all();
+	/**
+	 * Store a newly created Fiefdom in storage.
+	 * POST /fiefdoms
+	 *
+	 * @param CreateFiefdomAPIRequest $request
+	 *
+	 * @return Response
+	 */
+	public function store(CreateFiefdomAPIRequest $request)
+	{
+		if(Gate::denies('mapkeeper')){
+			return $this->sendError('Permission Denied');
+		}
+		$input = $request->all();
 
-        $fiefdoms = $this->fiefdomRepository->create($input);
+		$fiefdoms = $this->fiefdomRepository->create($input);
 
-        return $this->sendResponse($fiefdoms->toArray(), 'Fiefdom saved successfully');
-    }
+		return $this->sendResponse($fiefdoms->toArray(), 'Fiefdom saved successfully');
+	}
 
-    /**
-     * Display the specified Fiefdom.
-     * GET|HEAD /fiefdoms/{id}
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        /** @var Fiefdom $fiefdom */
-        $fiefdom = $this->fiefdomRepository->with('ruler')->findWithoutFail($id);
+	/**
+	 * Display the specified Fiefdom.
+	 * GET|HEAD /fiefdoms/{id}
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		/** @var Fiefdom $fiefdom */
+		$fiefdom = $this->fiefdomRepository->with('ruler')->findWithoutFail($id);
 
-        if (empty($fiefdom)) {
-            return $this->sendError('Fiefdom not found');
-        }
-        
-        return $this->sendResponse($fiefdom->toArray(), 'Fiefdom retrieved successfully');
-    }
+		if (empty($fiefdom)) {
+			return $this->sendError('Fiefdom not found');
+		}
+		
+		return $this->sendResponse($fiefdom->toArray(), 'Fiefdom retrieved successfully');
+	}
 
-    /**
-     * Update the specified Fiefdom in storage.
-     * PUT/PATCH /fiefdoms/{id}
-     *
-     * @param  int $id
-     * @param UpdateFiefdomAPIRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateFiefdomAPIRequest $request)
-    {
-        if(Gate::denies('mapkeeper')){
-        	return $this->sendError('Permission Denied');
-        }
-        $input = $request->all();
+	/**
+	 * Update the specified Fiefdom in storage.
+	 * PUT/PATCH /fiefdoms/{id}
+	 *
+	 * @param  int $id
+	 * @param UpdateFiefdomAPIRequest $request
+	 *
+	 * @return Response
+	 */
+	public function update($id, UpdateFiefdomAPIRequest $request)
+	{
+		if(Gate::denies('mapkeeper')){
+			return $this->sendError('Permission Denied');
+		}
+		$input = $request->all();
 
-        /** @var Fiefdom $fiefdom */
-        $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
+		/** @var Fiefdom $fiefdom */
+		$fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 
-        if (empty($fiefdom)) {
-            return $this->sendError('Fiefdom not found');
-        }
+		if (empty($fiefdom)) {
+			return $this->sendError('Fiefdom not found');
+		}
 
-        $fiefdom = $this->fiefdomRepository->update($input, $id);
+		$fiefdom = $this->fiefdomRepository->update($input, $id);
+		
+		$response = $fiefdom->toArray();
+		$response['ruler'] = $fiefdom->ruler;
 
-        return $this->sendResponse($fiefdom->toArray(), 'Fiefdom updated successfully');
-    }
+		return $this->sendResponse($response, 'Fiefdom updated successfully');
+	}
 
-    /**
-     * Remove the specified Fiefdom from storage.
-     * DELETE /fiefdoms/{id}
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        if(Gate::denies('admin')){
-        	return $this->sendError('Permission Denied');
-        }
-        /** @var Fiefdom $fiefdom */
-        $fiefdom = $this->fiefdomRepository->findWithoutFail($id);
+	/**
+	 * Remove the specified Fiefdom from storage.
+	 * DELETE /fiefdoms/{id}
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		if(Gate::denies('admin')){
+			return $this->sendError('Permission Denied');
+		}
+		/** @var Fiefdom $fiefdom */
+		$fiefdom = $this->fiefdomRepository->findWithoutFail($id);
 
-        if (empty($fiefdom)) {
-            return $this->sendError('Fiefdom not found');
-        }
+		if (empty($fiefdom)) {
+			return $this->sendError('Fiefdom not found');
+		}
 
-        $fiefdom->delete();
+		$fiefdom->delete();
 
-        return $this->sendResponse($id, 'Fiefdom deleted successfully');
-    }
+		return $this->sendResponse($id, 'Fiefdom deleted successfully');
+	}
 }

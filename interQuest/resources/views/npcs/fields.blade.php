@@ -1,25 +1,25 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('name', 'Name:') !!}
-	{!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
+	{!! Form::text('name', isset($npc) ? $npc->name : old('name'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Private Name Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('private_name', 'Private Name:') !!}
-	{!! Form::text('private_name', old('private_name'), ['class' => 'form-control']) !!}
+	{!! Form::text('private_name', isset($npc) ? $npc->private_name : old('private_name'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Vocation Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('vocation_id', 'Class:') !!}
-	{!! Form::select('vocation_id', ['' => 'None'] + $vocations, old('vocation_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('vocation_id', ['' => 'None'] + $vocations, isset($npc) ? $npc->vocation_id : old('vocation_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Metatype Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('metatype_id', 'Metatype:') !!}
-	{!! Form::select('metatype_id', $metatypes, old('metatype_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('metatype_id', $metatypes, isset($npc) ? $npc->metatype_id : old('metatype_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Image Field -->
@@ -31,13 +31,13 @@
 <!-- Background Public Field -->
 <div class="form-group col-sm-12 col-lg-12">
 	{!! Form::label('background_public', 'Background Public:') !!}
-	{!! Form::textarea('background_public', old('background_public'), ['class' => 'form-control']) !!}
+	{!! Form::textarea('background_public', isset($npc) ? $npc->background_public : old('background_public'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Background Private Field -->
 <div class="form-group col-sm-12 col-lg-12">
 	{!! Form::label('background_private', 'Background Private:') !!}
-	{!! Form::textarea('background_private', old('background_private'), ['class' => 'form-control']) !!}
+	{!! Form::textarea('background_private', isset($npc) ? $npc->background_private : old('background_private'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Park Id Field -->
@@ -49,7 +49,7 @@
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('territory_id', 'Home Territory:') !!}
-	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, old('territory_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($npc) ? $npc->territory_id : old('territory_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gold Field -->
@@ -85,13 +85,13 @@
 <!-- Action Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('action_id', 'Default Action:') !!}
-	{!! Form::select('action_id', ['' => 'None'] + $actions, old('action_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('action_id', ['' => 'None'] + $actions, isset($npc) ? $npc->action_id : old('action_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Deceased Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('deceased', 'Deceased:') !!}
-	{!! Form::date('deceased', old('deceased'), ['class' => 'form-control']) !!}
+	{!! Form::date('deceased', isset($npc) ? $npc->deceased : old('deceased'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

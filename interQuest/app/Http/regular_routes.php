@@ -15,6 +15,7 @@ Route::resource('equipment', 'EquipmentController');
 Route::resource('equipments', 'EquipmentController');
 Route::get('fiefdoms/create/{rulerId?}/{rulerType}', 'FiefdomController@create');
 Route::resource('fiefdoms', 'FiefdomController');
+Route::get('fiefs/create/{territoryId?}', 'FiefController@create');
 Route::resource('fiefs', 'FiefController');
 Route::resource('metatypes', 'MetatypeController');
 Route::resource('npcs', 'NpcController');

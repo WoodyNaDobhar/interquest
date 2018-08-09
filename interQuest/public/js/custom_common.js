@@ -108,8 +108,24 @@ $(document).ready(function(){
 		//setup
 		var context = $(this);
 		
-		//hide any related selects
-		context.parent().find('.typeTarget').hide();
+		//iterate typeTargets
+		$.each(context.parent().find('.typeTarget'), function(ti, e){
+			
+			//check for kids
+			if($(this).hasClass('showSource')){
+				$(this).siblings('.showTarget').val('').hide();
+			}
+			
+			//unset and hide it
+			$(this).val('').hide();
+		});
+		
+		//clear out related hidden inputs
+		$.each(context.parent().find('select'), function(si, select){
+			if($(this).attr('data-name')){
+				$('input#' + $(this).data('name')).val('');
+			}
+		});
 
 		//show the appropriate select
 		context.parent().find('select[data-type="' + context.val() + '"]').show('slow');
@@ -127,38 +143,56 @@ $(document).ready(function(){
 		//setup
 		context = $(this);
 		
-		//act based on value
-		if(context.val() == 'npcCreateWidget'){
+		//if something selected
+		if(context.val() > 0){
 			
-			//open new NPC window
-			loadPage(context, 'Create NPC', '/sparse/npcs/create', null, function(jsonData){
-				
-				//add to dd & select
-				context.val('');
-				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
-				
-				//update hidden
-				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
-				
-				//show the fiefdom dd
-				context.parent().find('#ruler_fiefdom_id').show('slow');
-			});
-		}else if(context.val() == 'newFiefdom'){
-		
-			//open new Fiefdom window
-			loadPage(context, 'Create Fiefdom', '/sparse/fiefdoms/create', null, function(jsonData){
-				
-				//add to dd & select
-				context.val('');
-				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
-				
-				//update hidden
-				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
-			});
-		}else if(context.val() > 0){
+			console.log(context.parent().find('input#' + context.data('name')));
 		
 			//update hidden
-			context.parent().find('#' + context.data('name')).val(context.val());
+			context.parent().find('input#' + context.data('name')).val(context.val());
+		}
+		
+		//no clicky!
+		return false;
+	});
+	
+	//makeNew
+	$('body').on('change', '.makeNew', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		makeNewContext = $(this);
+		
+		//act based on value
+		if(makeNewContext.val() == 'newNpc'){
+			
+			//open new NPC window
+			loadPage(makeNewContext, 'Create NPC', '/sparse/npcs/create', null, function(jsonData){
+				
+				//add to dd & select
+				makeNewContext.val('');
+				makeNewContext.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
+				
+				//update hidden
+				makeNewContext.parent().find('#' + makeNewContext.data('name')).val(jsonData.data.id);
+				
+				//show the fiefdom dd
+				makeNewContext.parent().find('#ruler_fiefdom_id').show('slow');
+			});
+		}else if(makeNewContext.val() == 'newFiefdom'){
+		
+			//open new Fiefdom window
+			loadPage(makeNewContext, 'Create Fiefdom', '/sparse/fiefdoms/create/' + makeNewContext.parent().find('#ruler_id').val() + '/' + makeNewContext.parent().find('#ruler_type').val(), null, function(jsonData){
+				
+				//add to dd & select
+				makeNewContext.val('');
+				makeNewContext.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
+				
+				//update hidden
+				makeNewContext.parent().find('#' + makeNewContext.data('name')).val(jsonData.data.id);
+			});
 		}
 		
 		//no clicky!
@@ -182,7 +216,14 @@ $(document).ready(function(){
 		var params = [];
 		var context = $(this);
 		var callback = null;
-		if(context.attr('id') == 'territoryCreateWidget'){
+
+		if(context.attr('id') == 'territoryCreateWidget' || 
+			context.attr('id') == 'territoryEditWidget' ||
+			context.attr('id') == 'fiefCreateWidget' ||
+			context.attr('id') == 'fiefEditWidget')
+		{
+			
+			//set callback
 			callback = function(jsonData){
 
 				//update all the things
@@ -190,7 +231,7 @@ $(document).ready(function(){
 				territoryDisplay.find('.ui-dialog-title').html(jsonData.data.displayname);
 				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(0).children().eq(1).html(jsonData.data.fief ? jsonData.data.fief.fiefdom.name : '');
 				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(1).children().eq(1).html(jsonData.data.fief ? jsonData.data.fief.fiefdom.ruler.name : '');
-				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(2).children().eq(1).html('');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(2).children().eq(1).html(jsonData.data.fief && jsonData.data.fief.steward ? jsonData.data.fief.steward.name : '');
 				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(5).children().eq(1).html(jsonData.data.terrain.name);
 				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(6).children().eq(1).html(jsonData.data.primary_resource);
 				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(7).children().eq(1).html(jsonData.data.secondary_resource);
@@ -206,6 +247,19 @@ $(document).ready(function(){
 						context.parent().html(getTerritoryLinks(templateGuts, jsonData.data));
 					}
 				);
+				
+				//refresh the map
+				drawMap();
+			}
+		}else if(context.attr('id') == 'fiefdomEditWidget'){
+			
+			//set callback
+			callback = function(jsonData){
+				
+				//update some of the things
+				var territoryDisplay = context.closest('.ui-dialog');
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(0).children().eq(1).html(jsonData.data.name);
+				territoryDisplay.find('.tab-container').first().children().eq(0).children().eq(1).children().eq(1).html(jsonData.data.ruler.name);
 				
 				//refresh the map
 				drawMap();
@@ -261,38 +315,6 @@ $(document).ready(function(){
 		//no clicky!
 		return false;
 	});
-
-	//Ruler Fiefdom
-	$('body').on('change', '#ruler_fiefdom_id', function(e){
-		
-		//no submit
-		e.preventDefault();
-		
-		//setup
-		context = $(this);
-		
-		//act based on value
-		if(context.val() == 'newFiefdom'){
-			
-			//open new Fiefdom window
-			loadPage(context, 'Create Fiefdom', '/sparse/fiefdoms/create/' + context.parent().find('#ruler_id').val() + '/' + context.parent().find('#ruler_type').val(), null, function(jsonData){
-				
-				//add to dd & select
-				context.val('');
-				context.append('<option value="' + jsonData.data.id + '" selected="selected">' + jsonData.data.name + '</option>');
-				
-				//update hidden
-				context.parent().find('#' + context.data('name')).val(jsonData.data.id);
-			});
-		}else if(context.val() > 0){
-			
-			//update hidden
-			context.parent().find('#' + context.data('name')).val(context.val());
-		}
-
-		//no clicky!
-		return false;
-	});
 	
 	//related dd population
 	$('body').on('change', '.relatedSource', function(e){
@@ -303,57 +325,77 @@ $(document).ready(function(){
 		
 		//remove anythign already there
 		relatedTarget.find('option[value="newFiefdom"]').nextAll().remove();
-			
-		//spinner up
-		var target = document.getElementById(context.closest('form').attr('id'));
-		var spinner = new Spinner(spinnerOpts).spin(target);
 		
-		//the ajax calls
-		$.when(
+		//check for val
+		if(context.val() > 0){
+			
+			//spinner up
+			var target = document.getElementById(context.closest('form').attr('id'));
+			var spinner = new Spinner(spinnerOpts).spin(target);
+			
+			//the ajax calls
+			$.when(
 
-			//get the requisite data
-			$.ajax({
-				type:		"GET",
-				url:		"/api/v1/" + context.data('type').toLowerCase() + "s/" + context.val(),
-				dataType:	"json",
-				error: function(error){
-					
-					//wind out the response
-					windDown(spinner, error.responseJSON, true);
-				}
-			})
-		).then(
-
-			function(preResults){
-				
-				//spinner down
-				spinner.stop();
-
-				//setup
-				var results = preResults['data'];
-				var data = preResults['data'][relatedTarget.data('name').substring(0, relatedTarget.data('name').length - 3) + 's'];
-				var options = '';
-				
-				//load our templates
-				loadTemplates(
-					['common/_selectOption.tmpl.htm'],
-					function(templateGuts){
-
-						//iterate and build options
-						$.each(data, function(i, fiefdom){
-
-							options = options + templateGuts['templateCommonSelectOption'].format({
-								value:		fiefdom.id,
-								label:		fiefdom.name
-							});
-						});
+				//get the requisite data
+				$.ajax({
+					type:		"GET",
+					url:		"/api/v1/" + context.data('type').toLowerCase() + 's/' + context.val(),
+					dataType:	"json",
+					error: function(error){
 						
-						//add options to select
-						relatedTarget.append(options);
+						//wind out the response
+						windDown(spinner, error.responseJSON, true);
 					}
-				);
-			}
-		);
+				})
+			).then(
+
+				function(preResults){
+					
+					//spinner down
+					spinner.stop();
+
+					//setup
+					var results = preResults['data'];
+					var data = preResults['data'][relatedTarget.data('name').substring(0, relatedTarget.data('name').length - 3) + 's'];
+					var options = '';
+					
+					//load our templates
+					loadTemplates(
+						['common/_selectOption.tmpl.htm'],
+						function(templateGuts){
+
+							//iterate and build options
+							$.each(data, function(i, fiefdom){
+
+								options = options + templateGuts['templateCommonSelectOption'].format({
+									value:		fiefdom.id,
+									label:		fiefdom.name
+								});
+							});
+							
+							//add options to select
+							relatedTarget.append(options);
+						}
+					);
+				}
+			);
+		}
+	});
+
+	//Related Target
+	$('body').on('change', '.relatedTarget', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		context = $(this);
+		
+		//update hidden
+		context.parent().find('#' + context.data('name')).val((isNumber(context.val()) ? context.val() : ''));
+
+		//no clicky!
+		return false;
 	});
 });
 
@@ -375,7 +417,7 @@ function drawMap(territoryId, columns, rows){
 	if(territoryId){
 		
 		//clear out the container
-		$('#mapContainer').empty();
+		$('#mapContainer').empty().off();
 		
 		//spinner up
 		var target = document.getElementById('mapContainer');
@@ -528,7 +570,7 @@ function drawMap(territoryId, columns, rows){
 												noMans:			territory.is_no_mans_land ?  (territory.is_no_mans_land == 'Undiscovered' ? territory.is_no_mans_land : 'Yes!') : 'No',
 												links:			links
 											});
-											
+
 											//load the template to the page
 											$('body').append(template);
 											
@@ -536,19 +578,20 @@ function drawMap(territoryId, columns, rows){
 											windDown(spinner);
 											
 											//listeners
-											
+
 											//if it's up, kill it
 											if($("#" + dialogId).hasClass('ui-dialog-content')){
 												$("#" + dialogId).dialog('destroy').detach().remove();
 											}
 	
 											//display the dialog
-											$("#" + dialogId).dialog(mediumDialogVars, {
+											var dialog = $("#" + dialogId).dialog(mediumDialogVars, {
 												title: territory.name,
 												close: function(){
 													$(this).dialog('destroy').detach().remove()
 												}
 											});
+											dialog.dialog('open');
 										}
 									);
 								}
@@ -611,7 +654,7 @@ function getTerritoryLinks(templateGuts, territory){
 		}) + '<br><br>';
 	}else if(territory.id && territory.id != ''){
 		links = links + templateGuts['templateCommonButton'].format({
-			href:	'/sparse/fiefs/create',
+			href:	'/sparse/fiefs/create/' + territory.id,
 			etc:	'id="fiefCreateWidget" target="_blank"',
 			css:	'pull-right openInDialog',
 			label:	'Assign Fief'
@@ -624,54 +667,9 @@ function getTerritoryLinks(templateGuts, territory){
 			css:	'pull-right openInDialog',
 			label:	'Update Fiefdom'
 		}) + '<br><br>';
-	}else if(territory.id && territory.id != ''){
-		links = links + templateGuts['templateCommonButton'].format({
-			href:	'/sparse/fiefdoms/create',
-			etc:	'id="fiefdomCreateWidget" target="_blank"',
-			css:	'pull-right openInDialog',
-			label:	'Create/Assign Fiefdom'
-		}) + '<br><br>';
 	}
 
 	return links;
-}
-
-/**
- * Some common functions after a successful ajax
- * @param {object}	the caller's spinner
- * @param {string}	the json data the caller was sent
- * @param {bool}	whether it's a failture or success
- */
-function windDown(spinner, jsonData, failed){
-
-	//spinner down
-	spinner.stop();
-
-	//display message
-	if(failed){
-		if(jsonData){
-			showMessage('danger', jsonData.message);
-		}
-	}else{
-		if(jsonData){
-			showMessage('success', jsonData.message);
-		}
-	}
-
-	//if there's a redirect, do it
-	if(jsonData && jsonData.redirect){
-		$('<div></div>').appendTo('body')
-		.html(jsonData.message)
-		.dialog(smallDialogVars, {
-			title: "",
-			buttons: {
-				"Gotcha": function () {
-					$(this).dialog('destroy').detach().remove();
-					window.location = jsonData.redirect;
-				}
-			}
-		});
-	}
 }
 
 /**
@@ -690,6 +688,9 @@ function showAlert(title, message, callback){
 			Cancel: function () {
 				$(this).dialog('destroy').detach().remove();
 			}
+		},
+		close: function(e, ui) {
+			$(this).dialog('destroy').detach().remove();
 		}
 	}).parent().find('.ui-dialog-titlebar').addClass("ui-state-error");
 	
@@ -722,6 +723,9 @@ function showMessage(type, message){
 				//remove this
 				$(this).dialog('destroy').detach().remove();
 			}
+		},
+		close: function(e, ui) {
+			$(this).dialog('destroy').detach().remove();
 		}
 	})
 	.parent().find('.ui-dialog-titlebar').addClass("ui-state-" + type);
@@ -747,6 +751,14 @@ String.prototype.format = function() {
 };
 
 /**
+ * checks if n is a number
+ * @param {string}	 the string being checked
+ */
+function isNumber(n) {
+	return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+};
+
+/**
  * Main page dialog loading function
  * @param {title} string dialog title
  * @param {contentUrl} string of page to get
@@ -760,8 +772,6 @@ var loadPage = function(context, title, contentUrl, params, callback){
 	var pageDialog = $('<div id="' + dialogId + '">').dialog(
 		mediumDialogVars, 
 		{
-			autoOpen: false,
-			modal: true,
 			title: title,
 			close: function(e, ui) {
 				$(this).dialog('destroy').detach().remove();
@@ -1016,7 +1026,7 @@ function postPostFileWidgetForm(context, files, callback){
 		windDown(spinner);
 		
 		//close up
-		$('form#' + formID).closest('div.widgetActionTemplate').dialog('destroy').detach().remove();
+		context.dialog('destroy').detach().remove();
 
 		//callback?
 		if(callback && typeof callback !== typeof undefined){
@@ -1025,5 +1035,47 @@ function postPostFileWidgetForm(context, files, callback){
 			//just dump it, I guess
 			return jsonData;
 		}
+	}
+}
+
+/**
+ * Some common functions after a successful ajax
+ * @param {object}	the caller's spinner
+ * @param {string}	the json data the caller was sent
+ * @param {bool}	whether it's a failture or success
+ */
+function windDown(spinner, jsonData, failed){
+
+	//spinner down
+	spinner.stop();
+
+	//display message
+	if(failed){
+		if(jsonData){
+			showMessage('danger', jsonData.message);
+		}
+	}else{
+		if(jsonData){
+			showMessage('success', jsonData.message);
+		}
+	}
+
+	//if there's a redirect, do it
+	if(jsonData && jsonData.redirect){
+		$('<div></div>').appendTo('body')
+		.html(jsonData.message)
+		.dialog(smallDialogVars, {
+			title: "",
+			buttons: {
+				"Gotcha": function () {
+					$(this).dialog('destroy').detach().remove();
+					window.location = jsonData.redirect;
+				}
+			},
+			close: function(e, ui) {
+				$(this).dialog('destroy').detach().remove();
+				window.location = jsonData.redirect;
+			}
+		});
 	}
 }
