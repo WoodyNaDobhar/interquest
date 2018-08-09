@@ -1,0 +1,278 @@
+/*
+* Wherever
+*/
+.deleteMe, .mapZoom{
+	cursor: pointer;
+}
+.btn-default {
+	color: #444 !important;
+}
+h1 .btn {
+	font-size: 14px !important;
+}
+
+/*
+* Tooltips
+*/
+/* .tooltip{ */
+/*	 position:absolute; */
+/*	 z-index:1020; */
+/*	 display:block; */
+/*	 visibility:visible; */
+/*	 padding:5px; */
+/*	 font-size:13px; */
+/*	 opacity:0; */
+/*	 filter:alpha(opacity=0) */
+/* } */
+/* .tooltip.in{ */
+/*	 opacity:.8; */
+/*	 filter:alpha(opacity=80) */
+/* } */
+/* .tooltip-inner{ */
+/*	 padding:3px 8px; */
+/*	 color:#314A5B; */
+/*	 text-align:center; */
+/*	 font-weight:900; */
+/*	 background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #A2BBCC), to(#FFFFFF));  */
+/*	 background: -moz-linear-gradient(top, #FFFFFF, #A2BBCC 1px, #FFFFFF 25px);  */
+/*	 -webkit-border-radius:5px; */
+/*	 -moz-border-radius:5px; */
+/*	 border-radius:15px; */
+/*	 border: 1px solid #314A5B; */
+/* } */
+/* .tooltip-arrow{ */
+/*	 position:absolute; */
+/*	 width:0; */
+/*	 height:0 */
+/* } */
+
+/*
+* Datatables stuff
+*/
+div.dataTables_wrapper div.dataTables_processing {
+	z-index: 1;
+}
+.dataTables_wrapper .dataTables_processing {
+	height: 60px !important;
+}
+
+/*
+* Dialog stuff
+*/
+.ui-dialog > .ui-dialog-content > #page-content-wrapper > .container-fluid > .row > #spinMe > .content > .box {
+	background: none;
+}
+
+/*
+* Map stuff
+*/
+#mapContainer {
+	width: 100%;
+	background-color: black;
+	overflow: hidden;
+}
+.hex {
+	fill: transparent;
+	stroke: black;
+	stroke-width: .3;
+}
+.hex:hover {
+	fill: rgba(0,0,0,.25);
+}
+.hex:focus {
+	outline:none;
+}
+.hex:active {
+	fill: red;
+	outline: none;
+}
+.hex.clicked{
+	fill: black;
+}
+.hex.Undiscovered{
+	fill: beige;
+}
+.hex.Desert{
+	fill: khaki;
+}
+.hex.Floodplain{
+	fill: lawngreen;
+}
+.hex.Forest{
+	fill: green;
+}
+.hex.Grassland{
+	fill: gold;
+}
+.hex.Hills{
+	fill: burlywood;
+}
+.hex.Jungle{
+	fill: forestgreen;
+}
+.hex.Lake{
+	fill: deepskyblue;
+}
+.hex.Mountain{
+	fill: slategray;
+}
+.hex.Ocean{
+	fill: mediumblue;
+}
+.hex.Ice{
+	fill: white;
+}
+.hex.River{
+	fill: teal;
+}
+.hex.Sea{
+	fill: blue;
+}
+.hex-castle {
+	position: absolute;
+}
+.hex.fief1{
+	stroke: white;
+	stroke-width: 3px;
+}
+.hex.fief2{
+	stroke: violet;
+	stroke-width: 3px;
+}
+.hex.fief3{
+	stroke: indigo;
+	stroke-width: 3px;
+}
+.hex.fief4{
+	stroke: blue;
+	stroke-width: 3px;
+}
+.hex.fief5{
+	stroke: teal;
+	stroke-width: 3px;
+}
+.hex.fief6{
+	stroke: green;
+	stroke-width: 3px;
+}
+.hex.fief7{
+	stroke: yellow;
+	stroke-width: 3px;
+}
+.hex.fief8{
+	stroke: orange;
+	stroke-width: 3px;
+}
+.hex.fief9{
+	stroke: red;
+	stroke-width: 3px;
+}
+.hex.fief10{
+	stroke: darkred;
+	stroke-width: 3px;
+}
+
+/*
+* Top
+*/
+.logo img {
+	margin-top: -4px;
+}
+.makeMapkeeper{
+	float: right;
+}
+
+/*
+* Sidebar
+*/
+.main-header .logo {
+	padding: 0px;
+}
+
+/*
+* Profile
+*/
+.underlayRebel {
+	position: absolute;
+	max-width: 100%
+}
+.rebelContainerWrap {
+	width: 37%;
+	float: left;
+}
+.rebelContainer {
+	position: relative;
+}
+.rebelContents {
+	position: absolute;
+	width: 65%;
+	left: 15%;
+	top: 30%;
+	height: 48%;
+}
+.personaImageContainerWrap {
+	width: 37%;
+	float: left;
+	margin-right: 10px;
+}
+.personaImageContainer {
+	position: relative;
+}
+.personaImageContents {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.personaImage {
+	position: absolute;
+	max-width: 100%;
+	width: 100%;
+}
+.overlayKnight {
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	right: 5%;
+}
+.rebelContents.overlayKnight {
+	bottom: 5%;
+	right: 5%;
+}
+.overlayMonarch {
+	position: absolute;
+	max-width: 25%;
+	left: 5%;
+	top: 2.5%;
+}
+.rebelContents.overlayMonarch {
+	left: 5%;
+	top: 2.5%;
+}
+.overlayMapkeeper {
+	position: absolute;
+	max-height: 25%;
+	bottom: 5%;
+	left: 5%;
+}
+.rebelContents.overlayMapkeeper {
+	bottom: 5%;
+	left: 5%;
+}
+.overlayDeceased {
+	position: absolute;
+	max-width: 25%;
+	right: 3%;
+	top: 5%;
+}
+.rebelContents.overlayDeceased {
+	right: 3%;
+	top: 5%;
+}
+.personaLinks{
+	float: right;
+	width: 50px;
+	margin-left: 10px;
+}
+.personaLinks > a > img{
+	margin-bottom: 10px;
+}
