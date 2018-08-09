@@ -6,3 +6,6 @@
 /.buildpath
 /.project
 .settings
+/.editorconfig
+/.gitattributes
+/.travis.yml
