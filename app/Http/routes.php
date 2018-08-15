@@ -39,10 +39,4 @@ Route::group(['middleware' => 'auth'], function()
 //all the public routes
 require app_path('Http/public_routes.php');
 
-Route::get('/', function(){
-	if(!Auth::check()){
-		return view('welcome');
-	}else{
-		Route::get('/', 'HomeController@index');
-	}
-});
+Route::get('/', 'HomeController@index');

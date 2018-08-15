@@ -17,7 +17,7 @@ class HomeController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		//
 	}
 
 	/**
@@ -27,31 +27,35 @@ class HomeController extends Controller
 	 */
 	public function index(PersonaDataTable $personaDataTable)
 	{
-		$dataTable = $personaDataTable
-			->html(
-				[
-					'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
-				],
-				[
+		if(Auth::guest()){
+			return view('welcome');
+		}else{
+			$dataTable = $personaDataTable
+				->html(
 					[
-						 'extend'  => 'collection',
-						 'text'	=> '<i class="fa fa-download"></i> Export',
-						 'buttons' => [
-							 'csv',
-							 'excel',
-							 'pdf',
-						 ],
-					]
-				],
-				'27%'
-			)
-			->ajax([
-				'url' => route('personae.index'),
-				'type' => 'GET',
-				'data' => 'function(d) { 
-					d.park_id = ' . Auth::user()->persona->park_id . '; 
-				}',
-			]);
-		return view('landing', compact('dataTable'));
+						'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
+					],
+					[
+						[
+							 'extend'  => 'collection',
+							 'text'	=> '<i class="fa fa-download"></i> Export',
+							 'buttons' => [
+								 'csv',
+								 'excel',
+								 'pdf',
+							 ],
+						]
+					],
+					'27%'
+				)
+				->ajax([
+					'url' => route('personae.index'),
+					'type' => 'GET',
+					'data' => 'function(d) { 
+						d.park_id = ' . Auth::user()->persona->park_id . '; 
+					}',
+				]);
+			return view('landing', compact('dataTable'));
+		}
 	}
 }
