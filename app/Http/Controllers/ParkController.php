@@ -390,7 +390,7 @@ class ParkController extends AppBaseController
 			'url' => route('personae.index'),
 			'type' => 'GET',
 			'data' => 'function(d) {
-				d.park_id = ' . Auth::user()->persona->park_id . ';
+				d.park_id = ' . $id . ';
 			}',
 		]);
 

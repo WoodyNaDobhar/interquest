@@ -21,41 +21,28 @@ Route::get('/signin', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
 
 //public stuff
-Route::get('/terms', function(){
-	return redirect('https://getterms.io/generate/?url=' . urlencode(env('APP_URL')) . '&name=InterQuest&location=US');
-});
-Route::get('/privacy', function(){
-	return redirect('https://privacypolicies.com/privacy/view/0JEgJB');
-});
-Route::get('/storage/{folder?}/{filename}', function ($folder = null, $filename)
-{
-	$path = storage_path('app/public/' . ($folder?$folder.'/':'') . $filename);
-
-	if (!File::exists($path)) {
-		abort(404);
-	}
-
-	$file = File::get($path);
-	$type = File::mimeType($path);
-
-	$response = Response::make($file, 200);
-	$response->header("Content-Type", $type);
-
-	return $response;
-});
 
 //all the core routes, buried behind auth to drive login behavior
 Route::group(['middleware' => 'auth'], function()
 {
 	Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
 		Route::group(['prefix' => 'v1'], function () {
-			require config('infyom.laravel_generator.path.api_routes');
+			require app_path('Http/api_secure_routes.php');
 		});
 	});
 	Route::group(['prefix' => 'sparse'], function () {
-		require app_path('Http/regular_routes.php');
+		require app_path('Http/secure_routes.php');
 	});
-	require app_path('Http/regular_routes.php');
+	require app_path('Http/secure_routes.php');
 });
 
-Route::get('/', 'HomeController@index');
+//all the public routes
+require app_path('Http/public_routes.php');
+
+Route::get('/', function(){
+	if(!Auth::check()){
+		return view('welcome');
+	}else{
+		Route::get('/', 'HomeController@index');
+	}
+});

@@ -497,8 +497,9 @@ function drawMap(territoryId, columns, rows){
 									url:		"/api/v1/territories/" + e.territory_id,
 									dataType:	"json",
 									error: 		function(error){
+										
 										//wind out the response
-										windDown(spinner, error.error ? error.error : {'message':error.message}, true);
+										windDown(spinner, error.error ? error.error : {'message': (error.message ? error.message : error.responseText)}, true);
 									}
 								})
 							}

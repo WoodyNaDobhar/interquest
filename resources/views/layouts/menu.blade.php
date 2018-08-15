@@ -48,7 +48,7 @@
 		</li>
 	</ul>
 </li>
-@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
 <li class="treeview {!! Request::is('fiefdoms*') || Request::is('npcs*') || Request::is('territories*') || Request::is('users*') ? 'menu-open' : '' !!}">
 	<a href="#">
 		<i class="fa fa-map-o"></i>
@@ -67,7 +67,7 @@
 		<li class="{!! Request::is('territories*') ? 'active' : '' !!}">
 			<a href="{!! route('territories.index') !!}"><i class="fa fa-connectdevelop"></i><span>Territories</span></a>
 		</li>
-		@if(Auth::user()->is_admin)
+		@if(!Auth::guest() && Auth::user()->is_admin)
 		<li class="{!! Request::is('users*') ? 'active' : '' !!}">
 			<a href="{!! route('users.index') !!}"><i class="fa fa-user-plus"></i><span>Users</span></a>
 		</li>

@@ -3,7 +3,7 @@
     <a href="{{ route('buildings.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    @if(Auth::user()->is_admin)
+    @if(!Auth::guest() && Auth::user()->is_admin)
     <a href="{{ route('buildings.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>

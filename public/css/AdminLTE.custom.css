@@ -10,6 +10,12 @@
 h1 .btn {
 	font-size: 14px !important;
 }
+.guestLogin{
+	padding: 8px !important;
+}
+.content-header > h1{
+	margin: 0px 0px 10px 0px;
+}
 
 /*
 * Tooltips

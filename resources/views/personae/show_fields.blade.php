@@ -6,7 +6,7 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
+							@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id))
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
@@ -86,7 +86,7 @@
 									</div>
 								@endif
 								{!! $persona->background_public !!}
-								@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
+								@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id))
 								<h4>{!! $persona->name !!}'s Secrets</h4>{!! $persona->background_private !!}
 								@endif
 							</div>
@@ -103,7 +103,7 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+							@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>
@@ -164,7 +164,7 @@
 				</div>
 			</div>
 		</div>
-@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id)
+@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper || $persona->user_id == Auth::user()->id))
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-primary">
@@ -173,7 +173,7 @@
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 							</button>
-							@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+							@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
 							<div class="btn-group">
 								<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-wrench"></i></button>

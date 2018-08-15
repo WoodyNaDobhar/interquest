@@ -1,10 +1,10 @@
 @section('css')
-    @include('layouts.datatables_css')
+	@include('layouts.datatables_css')
 @endsection
 
-{!! $dataTable->table(['width' => '100%']) !!}
+{!! isset($dataTable) ? $dataTable->table(['width' => '100%']) : '' !!}
 
 @section('scripts')
-    @include('layouts.datatables_js')
-    {!! $dataTable->scripts() !!}
+	@include('layouts.datatables_js')
+	{!! isset($dataTable) ? $dataTable->scripts() : '' !!}
 @endsection

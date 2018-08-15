@@ -29,7 +29,7 @@ class PersonaDataTable extends DataTable
 	public function query()
 	{
 
-		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
+		if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper)){
 			
 			$personas = Persona::query()
 				->with('vocation')
@@ -75,7 +75,7 @@ class PersonaDataTable extends DataTable
 	private function getColumns()
 	{
 		
-		if(Auth::user()->is_admin || Auth::user()->is_mapkeeper){
+		if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper)){
 			return [
 				'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'name'],
 				'long_name' => ['visible' => false, 'title' => 'Long Name', 'name' => 'long_name', 'data' => 'long_name'],

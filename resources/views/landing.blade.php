@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<section class="content-header">
-			<h1 class="pull-left">Welcome{!! Auth::check() ? ', ' . Auth::user()->persona->name : '' !!}!</h1>
+			<h1 class="pull-left">Welcome{!! Auth::check() ? ', ' . (Auth::user()->persona ? Auth::user()->persona->name : Auth::user()->name) : '' !!}!</h1>
 		</section>
 		<div class="content">
 			<div class="clearfix"></div>
@@ -45,7 +45,7 @@
 										@include('personae.table')
 									</div>
 									<div class="col-md-7">
-										<div id="mapContainer" data-center="{!! Auth::user()->persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
+										<div id="mapContainer" data-center="{!! Auth::user()->persona ? Auth::user()->persona->park->territory_id : 848 !!}" data-columns="10" data-rows="10"></div>
 									</div>
 								</div>
 							</div>

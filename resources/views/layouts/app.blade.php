@@ -49,7 +49,6 @@
 		</div>
 	</div>
 @else
-	@if (!Auth::guest())
 	<div class="wrapper">
 		<!-- Main Header -->
 		<header class="main-header">
@@ -68,30 +67,31 @@
 				</a>
 				<!-- Navbar Right Menu -->
 				<div class="navbar-custom-menu">
+					@if (!Auth::guest())
 					<ul class="nav navbar-nav">
 						<!-- User Account Menu -->
 						<li class="dropdown user user-menu">
 							<!-- Menu Toggle Button -->
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<!-- The user image in the navbar-->
-								<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}"
-									 class="user-image" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
+								<img src="{!! $userPersona && $userPersona->image ? $userPersona->image : '/img/profile.png' !!}"
+									 class="user-image" alt="{!! $userPersona && $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 								<!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">{!! $userPersona->name ? $userPersona->name : Auth::user()->name !!}</span>
+								<span class="hidden-xs">{!! $userPersona && $userPersona->name ? $userPersona->name : Auth::user()->name !!}</span>
 							</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
 								<li class="user-header">
-									<img src="{!! $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
+									<img src="{!! $userPersona && $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona && $userPersona->long_name ? $userPersona->long_name : Auth::user()->name !!}"/>
 									<p>
-										{!! $userPersona->name ? $userPersona->name : Auth::user()->name !!}
+										{!! $userPersona && $userPersona->name ? $userPersona->name : Auth::user()->name !!}
 										<small>Member since {!! Auth::user()->created_at->format('M. Y') !!}</small>
 									</p>
 								</li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="{!! $userPersona->id ? '/personae/' . $userPersona->id : '#' !!}" class="btn btn-default btn-flat">Profile</a>
+										<a href="{!! $userPersona && $userPersona->id ? '/personae/' . $userPersona->id : '#' !!}" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
 										<a href="{!! url('/logout') !!}" class="btn btn-default btn-flat">Sign out</a>
@@ -100,6 +100,12 @@
 							</ul>
 						</li>
 					</ul>
+					@else
+					<ul class="nav navbar-nav">
+						<!-- Authentication Link -->
+						<li><a href="signin" class="guestLogin"><img src="/img/loginFacebook.png" width="160px"></a></li>
+					</ul>
+					@endif
 				</div>
 			</nav>
 		</header>
@@ -117,51 +123,6 @@
 		</footer>
 
 	</div>
-	@else
-	<nav class="navbar navbar-default navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-
-				<!-- Collapsed Hamburger -->
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-						data-target="#app-navbar-collapse">
-					<span class="sr-only">Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-
-				<!-- Branding Image -->
-				<a class="navbar-brand" href="{!! url('/') !!}">
-					InterQuest
-				</a>
-			</div>
-
-			<div class="collapse navbar-collapse" id="app-navbar-collapse">
-				<!-- Left Side Of Navbar -->
-				<ul class="nav navbar-nav">
-					<li><a href="{!! url('/home') !!}">Home</a></li>
-				</ul>
-
-				<!-- Right Side Of Navbar -->
-				<ul class="nav navbar-nav navbar-right">
-					<!-- Authentication Links -->
-					<li><a href="signin"><img src="/img/loginFacebook.png" width="160px"></a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
-	<div id="page-content-wrapper">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-lg-12" id="spinMe">
-					@yield('content')
-				</div>
-			</div>
-		</div>
-	</div>
-	@endif
 
 	<!-- jQuery 3.1.1 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

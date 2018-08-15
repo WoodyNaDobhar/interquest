@@ -5,7 +5,7 @@
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where all regular routes are defined.
+| Here is where all login-only routes are defined.
 |
 */
 Route::resource('actions', 'ActionController');

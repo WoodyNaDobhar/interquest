@@ -14,7 +14,7 @@
 									<i class="fa fa-wrench"></i>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+									@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
 									<li><a href="#" class="setMonarch" data-parkID="{!! $park->id !!}">Switch Monarch</a></li>
 									<li><a href="#" class="setMapkeeper" data-parkID="{!! $park->id !!}">Switch Mapkeeper</a></li>
 									<li><a href="/parks/{!! $park->id !!}/edit">Edit Settlement</a></li>
@@ -67,7 +67,7 @@
 									<i class="fa fa-wrench"></i>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
+									@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
 									@endif
 								</ul>
 							</div>
