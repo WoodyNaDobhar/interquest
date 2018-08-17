@@ -8,6 +8,7 @@
 | Here is where all public routes are defined.
 |
 */
+Route::get('/rules/{pageId?}', 'HomeController@rules');
 Route::get('/terms', function(){
 	return redirect('https://getterms.io/generate/?url=' . urlencode(env('APP_URL')) . '&name=InterQuest&location=US');
 });

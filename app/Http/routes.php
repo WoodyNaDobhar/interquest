@@ -36,6 +36,11 @@ Route::group(['middleware' => 'auth'], function()
 	require app_path('Http/secure_routes.php');
 });
 
+//sparse public routes
+Route::group(['prefix' => 'sparse'], function () {
+	require app_path('Http/public_routes.php');
+});
+
 //all the public routes
 require app_path('Http/public_routes.php');
 

@@ -7,7 +7,10 @@
 			<i class="fa fa-angle-left pull-right"></i>
 		</span>
 	</a>
-	<ul class="treeview-menu" {!! Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('metatypes*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'style="display: block;"' : '' !!}>
+	<ul class="treeview-menu" {!! Request::is('rules*') || Request::is('actions*') || Request::is('buildings*') || Request::is('equipment*') || Request::is('metatypes*') || Request::is('terrains*') || Request::is('titles*') || Request::is('vocations*') ? 'style="display: block;"' : '' !!}>
+		<li class="{!! Request::is('rules*') ? 'active' : '' !!}">
+			<a href="/rules"><i class="fa fa-balance-scale"></i><span>Rules</span></a>
+		</li>
 		<li class="{!! Request::is('actions*') ? 'active' : '' !!}">
 			<a href="{!! route('actions.index') !!}"><i class="fa fa-play"></i><span>Actions</span></a>
 		</li>
