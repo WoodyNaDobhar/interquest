@@ -5,11 +5,16 @@
 	<meta name="_token" content="{{ csrf_token() }}">
 	<title>InterQuest - Living the Dream</title>
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
-	<link rel="stylesheet" href="http://www.interquestonline.com/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.content.externallinks%7Cmediawiki.skinning.interface%7Cskins.monobook.styles&amp;only=styles&amp;skin=monobook"/>
-	<script async="" src="http://www.interquestonline.com/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=monobook"></script>
-	<!--[if IE 6]><link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE60Fixes.css?303" media="screen"/><![endif]--><!--[if IE 7]><link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE70Fixes.css?303" media="screen"/><![endif]-->
-	
+@if (Request::segment(1) == 'rules')
+	<link rel="stylesheet" href="http://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=mediawiki.legacy.commonPrint,shared|mediawiki.sectionAnchor|mediawiki.skinning.content.externallinks|mediawiki.skinning.interface|skins.monobook.styles&only=styles&skin=monobook"/>
+	<script async="" src="http://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=startup&only=scripts&skin=monobook"></script>
+	<!--[if IE 6]>
+		<link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE60Fixes.css?303" media="screen"/>
+	<![endif]-->
+	<!--[if IE 7]>
+		<link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE70Fixes.css?303" media="screen"/>
+	<![endif]-->
+@endif
 @if (Request::segment(1) != 'sparse')
 	<!-- Bootstrap 3.3.7 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
