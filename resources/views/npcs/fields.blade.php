@@ -25,7 +25,16 @@
 <!-- Image Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('image', 'Image:') !!}
-	{!! Form::file('image', null, ['class' => 'form-control']) !!}
+	{!! Form::select('image', [
+			'' => 'None',
+			'file' => 'Uploaded Image'
+		],
+		isset($npc) ? $npc->image : old('image'), 
+		[
+			'class' => 'form-control personaImageFile'
+		]) 
+	!!}
+	<input id="imageFile" name="image"{!! isset($npc) && $npc->image == 'file' ? '' : ' disabled="disabled"' !!} type="file" style="{!! isset($npc) && $npc->image == 'file' ? '' : 'display: none;' !!}">
 </div>
 
 <!-- Background Public Field -->

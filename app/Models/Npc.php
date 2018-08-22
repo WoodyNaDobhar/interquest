@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Storage;
 
 /**
  * Class Npc
@@ -101,19 +102,52 @@ class Npc extends Model
 	];
 
 	/**
+	 * Append Accessors
+	 *
+	 * @var array
+	 */
+	protected $appends = [
+		'likeness'
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
-	public function getImageAttribute($value)
+	public function setDeceasedAttribute($value)
 	{
+		$this->attributes['deceased'] = $value == '' ? NULL : $value;
+	}
+	public function setImageAttribute($value)
+	{
+		$this->attributes['image'] = $value == '' ? NULL : $value;
+	}
+	public function getLikenessAttribute()
+	{
+		$value = $this->image && $this->image != '' ? $this->image : null;
 		if($value){
-			if(strpos($value, 'http') !== null){
+			if($value == 'ork'){
 				return $value;
-			}else{
-				return '/storage/npcs/' . $value;
+			}else if($value == 'file'
+			){
+				if(Storage::disk('public')->exists('/npcs/' . $this->id . '.jpg')){
+					return '/storage/npcs/' . $this->id . '.jpg';
+				}
+				if(Storage::disk('public')->exists('/npcs/' . $this->id . '.jpeg')){
+					return '/storage/npcs/' . $this->id . '.jpeg';
+				}
+				if(Storage::disk('public')->exists('/npcs/' . $this->id . '.gif')){
+					return '/storage/npcs/' . $this->id . '.gif';
+				}
+				if(Storage::disk('public')->exists('/npcs/' . $this->id . '.png')){
+					return '/storage/npcs/' . $this->id . '.png';
+				}
+				if(Storage::disk('public')->exists('/npcs/' . $this->id . '.bmp')){
+					return '/storage/npcs/' . $this->id . '.bmp';
+				}
 			}
-		}else{
 			return '/img/npc.png';
 		}
+		return '/img/npc.png';
 	}
 	
 	public function getFiefsCountAttribute(){

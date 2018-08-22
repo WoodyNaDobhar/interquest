@@ -22,7 +22,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="col-md-4">
-									<img src="{!! $fiefdom->image != '' ? $fiefdom->image : '/img/phoenixShield.jpg' !!}" alt="{!! $fiefdom->name !!} Heraldry" width="100%"><br><br>
+									<img src="{!! $fiefdom->likeness != '' ? $fiefdom->likeness : '/img/phoenixShield.jpg' !!}" alt="{!! $fiefdom->name !!} Heraldry" width="100%"><br><br>
 									<b>Population: </b>{!! $fiefdom->population !!}<br>
 									<b>Ruler: </b>{!! $fiefdom->ruler->name !!}<br>
 									<b>Mapkeeper: </b>{!! $fiefdom->ruler->park->mapkeeper->name !!}

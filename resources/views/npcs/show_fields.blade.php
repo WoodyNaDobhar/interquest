@@ -13,6 +13,7 @@
 <!-- Image Field -->
 <div class="form-group">
     {!! Form::label('image', 'Image:') !!}
+    <img src="{!! $npc->likeness != '' ? $npc->likeness : '/img/npc.jpg' !!}" alt="{!! $npc->name !!} Heraldry" width="100%"><br><br>
     <p>{!! $npc->image !!}</p>
 </div>
 

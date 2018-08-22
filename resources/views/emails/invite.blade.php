@@ -199,7 +199,7 @@ div[class='hide-for-mobile'],
 															<td>
 																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
-																<div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="#" target="_blank"><img src="<?php echo $inviter->persona->image; ?>" border="0" width="100" alt="" /></a></div>
+																<div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="#" target="_blank"><img src="<?php echo $inviter->persona->likeness; ?>" border="0" width="100" alt="" /></a></div>
 																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="15" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 																<div class="h5-1-center" style="color:#a88123; font-family:Georgia, serif; min-width:auto !important; font-size:16px; line-height:26px; text-align:center">

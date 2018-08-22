@@ -7,7 +7,7 @@
 		<!-- Sidebar user panel (optional) -->
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img src="{!! $userPersona && $userPersona->image ? $userPersona->image : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona && $userPersona->name ? $userPersona->name : Auth::user()->name !!}"/>
+				<img src="{!! $userPersona ? $userPersona->likeness : '/img/profile.png' !!}" class="img-circle" alt="{!! $userPersona && $userPersona->name ? $userPersona->name : Auth::user()->name !!}"/>
 			</div>
 			<div class="pull-left info">
 				@if (Auth::guest())

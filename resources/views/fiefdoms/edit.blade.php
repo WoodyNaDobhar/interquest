@@ -12,9 +12,9 @@
 			<div class="box-body">
 				<div class="row">
 				@if(Request::segment(1) != 'sparse')
-					{!! Form::open(['route' => ['fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom']) !!}
+					{!! Form::open(['route' => ['fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom', 'files' => true]) !!}
 				@else
-					{!! Form::open(['route' => ['api.v1.fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom']) !!}
+					{!! Form::open(['route' => ['api.v1.fiefdoms.update', $fiefdom->id], 'method' => 'patch', 'id' => 'editFiefdom', 'files' => true]) !!}
 				@endif
 
 						@include('fiefdoms.fields')

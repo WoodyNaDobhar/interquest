@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection buildingsTerritories
  * @property \Illuminate\Database\Eloquent\Collection Persona
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
- * @property \Illuminate\Database\Eloquent\Collection SocialAccount
+ * @property \Illuminate\Database\Eloquent\Collection Social
  * @property string name
  * @property string email
  * @property string password
@@ -23,81 +23,81 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'users';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'users';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'name',
-        'email',
-        'password',
-        'remember_token',
-        'is_mapkeeper',
-        'is_admin'
-    ];
+	protected $dates = ['deleted_at'];
 
-    protected $hidden = ['password', 'rememeber_token'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'email' => 'string',
-        'password' => 'string',
-        'remember_token' => 'string',
-        'is_mapkeeper' => 'boolean',
-        'is_admin' => 'boolean'
-    ];
+	public $fillable = [
+		'name',
+		'email',
+		'password',
+		'remember_token',
+		'is_mapkeeper',
+		'is_admin'
+	];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	protected $hidden = ['password', 'rememeber_token'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     **/
-    public function persona()
-    {
-        return $this->hasOne(\App\Models\Persona::class, 'user_id');
-    }
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'string',
+		'email' => 'string',
+		'password' => 'string',
+		'remember_token' => 'string',
+		'is_mapkeeper' => 'boolean',
+		'is_admin' => 'boolean'
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function comments()
-    {
-    	return $this->morphMany('\App\Models\Comment', 'commented');
-    }
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function revisions()
-    {
-    	return $this->morphMany('\App\Models\Revision', 'changed');
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 **/
+	public function persona()
+	{
+		return $this->hasOne(\App\Models\Persona::class, 'user_id');
 	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     **/
-    public function social()
-    {
-        return $this->hasOne(\App\Models\Social::class);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function comments()
+	{
+		return $this->morphMany('\App\Models\Comment', 'commented');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function revisions()
+	{
+		return $this->morphMany('\App\Models\Revision', 'changed');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 **/
+	public function social()
+	{
+		return $this->hasOne(\App\Models\Social::class);
+	}
 }

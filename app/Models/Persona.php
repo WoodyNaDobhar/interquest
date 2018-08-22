@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Storage;
 
 /**
  * Class Persona
@@ -124,9 +125,18 @@ class Persona extends Model
 	];
 
 	/**
+	 * Append Accessors
+	 *
+	 * @var array
+	 */
+	protected $appends = [
+		'likeness'
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
-	public function getLongNameAttribute($value){
+	public function getFullNameAttribute($value){
 		
 		//knight?
 		$knight = $this->is_knight ? 'Sir ' : '';
@@ -163,18 +173,38 @@ class Persona extends Model
 	{
 		$this->attributes['deceased'] = $value == '' ? NULL : $value;
 	}
-	
-	public function getImageAttribute($value)
+	public function setImageAttribute($value)
 	{
+		$this->attributes['image'] = $value == '' ? NULL : $value;
+	}
+	public function getLikenessAttribute()
+	{
+		$value = $this->image && $this->image != '' ? $this->image : null;
 		if($value){
-			if(strpos($value, 'http') !== null){
-				return $value;
-			}else{
-				return '/storage/personae/' . $value;
+			if($value == 'facebook'){
+				return "http://graph.facebook.com/" . $this->user->social->provider_user_id . "/picture?type=square";
+			}else if($value == 'ork'){
+				return "http://amtgard.com/ork/assets/players/" . str_pad($this->orkID, 6, '0', STR_PAD_LEFT) . ".jpg";
+			}else if($value == 'file'){
+				if(Storage::disk('public')->exists('/personas/' . $this->id . '.jpg')){
+					return '/storage/personas/' . $this->id . '.jpg';
+				}
+				if(Storage::disk('public')->exists('/personas/' . $this->id . '.jpeg')){
+					return '/storage/personas/' . $this->id . '.jpeg';
+				}
+				if(Storage::disk('public')->exists('/personas/' . $this->id . '.gif')){
+					return '/storage/personas/' . $this->id . '.gif';
+				}
+				if(Storage::disk('public')->exists('/personas/' . $this->id . '.png')){
+					return '/storage/personas/' . $this->id . '.png';
+				}
+				if(Storage::disk('public')->exists('/personas/' . $this->id . '.bmp')){
+					return '/storage/personas/' . $this->id . '.bmp';
+				}
 			}
-		}else{
 			return '/img/profile.png';
 		}
+		return '/img/profile.png';
 	}
 	
 	public function getFiefsAvailableAttribute()

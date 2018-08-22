@@ -7,7 +7,16 @@
 <!-- Image Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('image', 'Heraldry:') !!}
-	{!! Form::file('image', null, ['class' => 'form-control']) !!}
+	{!! Form::select('image', [
+			'' => 'None',
+			'file' => 'Uploaded Image'
+		],
+		isset($fiefdom) ? $fiefdom->image : old('image'), 
+		[
+			'class' => 'form-control personaImageFile'
+		]) 
+	!!}
+	<input id="imageFile" name="image"{!! isset($fiefdom) && $fiefdom->image == 'file' ? '' : ' disabled="disabled"' !!} type="file" style="{!! isset($fiefdom) && $fiefdom->image == 'file' ? '' : 'display: none;' !!}">
 </div>
 
 <!-- Submit Field -->

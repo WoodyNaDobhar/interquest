@@ -74,7 +74,7 @@ class FiefdomDataTable extends DataTable
 	{
 		return [
 			'name' => ['title' => 'Fiefdom', 'name' => 'name', 'data' => 'name'],
-			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'likeness', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
 			'ruler_id' => ['title' => 'Ruler', 'name' => 'ruler_id', 'data' => 'ruler.name'],
 			'ruler_type' => ['title' => 'Ruler Type', 'name' => 'ruler_type', 'data' => 'ruler_type']
 		];

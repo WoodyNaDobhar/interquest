@@ -14,7 +14,6 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_common', 'Is Common:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_common', isset($action) ? ($action->is_common == 1 ? 'true' : 'false') : (old('is_common') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_common', '1', isset($action) ? ($action->is_common == 1 ? ['checked' => 'checked'] : null) : (old('is_common') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
@@ -23,7 +22,6 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_landed', 'Is Landed:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_landed', isset($action) ? ($action->is_landed == 1 ? 'true' : 'false') : (old('is_landed') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_landed', '1', isset($action) ? ($action->is_landed == 1 ? ['checked' => 'checked'] : null) : (old('is_landed') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>

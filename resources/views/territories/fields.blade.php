@@ -243,7 +243,6 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_wasteland', 'Is Wasteland:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_wasteland', isset($territory) ? ($territory->is_wasteland == 1 ? 'true' : 'false') : (old('is_wasteland') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_wasteland', '1', isset($territory) ? ($territory->is_wasteland == 1 ? ['checked' => 'checked'] : null) : (old('is_wasteland') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
@@ -252,7 +251,6 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_no_mans_land', 'Is No Mans Land:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_no_mans_land', isset($territory) ? ($territory->is_no_mans_land == 1 ? 'true' : 'false') : (old('is_no_mans_land') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_no_mans_land', '1', isset($territory) ? ($territory->is_no_mans_land == 1 ? ['checked' => 'checked'] : null) : (old('is_no_mans_land') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>

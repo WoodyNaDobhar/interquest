@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Revision
@@ -17,47 +16,59 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Revision extends Model
 {
-    use SoftDeletes;
 
-    public $table = 'revisions';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+	public $table = 'revisions';
+	
+	const CREATED_AT = 'created_at';
 
+	protected $dates = ['created_at'];
 
-    protected $dates = ['deleted_at'];
+	public $fillable = [];
 
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' 						=>'integer',
+		'tablename'					=>'string',
+		'row'						=>'integer',
+		'column'					=>'string',
+		'previousIntValue'			=>'integer',
+		'newIntValue'				=>'integer',
+		'previousTinyintValue'		=>'boolean',
+		'newTinyintValue'			=>'boolean',
+		'previousFloatValue'		=>'numeric',
+		'newFloatValue'				=>'numeric',
+		'previousVarcharValue'		=>'string',
+		'newVarcharValue'			=>'string',
+		'previousTextValue'			=>'string',
+		'newTextValue'				=>'string',
+		'previousdatetimeValue'		=>'date',
+		'newdatetimeValue'			=>'date'
+	];
 
-    public $fillable = [
-        'changed_id',
-        'changed_type'
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'changed_id' => 'integer',
-        'changed_type' => 'string'
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphTo
-     **/
-    public function changed()
-    {
-        return $this->morphTo();
-    }
+	/**
+	 * Validation rules.
+	 *
+	 * @var array
+	 */
+	public static $rules = array(
+		'tablename'					=>'string|max:50',
+		'row'						=>'integer',
+		'column'					=>'string|max:50',
+		'previousIntValue'			=>'integer',
+		'newIntValue'				=>'integer',
+		'previousTinyintValue'		=>'integer',
+		'newTinyintValue'			=>'integer',
+		'previousFloatValue'		=>'numeric',
+		'newFloatValue'				=>'numeric',
+		'previousVarcharValue'		=>'string|max:1000',
+		'newVarcharValue'			=>'string|max:1000',
+		'previousTextValue'			=>'string',
+		'newTextValue'				=>'string',
+		'previousdatetimeValue'		=>'date',
+		'newdatetimeValue'			=>'date'
+	);
 }

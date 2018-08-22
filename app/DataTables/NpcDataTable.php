@@ -79,19 +79,19 @@ class NpcDataTable extends DataTable
 		return [
 			'name' => ['title' => 'NPC', 'name' => 'name', 'data' => 'name'],
 			'private_name' => ['visible' => false, 'title' => 'Secret Name', 'name' => 'private_name', 'data' => 'private_name'],
-			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
-			'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name'],
+			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'likeness', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+			'vocation_id' => ['title' => 'Vocation', 'name' => 'vocation_id', 'data' => 'vocation.name', 'defaultContent' => 'None'],
 			'metatype_id' => ['title' => 'Metatype', 'name' => 'metatype_id', 'data' => 'metatype.name'],
 			'background_public' => ['visible' => false, 'title' => 'Public Background', 'name' => 'background_public', 'data' => 'background_public'],
 			'background_private' => ['visible' => false, 'title' => 'Secret Background', 'name' => 'background_private', 'data' => 'background_private'],
 			'park_id' => ['title' => 'Mapkeeper Park', 'name' => 'park_id', 'data' => 'park.name'],
-			'territory_id' => ['title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.displayname'],
+			'territory_id' => ['title' => 'Home Territory', 'name' => 'territory_id', 'data' => 'home.displayname', 'defaultContent' => 'None'],
 			'gold' => ['visible' => false, 'title' => 'Gold', 'name' => 'gold', 'data' => 'gold.total'],
 			'iron' => ['visible' => false, 'title' => 'Iron', 'name' => 'iron', 'data' => 'iron.total'],
 			'timber' => ['visible' => false, 'title' => 'Timber', 'name' => 'timber', 'data' => 'timber.total'],
 			'stone' => ['visible' => false, 'title' => 'Stone', 'name' => 'stone', 'data' => 'stone.total'],
 			'grain' => ['visible' => false, 'title' => 'Grain', 'name' => 'grain', 'data' => 'grain.total'],
-			'action_id' => ['title' => 'Default Action', 'name' => 'action_id', 'data' => 'default_action.name'],
+			'action_id' => ['title' => 'Default Action', 'name' => 'action_id', 'data' => 'default_action.name', 'defaultContent' => 'None'],
 			'deceased' => ['title' => 'Deceased', 'name' => 'deceased', 'data' => 'deceased']
 		];
 	}

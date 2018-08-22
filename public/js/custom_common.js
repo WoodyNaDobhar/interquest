@@ -120,15 +120,15 @@ $(document).ready(function(){
 			$(this).val('').hide();
 		});
 		
-		//clear out related hidden inputs
+		//update related hidden inputs
 		$.each(context.parent().find('select'), function(si, select){
 			if($(this).attr('data-name')){
 				$('input#' + $(this).data('name')).val('');
 			}
 		});
 
-		//show the appropriate select
-		context.parent().find('select[data-type="' + context.val() + '"]').show('slow');
+		//show the appropriate item
+		context.parent().find('[data-type="' + context.val() + '"]').show('slow');
 		
 		//no clicky!
 		return false;
@@ -393,6 +393,26 @@ $(document).ready(function(){
 		
 		//update hidden
 		context.parent().find('#' + context.data('name')).val((isNumber(context.val()) ? context.val() : ''));
+
+		//no clicky!
+		return false;
+	});
+	
+	//image stuff
+	$('body').on('change', '.personaImageFile', function(e){
+		
+		//no submit
+		e.preventDefault();
+		
+		//setup
+		context = $(this);
+		
+		//update hidden?
+		if(context.val() == 'file'){
+			$('#imageFile').removeAttr('disabled').show('slow');
+		}else{
+			$('#imageFile').attr('disabled','disabled').hide('slow');
+		}
 
 		//no clicky!
 		return false;
@@ -860,7 +880,7 @@ var loadTemplates = function(templates, callback){
  * Post widget info via ajax
  */
 function postWidgetForm(context, callback){
-	
+
 	//setup
 	var formID = context.find('form').attr('id');
 
@@ -985,9 +1005,9 @@ function postPostFileWidgetForm(context, files, callback){
 //			submitData[submitData.length] = { name: fieldName, value: file.name };
 //		});
 //	}
-	
+
 	//for testing
-//	console.log(submitData);
+	console.log(submitData);
 	
 	//if there's an action, do it
 	if(typeof $('form#' + formID).attr('action') !== typeof undefined && $('form#' + formID).attr('action') !== false && $('form#' + formID).attr('action') != ''){

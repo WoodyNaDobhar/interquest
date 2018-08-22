@@ -238,6 +238,13 @@ class PersonaController extends AppBaseController
 	public function update($id, UpdatePersonaRequest $request)
 	{
 		
+		//setup
+		$persona = $this->personaRepository->findWithoutFail($id);
+		if (empty($persona)) {
+			Flash::error('Persona not found');
+			return redirect(route('personae.index'));
+		}
+		
 		//security
 		if(Gate::denies('mapkeeperOwn', $persona->park->mapkeeper ? $persona->park->mapkeeper->id : 0) &&
 				Gate::denies('own', $persona->id)){
@@ -245,13 +252,6 @@ class PersonaController extends AppBaseController
 			return redirect(route('personae.index'));
 		}
 		
-		//setup
-		$persona = $this->personaRepository->findWithoutFail($id);
-		if (empty($persona)) {
-			Flash::error('Persona not found');
-			return redirect(route('personae.index'));
-		}
-
 		//update
 		$persona = $this->personaRepository->update($request->all(), $id);
 

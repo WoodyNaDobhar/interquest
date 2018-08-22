@@ -80,13 +80,21 @@ class HomeController extends Controller
 		
 		//make sure it's not 'empty'
 		if($xml->doctype){
+			
+			//determine target
 			$body = $xml->getElementsByTagName('body')[0];
+			
+			//get contents
 			$section = $xml->getElementById('bodyContent');
+			
+			//add it to the target
 			$wikontent .= $body->ownerDocument->saveHTML($section);
-			$wikontent = str_replace('/wiki/', '/rules?', $wikontent);
+			
+			//update contents
+			$wikontent = str_replace('/wiki/', '/rules/', $wikontent);
 		}
 		
 		//return view
-		return view('wiki')->with('pageId', $pageId == 'Main_Page' ? 'InterQuest Rules' : ucfirst($pageId))->with('wikontent', $wikontent);
+		return view('wiki')->with('pageId', $pageId == 'Main_Page' ? 'InterQuest Rules' : str_replace('_', ' ', ucfirst($pageId)))->with('wikontent', $wikontent);
 	}
 }

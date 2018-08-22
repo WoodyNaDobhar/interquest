@@ -13,9 +13,9 @@
 			<div class="box-body">
 				<div class="row">
 				@if(Request::segment(1) != 'sparse')
-					{!! Form::open(['route' => 'personae.store', 'id' => 'createPersona']) !!}
+					{!! Form::open(['route' => 'personae.store', 'id' => 'createPersona', 'files' => true]) !!}
 				@else
-					{!! Form::open(['route' => 'api.v1.personae.store', 'id' => 'createPersona']) !!}
+					{!! Form::open(['route' => 'api.v1.personae.store', 'id' => 'createPersona', 'files' => true]) !!}
 				@endif
 
 						@include('personae.fields')

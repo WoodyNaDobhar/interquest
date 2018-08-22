@@ -46,7 +46,7 @@
 <!-- Orkid Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('orkID', 'Persona ORK Id:') !!}
-	{!! Form::number(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? old('personaOrkID') : old('orkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number']) !!}
+	{!! Form::number(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? (isset($persona) ? $persona->orkID : old('orkID')) : old('personaOrkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number']) !!}
 </div>
 
 @if(!isset($suppressSave) || $suppressSave === false)
@@ -66,7 +66,18 @@
 <!-- Image Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('image', 'Image:') !!}
-	{!! Form::file('image', null, ['class' => 'form-control']) !!}
+	{!! Form::select('image', [
+			'' => 'None',
+			'file' => 'Uploaded Image',
+			'facebook' => 'Facebook Image',
+			'ork' => 'ORK Image'
+		],
+		isset($persona) ? $persona->image : old('image'), 
+		[
+			'class' => 'form-control personaImageFile'
+		]) 
+	!!}
+	<input id="imageFile" name="image"{!! isset($persona) && $persona->image == 'file' ? '' : ' disabled="disabled"' !!} type="file" class="typeTarget uploadFile" style="{!! isset($persona) && $persona->image == 'file' ? '' : 'display: none;' !!}">
 </div>
 
 <!-- Background Public Field -->
@@ -145,7 +156,6 @@
 <div class="form-group col-sm-offset-1 col-sm-4">
 	{!! Form::label('is_knight', 'Is Knight:') !!}
 	<label>
-		{!! Form::hidden('is_knight', isset($persona) ? ($persona->is_knight == 1 ? 'true' : 'false') : (old('is_knight') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_knight', '1', isset($persona) ? ($persona->is_knight == 1 ? ['checked' => 'checked'] : null) : (old('is_knight') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
@@ -154,7 +164,6 @@
 <div class="form-group col-sm-4">
 	{!! Form::label('is_rebel', 'Is Rebel:') !!}
 	<label>
-		{!! Form::hidden('is_rebel', isset($persona) ? ($persona->is_rebel == 1 ? 'true' : 'false') : (old('is_rebel') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_rebel', '1', isset($persona) ? ($persona->is_rebel == 1 ? ['checked' => 'checked'] : null) : (old('is_rebel') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>

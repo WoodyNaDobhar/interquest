@@ -1,6 +1,6 @@
 @extends('personae.show_fields')
 @section('imageCollective')
-			<img class="personaImage {!! $persona->is_rebel ? 'rebel' : '' !!}" src="{!! $persona->image !!}">
+			<img class="personaImage {!! $persona->is_rebel ? 'rebel' : '' !!}" src="{!! $persona->likeness !!}">
 			@if($persona->is_knight)
 			<img class="overlayKnight" src="/img/overlay{!! $persona->vocation->id == 4 ? 'Paladin' : ($persona->vocation->id == 5 ? 'AntiPaladin' : 'SudoPaladin') !!}.png">
 			@endif

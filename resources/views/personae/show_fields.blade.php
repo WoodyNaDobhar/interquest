@@ -48,7 +48,7 @@
 										<div class="rebelContainer">
 											<img class="underlayRebel" src="/img/underlayRebel.png">
 											<div class="rebelContents">
-												<img class="personaImage" src="{!! $persona->image !!}">
+												<img class="personaImage" src="{!! $persona->likeness !!}">
 												@if($persona->is_knight)
 												<img class="overlayKnight" src="/img/overlay{!! $persona->vocation->id == 4 ? 'Paladin' : ($persona->vocation->id == 5 ? 'AntiPaladin' : 'SudoPaladin') !!}.png">
 												@endif
@@ -67,7 +67,7 @@
 								@else
 									<div class="personaImageContainerWrap">
 										<div class="personaImageContainer">
-											<img class="personaImage" src="{!! $persona->image !!}">
+											<img class="personaImage" src="{!! $persona->likeness !!}">
 											<div class="personaImageContents">
 												@if($persona->is_knight)
 												<img class="overlayKnight" src="/img/overlay{!! $persona->vocation->id == 4 ? 'Paladin' : ($persona->vocation->id == 5 ? 'AntiPaladin' : 'SudoPaladin') !!}.png">

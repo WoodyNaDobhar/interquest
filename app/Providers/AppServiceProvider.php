@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		//
+		//Facade to Object binding
+		$this->app->bind('chanellog', 'App\Helpers\ChannelWriter');
 	}
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Storage;
 
 /**
  * Class Fiefdom
@@ -60,6 +61,15 @@ class Fiefdom extends Model
 	];
 
 	/**
+	 * Append Accessors
+	 *
+	 * @var array
+	 */
+	protected $appends = [
+		'likeness'
+	];
+
+	/**
 	 * Accessors & Mutators
 	 */
 	public function getCapitalAttribute()
@@ -111,17 +121,35 @@ class Fiefdom extends Model
 		return $count;
 	}
 	
-	public function getImageAttribute($value)
+	public function setImageAttribute($value)
 	{
+		$this->attributes['image'] = $value == '' ? NULL : $value;
+	}
+	
+	public function getLikenessAttribute()
+	{
+		$value = $this->image && $this->image != '' ? $this->image : null;
 		if($value){
-			if(strpos($value, 'http') !== null){
-				return $value;
-			}else{
-				return '/storage/fiefdoms/' . $value;
+			if($value == 'file'){
+				if(Storage::disk('public')->exists('/fiefdoms/' . $this->id . '.jpg')){
+					return '/storage/fiefdoms/' . $this->id . '.jpg';
+				}
+				if(Storage::disk('public')->exists('/fiefdoms/' . $this->id . '.jpeg')){
+					return '/storage/fiefdoms/' . $this->id . '.jpeg';
+				}
+				if(Storage::disk('public')->exists('/fiefdoms/' . $this->id . '.gif')){
+					return '/storage/fiefdoms/' . $this->id . '.gif';
+				}
+				if(Storage::disk('public')->exists('/fiefdoms/' . $this->id . '.png')){
+					return '/storage/fiefdoms/' . $this->id . '.png';
+				}
+				if(Storage::disk('public')->exists('/fiefdoms/' . $this->id . '.bmp')){
+					return '/storage/fiefdoms/' . $this->id . '.bmp';
+				}
 			}
-		}else{
 			return '/img/fiefdom.png';
 		}
+		return '/img/fiefdom.png';
 	}
 
 	/**

@@ -13,9 +13,9 @@
 			<div class="box-body">
 				<div class="row">
 				@if(Request::segment(1) != 'sparse')
-					{!! Form::open(['route' => 'npcs.store', 'id' => 'createNpc']) !!}
+					{!! Form::open(['route' => 'npcs.store', 'id' => 'createNpc', 'files' => true]) !!}
 				@else
-					{!! Form::open(['route' => 'api.v1.npcs.store', 'id' => 'createNpc']) !!}
+					{!! Form::open(['route' => 'api.v1.npcs.store', 'id' => 'createNpc', 'files' => true]) !!}
 				@endif
 
 						@include('npcs.fields')

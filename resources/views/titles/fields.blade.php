@@ -8,7 +8,6 @@
 <div class="form-group col-sm-6">
 	{!! Form::label('is_landed', 'Is Landed:') !!}
 	<label class="checkbox-inline">
-		{!! Form::hidden('is_landed', isset($title) ? ($title->is_landed == 1 ? 'true' : 'false') : (old('is_landed') == 1 ? 'true' : 'false')) !!}
 		{!! Form::checkbox('is_landed', '1', isset($title) ? ($title->is_landed == 1 ? ['checked' => 'checked'] : null) : (old('is_landed') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
