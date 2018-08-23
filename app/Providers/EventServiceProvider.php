@@ -46,7 +46,7 @@ class EventServiceProvider extends ServiceProvider
 		Event::listen(['eloquent.creating: *'], function(Eloquent $model) {
 			
 			//created by
-			if(get_class($model) != 'App\Models\Revision'){
+			if(get_class($model) != 'App\Models\Revision' && !Auth::guest()){
 				if(in_array('created_by', Schema::getColumnListing($model->getTable()))){
 					if($model->created_by == null){
 						$model->created_by = Auth::user()->id;

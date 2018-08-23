@@ -65,6 +65,7 @@ class PersonaController extends AppBaseController
 		
 		//get parks
 		$park = Auth::user()->persona->park;
+		$parks = [];
 		if(!Auth::guest() && Auth::user()->is_admin){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
 		}elseif(!Auth::guest() && Auth::user()->is_mapkeeper){
@@ -196,9 +197,10 @@ class PersonaController extends AppBaseController
 		
 		//get parks
 		$park = Auth::user()->persona->park;
-		if(Auth::user()->is_admin){
+		$parks = [];
+		if(!Auth::guest() && Auth::user()->is_admin){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
-		}elseif(Auth::user()->is_mapkeeper){
+		}elseif(!Auth::guest() && Auth::user()->is_mapkeeper){
 			$parks = Parks::where('id', $park->id)->orderBy('name')->pluck('name', 'id')->toArray();
 		}
 
