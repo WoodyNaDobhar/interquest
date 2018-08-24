@@ -27,7 +27,9 @@ class ParkDataTable extends DataTable
 	 */
 	public function query()
 	{
-		$parks = Park::query()->with('capital');
+		$parks = Park::query()
+			->with('capital')
+			->with('ruler');
 
 		return $this->applyScopes($parks);
 	}
@@ -72,12 +74,14 @@ class ParkDataTable extends DataTable
 	private function getColumns()
 	{
 		return [
+			'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Park/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"'],
 			'name' => ['title' => 'Settlement', 'name' => 'name', 'data' => 'name'],
 			'rank' => ['title' => 'Size', 'name' => 'rank', 'data' => 'rank'],
 			'territory_id' => ['title' => 'Capital', 'name' => 'territory_id', 'data' => 'capital.displayname'],
 			'midreign' => ['title' => 'Midreign', 'name' => 'midreign', 'data' => 'midreign'],
 			'coronation' => ['title' => 'Coronation', 'name' => 'coronation', 'data' => 'coronation'],
-			'orkID' => ['title' => 'ORK', 'name' => 'orkID', 'data' => 'orkID', 'render' => '"<a href=\"https://amtgard.com/ork/orkui/?Route=Park/index/" + data + "\" target=\"_blank\"/><i class=\"fa fa-external-link\"></a>"']
+			'ruler_id' => ['title' => 'Ruler', 'name' => 'ruler_id', 'data' => 'ruler.name', 'defaultContent' => 'None!'],
+			'ruler_type' => ['title' => 'Ruler Type', 'name' => 'ruler_type', 'data' => 'ruler_type']
 		];
 	}
 

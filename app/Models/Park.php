@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer territory_id
  * @property date midreign
  * @property date coronation
+ * @property integer ruler_id
+ * @property string ruler_type
  */
 class Park extends Model
 {
@@ -39,7 +41,9 @@ class Park extends Model
 		'rank',
 		'territory_id',
 		'midreign',
-		'coronation'
+		'coronation',
+		'ruler_id',
+		'ruler_type'
 	];
 
 	/**
@@ -54,7 +58,9 @@ class Park extends Model
 		'rank' => 'string',
 		'territory_id' => 'integer',
 		'midreign' => 'date',
-		'coronation' => 'date'
+		'coronation' => 'date',
+		'ruler_id' => 'integer',
+		'ruler_type' => 'string'
 	];
 
 	/**

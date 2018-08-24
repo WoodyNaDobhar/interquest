@@ -16,23 +16,25 @@ use InfyOm\Generator\Common\BaseRepository;
 */
 class ParkRepository extends BaseRepository
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        'orkID',
-        'name',
-        'rank',
-        'territory_id',
-        'midreign',
-        'coronation'
-    ];
+	/**
+	 * @var array
+	 */
+	protected $fieldSearchable = [
+		'orkID',
+		'name',
+		'rank',
+		'territory_id',
+		'midreign',
+		'coronation',
+		'ruler_id',
+		'ruler_type'
+	];
 
-    /**
-     * Configure the Model
-     **/
-    public function model()
-    {
-        return Park::class;
-    }
+	/**
+	 * Configure the Model
+	 **/
+	public function model()
+	{
+		return Park::class;
+	}
 }

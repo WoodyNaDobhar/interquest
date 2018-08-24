@@ -15,7 +15,6 @@
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									@if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->is_mapkeeper))
-									<li><a href="#" class="setMonarch" data-parkID="{!! $park->id !!}">Switch Monarch</a></li>
 									<li><a href="#" class="setMapkeeper" data-parkID="{!! $park->id !!}">Switch Mapkeeper</a></li>
 									<li><a href="/parks/{!! $park->id !!}/edit">Edit Settlement</a></li>
 									@endif
@@ -34,7 +33,7 @@
 									</div>
 									<div class="col-md-7">
 										<b>Population: </b>{!! $park->personae ? $park->personae->count() : '0' !!}<br>
-										<b>Monarch: </b>{!! $park->monarch ? $park->monarch->long_name : 'None!' !!}<br>
+										<b>Monarch: </b>{!! $park->ruler ? $park->ruler->name : 'None!' !!}<br>
 										<b>Mapkeeper: </b>{!! $park->mapkeeper ? $park->mapkeeper->name : 'None!' !!}<br>
 										<b>Midreign: </b>{!! $park->midreign !!}<br>
 										<b>Coronation: </b>{!! $park->coronation !!}<br><br>

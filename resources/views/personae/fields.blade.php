@@ -13,13 +13,17 @@
 	If you know, or can get, the email address the Persona's user signed up to Facebook with, we can verify them later and let them take control over some of their more superficial details (name, background, image, etc).  You can invite them later with a convenient button when you get that email address from them.  Not required.
 </div>
 
-@else
+@elseif(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 
 <!-- Invite Field -->
 <div class="form-group col-sm-6">
 	<a class="btn btn-primary pull-right invitePersona" data-persona_id="{!!$persona->id!!}">Send Claim Invite</a>
 </div>
-<div class="form-group col-sm-6">
+
+@else
+
+<!-- filler -->
+<div class="form-group col-sm-12">
 	&nbsp;
 </div>
 
@@ -46,7 +50,7 @@
 <!-- Orkid Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('orkID', 'Persona ORK Id:') !!}
-	{!! Form::number(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? (isset($persona) ? $persona->orkID : old('orkID')) : old('personaOrkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number']) !!}
+	{!! Form::text(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? (isset($persona) ? $persona->orkID : old('orkID')) : old('personaOrkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 @if(!isset($suppressSave) || $suppressSave === false)
@@ -60,7 +64,7 @@
 <!-- Vocation Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('vocation_id', 'Declared Class:') !!}
-	{!! Form::select('vocation_id', $vocations, isset($persona) ? $persona->vocation_id : old('vocation_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('vocation_id', $vocations, isset($persona) ? $persona->vocation_id : old('vocation_id'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Image Field -->
@@ -95,7 +99,7 @@
 <!-- Park Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('park_id', 'Home Park:') !!}
-	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : old('park_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : old('park_id'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Action Id Field -->
@@ -113,46 +117,47 @@
 <!-- Titles Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('titles', 'Titles:') !!}
-	{!! Form::select('titles[]', $titles, isset($persona) ? $persona->titles : old('titles'), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+	{!! Form::select('titles[]', $titles, (isset($persona) ? $persona->titles->pluck('id')->toArray() : old('titles[]')), ['class' => 'form-control', 'multiple' => 'multiple', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Gold Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('gold', 'Gold On Persona:') !!}
-	{!! Form::number('gold', isset($persona) ? $persona->gold->persona->total : old('gold'), ['class' => 'form-control']) !!}
+	{!! Form::number('gold', isset($persona) ? $persona->gold->persona->total : old('gold'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Iron Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('iron', 'Iron On Persona:') !!}
-	{!! Form::number('iron', isset($persona) ? $persona->iron->persona->total : old('iron'), ['class' => 'form-control']) !!}
+	{!! Form::number('iron', isset($persona) ? $persona->iron->persona->total : old('iron'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Timber Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('timber', 'Timber On Persona:') !!}
-	{!! Form::number('timber', isset($persona) ? $persona->timber->persona->total : old('timber'), ['class' => 'form-control']) !!}
+	{!! Form::number('timber', isset($persona) ? $persona->timber->persona->total : old('timber'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Stone Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('stone', 'Stone On Persona:') !!}
-	{!! Form::number('stone', isset($persona) ? $persona->stone->persona->total : old('stone'), ['class' => 'form-control']) !!}
+	{!! Form::number('stone', isset($persona) ? $persona->stone->persona->total : old('stone'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Grain Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('grain', 'Grain On Persona:') !!}
-	{!! Form::number('grain', isset($persona) ? $persona->grain->persona->total : old('grain'), ['class' => 'form-control']) !!}
+	{!! Form::number('grain', isset($persona) ? $persona->grain->persona->total : old('grain'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Fiefs Assigned Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('fiefs_assigned', 'Fiefs Assigned:') !!}
-	{!! Form::number('fiefs_assigned', isset($persona) ? $persona->fiefs_assigned : old('fiefs_assigned'), ['class' => 'form-control']) !!}
+	{!! Form::number('fiefs_assigned', isset($persona) ? $persona->fiefs_assigned : old('fiefs_assigned'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Is Knight Field -->
+@if(Auth::user()->is_admin || Auth::user()->is_mapkeeper)
 <div class="form-group col-sm-offset-1 col-sm-4">
 	{!! Form::label('is_knight', 'Is Knight:') !!}
 	<label>
@@ -167,11 +172,12 @@
 		{!! Form::checkbox('is_rebel', '1', isset($persona) ? ($persona->is_rebel == 1 ? ['checked' => 'checked'] : null) : (old('is_rebel') == 1 ? ['checked' => 'checked'] : null)) !!}
 	</label>
 </div>
+@endif
 
 <!-- Shattered Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('shattered', 'Shattered:') !!}
-	{!! Form::date('shattered', isset($persona) ? $persona->shattered : old('shattered'), ['class' => 'form-control']) !!}
+	{!! Form::date('shattered', isset($persona) ? $persona->shattered : old('shattered'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Deceased Field -->

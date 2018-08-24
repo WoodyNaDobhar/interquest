@@ -22,6 +22,7 @@ use App\Models\Vocation as Vocation;
 use App\Models\Metatype as Metatype;
 use App\Models\User as User;
 use App\Models\Persona as Persona;
+use App\Models\Npc as Npc;
 use Mail;
 
 class ParkController extends AppBaseController
@@ -417,7 +418,14 @@ class ParkController extends AppBaseController
 			return redirect(route('parks.index'));
 		}
 
-		return view('parks.edit')->with('park', $park);
+		//rulers
+		$rulersPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+
+		return view('parks.edit')
+			->with('rulersPersonae', $rulersPersonae)
+			->with('rulersNpcs', $rulersNpcs)
+			->with('park', $park);
 	}
 
 	/**
@@ -432,7 +440,7 @@ class ParkController extends AppBaseController
 	{
 		$park = $this->parkRepository->findWithoutFail($id);
 
-		if (empty($park)) {
+		if(empty($park)){
 			Flash::error('Park not found');
 			return redirect(route('parks.index'));
 		}

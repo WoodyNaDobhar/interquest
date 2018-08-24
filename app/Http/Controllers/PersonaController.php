@@ -214,7 +214,7 @@ class PersonaController extends AppBaseController
 		
 		//get actions
 		$actions = Actions::pluck('name', 'id')->toArray();
-		
+	
 		//get titles
 		$titles = Titles::pluck('name', 'id')->toArray();
 

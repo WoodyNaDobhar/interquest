@@ -47,9 +47,9 @@ class SocialAuthController extends Controller
 				}
 			
 				//send them to their persona to edit
-				return redirect()
-					->to('/personae/' . $unclaimedPersona->id . '/edit')
-					->withErrors('Persona Claimed!  Take a moment to review and update your Persona.');
+
+				Flash::success('Persona Claimed!  Take a moment to review and update your Persona.');
+				return redirect('/personae/' . $unclaimedPersona->id . '/edit');
 			}
 		
 			//nothing unclaimed waiting for them, and no persona...

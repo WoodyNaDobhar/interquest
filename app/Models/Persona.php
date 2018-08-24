@@ -355,7 +355,7 @@ class Persona extends Model
 	public function getIsMonarchAttribute($value){
 	
 		//get/dump holdings
-		return count($this->rulerships) > 0 ? TRUE : FALSE;
+		return $this->rulership ? TRUE : FALSE;
 	}
 	
 	public function setTerritoryIdAttribute($value)
@@ -438,7 +438,7 @@ class Persona extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
 	 **/
-	public function rulerships()
+	public function rulership()
 	{
 		return $this->morphOne('\App\Models\Park', 'ruler');
 	}
