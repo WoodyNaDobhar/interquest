@@ -55,11 +55,11 @@
 			[
 				'' => 'No Ruler',
 				'Park' => 'Settlement',
-				'Ruler' => 'Local Noble or NPC'
+				'Fiefdom' => 'Local Noble or NPC'
 			], 
 			(
 				isset($fief) ?
-					($fief->fiefdom_type == 'Park' ? $fief->fiefdom_type : 'Ruler') :
+					$fief->fiefdom_type :
 					old('fiefdom_type')
 			),
 			[
@@ -69,7 +69,7 @@
 		) 
 	!!}
 	{!! Form::select(
-			'fiefdom_id', 
+			'fiefdom_selected', 
 			[
 				''			=> 'Select One',
 				$park->id	=> $park->name
@@ -83,7 +83,7 @@
 				'class' => 'form-control typeTarget',
 				'data-type' => 'Park', 
 				'data-name' => 'fiefdom_id', 
-				'id' => 'fiefdom_id', 
+				'id' => 'fiefdom_selected', 
 				'style' => (
 					isset($fief) && $fief->fiefdom_type == 'Park' ? 
 						'' : 
@@ -93,7 +93,7 @@
 		) 
 	!!}
 	{!! Form::select(
-			'ruler_type', 
+			'ruler_type_selected', 
 			[
 				'' => 'No Ruler',
 				'Npc' => 'NPC',
@@ -102,8 +102,9 @@
 			old('ruler_type'), 
 			[
 				'class' => 'form-control typeSelect typeTarget',
-				'data-type' => 'Ruler', 
-				'id' => 'ruler_type', 
+				'data-type' => 'Fiefdom', 
+				'data-name' => 'ruler_type',
+				'id' => 'ruler_type_selected', 
 				'style' => (
 					isset($fief) && $fief->fiefdom_type == 'Ruler' ? 
 						'' : 
@@ -112,6 +113,7 @@
 			]
 		) 
 	!!}
+	{!! Form::hidden('ruler_type', isset($fief) ? $fief->fiefdom->ruler_type : old('ruler_type'), ['id' => 'ruler_type']) !!}
 	{!! Form::select(
 			'npc_ruler_id', 
 			[
@@ -193,7 +195,7 @@
 		)
 	!!}
 	{!! Form::hidden('fiefdom_id', isset($fief) ? $fief->fiefdom_id : old('fiefdom_id'), ['id' => 'fiefdom_id']) !!}
-</div>
+	</div>
 
 <!-- Castle Strength Field -->
 <div class="form-group col-sm-6">

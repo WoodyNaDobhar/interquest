@@ -107,6 +107,7 @@ $(document).ready(function(){
 		
 		//setup
 		var context = $(this);
+		var contextVal = context.val();
 		
 		//iterate typeTargets
 		$.each(context.parent().find('.typeTarget'), function(ti, e){
@@ -121,14 +122,17 @@ $(document).ready(function(){
 		});
 		
 		//update related hidden inputs
-		$.each(context.parent().find('select'), function(si, select){
-			if($(this).attr('data-name')){
-				$('input#' + $(this).data('name')).val('');
-			}
-		});
+//		$.each(context.parent().find('select'), function(si, select){
+//			if($(this).attr('data-name')){
+//				$('input#' + $(this).data('name')).val('');
+//			}
+//		});
+		
+		//update hidden
+		context.parent().find('input#' + context.data('name')).val(contextVal);
 
 		//show the appropriate item
-		context.parent().find('[data-type="' + context.val() + '"]').show('slow');
+		context.parent().find('[data-type="' + contextVal + '"]').show('slow');
 		
 		//no clicky!
 		return false;
@@ -146,8 +150,6 @@ $(document).ready(function(){
 		//if something selected
 		if(context.val() > 0){
 			
-			console.log(context.parent().find('input#' + context.data('name')));
-		
 			//update hidden
 			context.parent().find('input#' + context.data('name')).val(context.val());
 		}
@@ -382,7 +384,7 @@ $(document).ready(function(){
 		}
 	});
 
-	//Related Target
+	//relatedTarget
 	$('body').on('change', '.relatedTarget', function(e){
 		
 		//no submit
@@ -610,7 +612,12 @@ function drawMap(territoryId, columns, rows){
 												title: territory.name,
 												close: function(){
 													$(this).dialog('destroy').detach().remove()
-												}
+												},
+												buttons: {
+													Cancel: function() {
+														$(this).dialog('destroy').detach().remove();
+													}
+												},
 											});
 											dialog.dialog('open');
 										}
@@ -1007,7 +1014,7 @@ function postPostFileWidgetForm(context, files, callback){
 //	}
 
 	//for testing
-	console.log(submitData);
+//	console.log(submitData);
 	
 	//if there's an action, do it
 	if(typeof $('form#' + formID).attr('action') !== typeof undefined && $('form#' + formID).attr('action') !== false && $('form#' + formID).attr('action') != ''){

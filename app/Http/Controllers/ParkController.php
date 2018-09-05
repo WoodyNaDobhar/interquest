@@ -381,7 +381,7 @@ class ParkController extends AppBaseController
 		$dataTable = $personaDataTable
 		->html([
 			'name' => ['title' => 'Persona', 'name' => 'name', 'data' => 'long_name'],
-			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'image', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
+			'image' => ['title' => 'Image', 'name' => 'image', 'data' => 'likeness', 'render' => '"<img src=\"" + data + "\" width=\"50\"/>"'],
 			'vocation' => ['title' => 'Vocation', 'name' => 'persona', 'data' => 'vocation.name'],
 			'metatype' => ['title' => 'Metatype', 'name' => 'metatype', 'data' => 'metatype.name'],
 			'home' => ['title' => 'Home', 'name' => 'home', 'data' => 'home.displayname', 'defaultContent' => 'Homeless!'],

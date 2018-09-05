@@ -9,6 +9,8 @@ use App\Models\Npc as Npc;
 use App\Models\Persona as Persona;
 use App\Models\Fiefdom as Fiefdom;
 use App\Models\Fief as Fief;
+use App\Models\Park as Park;
+use App\Models\Terrain as Terrain;
 use App\Repositories\TerritoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -136,9 +138,6 @@ class TerritoryAPIController extends AppBaseController
 	 */
 	public function show($id)
 	{
-		if(Gate::denies('mapkeeper')){
-			return $this->sendError('Permission Denied');
-		}
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository
 			->with('fief.fiefdom.ruler')
@@ -147,6 +146,10 @@ class TerritoryAPIController extends AppBaseController
 // 			->findWithoutFail($id)
 			->find($id)
 		;
+		
+		//TODO: devise or fetch a means to handle permission based data filtering
+		//public: owned by a park or PC
+		//close: w/in 30 hexes of capital
 
 		if (empty($territory)) {
 			return $this->sendError('Territory not found');
@@ -170,17 +173,16 @@ class TerritoryAPIController extends AppBaseController
 			return $this->sendError('Permission Denied');
 		}
 		$input = $request->all();
-
+		
 		/** @var Territory $territory */
 		$territory = $this->territoryRepository->findWithoutFail($id);
 		$fief = $territory->fief;
+		$fiefdom = $territory->fief ? $territory->fief->fiefdom : null;
 
 		if (empty($territory)) {
 			return $this->sendError('Territory not found');
 		}
 		
-		$territory = $this->territoryRepository->update($input, $id);
-
 		//is there a ruler?
 		if(array_key_exists('ruler_id', $input) && $input['ruler_id'] != ''){
 			
@@ -200,31 +202,32 @@ class TerritoryAPIController extends AppBaseController
 				$fiefdom->ruler_type = $input['ruler_type'];
 				$fiefdom->save();
 			}else{
-				$fiefdom = Fiefdom::find($input['fiefdom_id']);
+				
+				//get the fiefdom
+				if($input['fiefdom_type'] == 'Park'){
+					$fiefdom = Park::where('id', $input['fiefdom_id'])->first();
+				}else{
+					$fiefdom = Fiefdom::where('id', $input['fiefdom_id'])->first();
+				}
 			}
 			
-			//fief: exists and changed, or didn't exist
-			if(
-				(
-					$fief->exists && 
-					(
-						$input['ruler_id'] != $fief->fiefdom->ruler_id ||
-						$input['ruler_type'] != $fief->fiefdom->ruler_type
-					)
-				) ||
-				!$fief->exists
-			){
-				
-				//remove the existing fief
-				if($fief->exists){
-					$fief->delete();
-				}
+			//fief doesn't exist
+			if(!$fief->exists){
 			
 				//make the fief
 				$fief = new Fief;
 				$fief->territory_id = $territory->id;
 				$fief->fiefdom_id = $fiefdom->id;
-				$fief->fiefdom_type = 'Fiefdom';
+				$fief->fiefdom_type = $input['fiefdom_type'];
+				$fief->save();
+			}else if(
+				$input['ruler_id'] != $fief->fiefdom->ruler_id ||
+				$input['ruler_type'] != $fief->fiefdom->ruler_type
+			){
+				
+				//update fief
+				$fief->fiefdom_id = $fiefdom->id;
+				$fief->fiefdom_type = $input['fiefdom_type'];
 				$fief->save();
 			}
 			
@@ -234,40 +237,26 @@ class TerritoryAPIController extends AppBaseController
 				$ruler->save();
 			}
 			
-		//different Park owns now?
-		}else if(
-			array_key_exists('fiefdom_type', $input) && 
-			$input['fiefdom_type'] == 'Park' &&
-			$input['fiefdom_id'] != $fief->fiefdom->id
-		){
-
-			//remove the existing fief
-			if($fief->exists){
-				$fief->delete();
-			}
-			
-			//make the fief
-			$fief = new Fief;
-			$fief->territory_id = $territory->id;
-			$fief->fiefdom_id = $input['fiefdom_id'];
-			$fief->fiefdom_type = 'Park';
-			$fief->save();
-			
 		//unset the ruler stuff
 		}else{
 			
-			if($fief->exists){
+			if($fief){
 				$fief->delete();
 			}
 		}
 		
+		$territory = $this->territoryRepository->update($input, $id);
+		
+		//refresh territory data for some reason
+		$territory = Territory::where('id', $id)->first();
+		
 		$response = 
 			$territory->toArray() + 
 			[
-				'terrain'	=> $territory->terrain->toArray()
+				'terrain'	=> Terrain::where('id', $territory->terrain_id)->first()->toArray()
 			]
 		;
-		if($fief->exists && $fief->fiefdom->ruler->exists){
+		if($fief && $fief->fiefdom->ruler->exists){
 			$response['fief']['fiefdom']['ruler'] = $fief->fiefdom->ruler->toArray();
 		}
 		
