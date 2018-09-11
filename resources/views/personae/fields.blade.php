@@ -99,19 +99,19 @@
 <!-- Park Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('park_id', 'Home Park:') !!}
-	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : old('park_id'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
+	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : (Auth::user()->is_mapkeeper ? Auth::user()->persona->park_id : old('park_id')), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Action Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('action_id', 'Default Action:') !!}
-	{!! Form::select('action_id', $actions, isset($persona) ? $persona->action_id : old('action_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('action_id', $actions, isset($persona) ? $persona->action_id : (old('action_id') != '' ? old('action_id') : 19), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('territory_id', 'Home Territory:') !!}
-	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($persona) ? $persona->territory_id : old('territory_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($persona) ? $persona->territory_id : (old('territory_id') != '' ? old('territory_id') : Auth::user()->persona->park->capital->id), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Titles Field -->

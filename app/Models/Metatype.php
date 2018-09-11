@@ -16,69 +16,78 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection personasTitles
  * @property string name
  * @property string description
- * @property boolean personable
+ * @property string garb
+ * @property string type
+ * @property int power
+ * @property int level
  */
 class Metatype extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    public $table = 'metatypes';
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
+	public $table = 'metatypes';
+	
+	const CREATED_AT = 'created_at';
+	const UPDATED_AT = 'updated_at';
 
 
-    public $fillable = [
-        'name',
-        'description',
-        'personable'
-    ];
+	protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'description' => 'string',
-        'personable' => 'boolean'
-    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        
-    ];
+	public $fillable = [
+		'name',
+		'description',
+		'garb',
+		'type',
+		'power',
+		'level'
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function npcs()
-    {
-        return $this->hasMany(\App\Models\Npc::class);
-    }
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'id' => 'integer',
+		'name' => 'string',
+		'description' => 'string',
+		'garb' => 'string',
+		'type' => 'string',
+		'power' => 'integer',
+		'level' => 'integer',
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function personae()
-    {
-        return $this->hasMany(\App\Models\Persona::class);
-    }
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public static $rules = [
+		
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     **/
-    public function revisions()
-    {
-    	return $this->morphMany('\App\Models\Comment', 'changed');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function npcs()
+	{
+		return $this->hasMany(\App\Models\Npc::class);
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 **/
+	public function personae()
+	{
+		return $this->hasMany(\App\Models\Persona::class);
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\morphMany
+	 **/
+	public function revisions()
+	{
+		return $this->morphMany('\App\Models\Comment', 'changed');
+	}
 }

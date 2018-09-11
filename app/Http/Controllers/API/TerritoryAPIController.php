@@ -146,14 +146,22 @@ class TerritoryAPIController extends AppBaseController
 // 			->findWithoutFail($id)
 			->find($id)
 		;
-		
-		//TODO: devise or fetch a means to handle permission based data filtering
-		//public: owned by a park or PC
-		//close: w/in 30 hexes of capital
 
-		if (empty($territory)) {
+		if(empty($territory)){
 			return $this->sendError('Territory not found');
 		}
+
+
+		//TODO: devise or fetch a means to handle permission based data filtering
+		//public: owned by a park or PC
+		// 				(
+		// 					$territory->fief &&
+		// 					(
+		// 						$territory->fief->fiefdom_type == 'Park' ||
+		// 						$territory->fief->fiefdom->ruler_type == 'Persona'
+		// 					)
+		// 				)
+		//close: w/in 30 hexes of capital?
 
 		return $this->sendResponse($territory->toArray(), 'Territory retrieved successfully');
 	}

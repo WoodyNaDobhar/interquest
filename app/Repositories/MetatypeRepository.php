@@ -16,20 +16,23 @@ use InfyOm\Generator\Common\BaseRepository;
 */
 class MetatypeRepository extends BaseRepository
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        'name',
-        'description',
-        'personable'
-    ];
+	/**
+	 * @var array
+	 */
+	protected $fieldSearchable = [
+		'name',
+		'description',
+		'garb',
+		'type',
+		'power',
+		'level'
+	];
 
-    /**
-     * Configure the Model
-     **/
-    public function model()
-    {
-        return Metatype::class;
-    }
+	/**
+	 * Configure the Model
+	 **/
+	public function model()
+	{
+		return Metatype::class;
+	}
 }
