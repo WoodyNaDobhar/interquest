@@ -220,7 +220,7 @@ class TerritoryAPIController extends AppBaseController
 			}
 			
 			//fief doesn't exist
-			if(!$fief->exists){
+			if(!$fief){
 			
 				//make the fief
 				$fief = new Fief;
@@ -245,11 +245,28 @@ class TerritoryAPIController extends AppBaseController
 				$ruler->save();
 			}
 			
-		//unset the ruler stuff
+		//no ruler...park or none
 		}else{
 			
-			if($fief){
-				$fief->delete();
+			//!fiefdom_id ? none : park
+			if(!$input['fiefdom_id'] || $input['fiefdom_id'] == ''){
+				if($fief){
+					$fief->delete();
+				}
+			}elseif(!$fief){
+			
+				//make the fief
+				$fief = new Fief;
+				$fief->territory_id = $territory->id;
+				$fief->fiefdom_id = $input['fiefdom_id'];
+				$fief->fiefdom_type = $input['fiefdom_type'];
+				$fief->save();
+			}else{
+				
+				//update fief
+				$fief->fiefdom_id = $input['fiefdom_id'];
+				$fief->fiefdom_type = $input['fiefdom_type'];
+				$fief->save();
 			}
 		}
 		
