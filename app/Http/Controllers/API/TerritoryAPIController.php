@@ -71,7 +71,7 @@ class TerritoryAPIController extends AppBaseController
 		$territory = $this->territoryRepository->create($input);
 
 		//is there a ruler?
-		if($input['fiefdom_type'] && $input['fiefdom_type'] == 'Ruler'){
+		if($input['fiefdom_type'] && $input['fiefdom_type'] == 'Fiefdom'){
 			
 			//setup
 			if($input['ruler_type'] == 'Npc'){
@@ -94,6 +94,7 @@ class TerritoryAPIController extends AppBaseController
 			
 			//make the fief
 			$fief = new Fief;
+			$fief->name = $input['fief_name'] ? $input['fief_name'] : null;
 			$fief->territory_id = $territory->id;
 			$fief->fiefdom_id = (!$input['fiefdom_id'] || $input['fiefdom_id'] == '') ? $fiefdom->id : $input['fiefdom_id'];
 			$fief->fiefdom_type = 'Fiefdom';
@@ -108,6 +109,7 @@ class TerritoryAPIController extends AppBaseController
 			
 			//make the fief
 			$fief = new Fief;
+			$fief->name = $input['fief_name'] ? $input['fief_name'] : null;
 			$fief->territory_id = $territory->id;
 			$fief->fiefdom_id = $input['fiefdom_id'];
 			$fief->fiefdom_type = 'Park';
@@ -224,18 +226,25 @@ class TerritoryAPIController extends AppBaseController
 			
 				//make the fief
 				$fief = new Fief;
+				$fief->name = $input['fief_name'] ? $input['fief_name'] : null;
 				$fief->territory_id = $territory->id;
 				$fief->fiefdom_id = $fiefdom->id;
 				$fief->fiefdom_type = $input['fiefdom_type'];
 				$fief->save();
+			//ruler changed
 			}else if(
 				$input['ruler_id'] != $fief->fiefdom->ruler_id ||
 				$input['ruler_type'] != $fief->fiefdom->ruler_type
 			){
-				
 				//update fief
+				$fief->name = $input['fief_name'] ? $input['fief_name'] : $fief->name;
 				$fief->fiefdom_id = $fiefdom->id;
 				$fief->fiefdom_type = $input['fiefdom_type'];
+				$fief->save();
+			//fief exists, same ruler
+			}else{
+				//update fief
+				$fief->name = $input['fief_name'] ? $input['fief_name'] : $fief->name;
 				$fief->save();
 			}
 			
@@ -257,6 +266,7 @@ class TerritoryAPIController extends AppBaseController
 			
 				//make the fief
 				$fief = new Fief;
+				$fief->name = $input['fief_name'] ? $input['fief_name'] : null;
 				$fief->territory_id = $territory->id;
 				$fief->fiefdom_id = $input['fiefdom_id'];
 				$fief->fiefdom_type = $input['fiefdom_type'];
@@ -264,6 +274,7 @@ class TerritoryAPIController extends AppBaseController
 			}else{
 				
 				//update fief
+				$fief->name = $input['fief_name'] ? $input['fief_name'] : $fief->name;
 				$fief->fiefdom_id = $input['fiefdom_id'];
 				$fief->fiefdom_type = $input['fiefdom_type'];
 				$fief->save();
@@ -349,6 +360,7 @@ class TerritoryAPIController extends AppBaseController
 								'name'		=> $tt->name,
 								'terrain'	=> $tt->terrain->name,
 								'cs'		=> $tt->castle_strength,
+								'fief'		=> $tt->fief ? $tt->fief : null,
 								'fiefdom'	=> $tt->fief ? $tt->fief->fiefdom : null
 							]
 						] + $responseData['territories'];
@@ -359,6 +371,7 @@ class TerritoryAPIController extends AppBaseController
 								'name'		=> 'Undiscovered',
 								'terrain'	=> 'Undiscovered',
 								'cs'		=> 0,
+								'fief_id'	=> null,
 								'fiefdom_id'=> null
 							]
 						] + $responseData['territories'];

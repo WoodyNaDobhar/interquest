@@ -58,7 +58,7 @@
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('territory_id', 'Home Territory:') !!}
-	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($npc) ? $npc->territory_id : old('territory_id'), ['class' => 'form-control']) !!}
+	{!! Form::select('territory_id', ['' => 'Homeless/This Territory'] + $territories, isset($npc) ? $npc->territory_id : old('territory_id'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gold Field -->

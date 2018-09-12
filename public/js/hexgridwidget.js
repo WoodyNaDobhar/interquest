@@ -58,7 +58,7 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 					'data-toggle':"tooltip",
 					'title': data[column+'-'+row]['name']
 				})
-				.html(data.hasOwnProperty(column+'-'+row) && data[column+'-'+row]['fiefdom'] ? "<title>" + column + "x" + row + ": " + data[column+'-'+row]['fiefdom']['name'] + "</title>" : "<title>" + column + "x" + row + "</title>")
+				.html(data.hasOwnProperty(column+'-'+row) ? "<title>" + column + "x" + row + ": " + (data[column+'-'+row]['fief'] && data[column+'-'+row]['fief']['name'] != null ? data[column+'-'+row]['fief']['name'] + ': ' : '') + (data[column+'-'+row]['fiefdom'] && data[column+'-'+row]['fiefdom']['name'] != null ? data[column+'-'+row]['fiefdom']['name'] : '') + "</title>" : "<title>" + column + "x" + row + "</title>")
 				.appendTo(svgParent)
 				.data({center:center, row:row, column:column, territory_id:data[column+'-'+row]['id']})
 				.on('click', hexClick)

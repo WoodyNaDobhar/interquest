@@ -59,7 +59,7 @@ class FiefdomController extends AppBaseController
 		}
 		
 		//respond
-		return view('fiefdoms.create');
+		return view('fiefdoms.create')->with('rulerId', $rulerId)->with('rulerType', $rulerType);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class FiefdomController extends AppBaseController
 			return redirect(route('fiefdoms.index'));
 		}
 
-        return view('fiefdoms.show')->with('fiefdom', $fiefdom);
+		return view('fiefdoms.show')->with('fiefdom', $fiefdom);
 	}
 
 	/**
@@ -126,9 +126,22 @@ class FiefdomController extends AppBaseController
 			return redirect(route('fiefdoms.index'));
 		}
 
+		//rulers
+		$parkPersonae = Persona::where('park_id', Auth::user()->persona->park_id)->get();
+		$rulersPersonae = [];
+		foreach($parkPersonae as $persona){
+			if($persona->fiefs_assigned < $persona->fiefs_count){
+				$rulersPersonae[$persona->id] = $persona->name;
+			}
+		}
+		$rulersNpcs = Npc::where('park_id', Auth::user()->persona->park_id)->pluck('name', 'id')->toArray();
+		
+
 		//respond
 		return view('fiefdoms.edit')
-			->with('fiefdom', $fiefdom);
+			->with('fiefdom', $fiefdom)
+			->with('rulersPersonae', $rulersPersonae)
+			->with('rulersNpcs', $rulersNpcs);
 	}
 
 	/**

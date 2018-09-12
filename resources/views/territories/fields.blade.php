@@ -195,7 +195,8 @@
 		)
 	!!}
 	{!! Form::hidden('fiefdom_id', isset($fief) ? $fief->fiefdom_id : old('fiefdom_id'), ['id' => 'fiefdom_id']) !!}
-	</div>
+	{!! Form::text('fief_name', isset($fief) ? $fief->name : old('fief_name'), ['placeholder' => 'Fief Name', 'style' => !isset($fief) ? 'display: none;' : '', 'class' => 'form-control showTarget']) !!}
+</div>
 
 <!-- Castle Strength Field -->
 <div class="form-group col-sm-6">

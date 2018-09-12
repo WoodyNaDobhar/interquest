@@ -573,11 +573,11 @@ function drawMap(territoryId, columns, rows){
 											
 											//buttons
 											var links = getTerritoryLinks(templateGuts, territory);
-											
+
 											//template
 											var template = templateGuts[templateId].format({
 												dialogId:		dialogId,
-												name:			territory.name,
+												name:			territory.displayname,
 												id:				territory.id,
 												ruler:			territory.fief && territory.fief.fiefdom.ruler ? territory.fief.fiefdom.ruler.name : '',
 												steward:		territory.fief && territory.fief.steward ? territory.fief.steward.name : '',
@@ -609,7 +609,7 @@ function drawMap(territoryId, columns, rows){
 	
 											//display the dialog
 											var dialog = $("#" + dialogId).dialog(mediumDialogVars, {
-												title: territory.name,
+												title: territory.displayname,
 												close: function(){
 													$(this).dialog('destroy').detach().remove()
 												},
@@ -671,21 +671,6 @@ function getTerritoryLinks(templateGuts, territory){
 			etc:	'id="territoryCreateWidget" target="_blank"',
 			css:	'pull-right openInDialog',
 			label:	'Create Territory'
-		}) + '<br><br>';
-	}
-	if(territory.fief && territory.fief.id && territory.fief.id != ''){
-		links = links + templateGuts['templateCommonButton'].format({
-			href:	'/sparse/fiefs/' + territory.fief.id + '/edit',
-			etc:	'id="fiefEditWidget" target="_blank"',
-			css:	'pull-right openInDialog',
-			label:	'Add/Update Steward'
-		}) + '<br><br>';
-	}else if(territory.id && territory.id != ''){
-		links = links + templateGuts['templateCommonButton'].format({
-			href:	'/sparse/fiefs/create/' + territory.id,
-			etc:	'id="fiefCreateWidget" target="_blank"',
-			css:	'pull-right openInDialog',
-			label:	'Assign Fief'
 		}) + '<br><br>';
 	}
 	if(territory.fief && territory.fief.fiefdom_id && territory.fief.fiefdom_id != ''){
