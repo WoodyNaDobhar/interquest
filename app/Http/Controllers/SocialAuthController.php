@@ -47,13 +47,16 @@ class SocialAuthController extends Controller
 				}
 			
 				//send them to their persona to edit
-
 				Flash::success('Persona Claimed!  Take a moment to review and update your Persona.');
 				return redirect('/personae/' . $unclaimedPersona->id . '/edit');
-			}
+			}else{
 		
-			//nothing unclaimed waiting for them, and no persona...
-			Flash::error('User confirmed!  However, there doesn\'t seem to be a Persona waiting for you.  This could be due to a couple reasons.<br><br>If your park isn\'t in the system, you\'ll want to follow the instructions to onboard your park.<br><br>If you have a local MapKeeper already, ask them to add your Persona, and/or if it already exists, send them your email address associated with Facebook.  When they have created it, or associated it with your Facebook email, the next time you log in it should detect the association automatically.<br><br>If you do not have a local MapKeeper, or if your MapKeeper ran off with the keys, you are going to have to find me and get my help resolving that.  I am also an Amtgarder, that should not be difficult ;)  However, I\'m suspicious, so you will have to prove it...Monarch approval required.');
+				//nothing unclaimed waiting for them, and no persona...
+				Flash::error('User confirmed!  However, there doesn\'t seem to be a Persona waiting for you.  You can create it here.  If you park doesn\'t appear in the list below, contact us about onboarding your park.');
+				
+				//off to make a Persona
+				return redirect('/personae/create');
+			}
 		}
 		
 		//send them to the root

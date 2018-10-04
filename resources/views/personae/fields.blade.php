@@ -3,7 +3,7 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('validClaim', 'User Facebook Email:') !!}
-	{!! Form::text('validClaim', isset($persona) ? $persona->validClaim : old('validClaim'), ['class' => 'form-control']) !!}
+	{!! Form::text('validClaim', isset($persona) ? $persona->validClaim : (Auth::user()->persona == null ? Auth::user()->email : old('validClaim')), ['class' => 'form-control']) !!}
 </div>
 
 @if(!isset($persona))
@@ -50,7 +50,7 @@
 <!-- Orkid Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('orkID', 'Persona ORK Id:') !!}
-	{!! Form::text(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? (isset($persona) ? $persona->orkID : old('orkID')) : old('personaOrkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
+	{!! Form::text(( (!isset($suppressSave) || $suppressSave === false) ? 'orkID' : 'personaOrkID'), ((!isset($suppressSave) || $suppressSave === false) ? (isset($persona) ? $persona->orkID : old('orkID')) : old('personaOrkID')), ['class' => 'form-control', 'placeholder' => 'https://amtgard.com/ork/orkui/?Route=Player/index/XXXX <- this last number', (Auth::user()->is_admin || Auth::user()->is_mapkeeper || Auth::user()->persona == null) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 @if(!isset($suppressSave) || $suppressSave === false)
@@ -64,7 +64,7 @@
 <!-- Vocation Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('vocation_id', 'Declared Class:') !!}
-	{!! Form::select('vocation_id', $vocations, isset($persona) ? $persona->vocation_id : old('vocation_id'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
+	{!! Form::select('vocation_id', $vocations, isset($persona) ? $persona->vocation_id : old('vocation_id'), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper || Auth::user()->persona == null) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Image Field -->
@@ -99,7 +99,7 @@
 <!-- Park Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('park_id', 'Home Park:') !!}
-	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : (Auth::user()->is_mapkeeper ? Auth::user()->persona->park_id : old('park_id')), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper) ? '' : 'disabled' => 'disabled']) !!}
+	{!! Form::select('park_id', $parks, isset($persona) ? $persona->park_id : (Auth::user()->is_mapkeeper ? (Auth::user()->persona ? Auth::user()->persona->park_id : old('park_id')) : old('park_id')), ['class' => 'form-control', (Auth::user()->is_admin || Auth::user()->is_mapkeeper || Auth::user()->persona == null) ? '' : 'disabled' => 'disabled']) !!}
 </div>
 
 <!-- Action Id Field -->
@@ -108,10 +108,12 @@
 	{!! Form::select('action_id', $actions, isset($persona) ? $persona->action_id : (old('action_id') != '' ? old('action_id') : 19), ['class' => 'form-control']) !!}
 </div>
 
+@if(Auth::user()->persona != null)
+	
 <!-- Territory Id Field -->
 <div class="form-group col-sm-6">
 	{!! Form::label('territory_id', 'Home Territory:') !!}
-	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($persona) ? $persona->territory_id : (old('territory_id') != '' ? old('territory_id') : Auth::user()->persona->park->capital->id), ['class' => 'form-control']) !!}
+	{!! Form::select('territory_id', ['' => 'Homeless'] + $territories, isset($persona) ? $persona->territory_id : (old('territory_id') != '' ? old('territory_id') : (Auth::user()->persona ? Auth::user()->persona->park->capital->id : '')), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Titles Field -->
@@ -185,6 +187,8 @@
 	{!! Form::label('deceased', 'Deceased:') !!}
 	{!! Form::date('deceased', isset($persona) ? $persona->deceased : old('deceased'), ['class' => 'form-control']) !!}
 </div>
+
+@endif
 
 @endif
 

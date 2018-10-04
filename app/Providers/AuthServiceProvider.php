@@ -49,5 +49,8 @@ class AuthServiceProvider extends ServiceProvider
 				)
 			);
 		});
+		$gate->define('noPersona', function ($user) {
+			return (bool) $user->persona == null ? True : False;
+		});
 	}
 }

@@ -52,7 +52,7 @@ class PersonaController extends AppBaseController
 	{
 		
 		//security
-		if(Gate::denies('admin') && Gate::denies('mapKeeper')){
+		if(Gate::denies('admin') && Gate::denies('mapKeeper') && Gate::denies('noPersona')){
 			Flash::error('Permission Denied');
 			return redirect(route('personae.index'));
 		}
@@ -61,27 +61,37 @@ class PersonaController extends AppBaseController
 		$vocations = Vocations::pluck('name', 'id')->toArray();
 		
 		//get metatypes
-		$metatypes = Metatypes::pluck('name', 'id')->toArray();
+		if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->persona == null)){
+			$metatypes = Metatypes::where('power', 1)->pluck('name', 'id')->toArray();
+		}else{
+			$metatypes = Metatypes::where('power', 1)->where('level', 1)->pluck('name', 'id')->toArray();
+		}
 		
-		//get parks
-		$park = Auth::user()->persona->park;
+		//get parks/territories
 		$parks = [];
-		if(!Auth::guest() && Auth::user()->is_admin){
+		$territories = [];
+		if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->persona == null)){
 			$parks = Parks::orderBy('name')->pluck('name', 'id')->toArray();
 		}elseif(!Auth::guest() && Auth::user()->is_mapkeeper){
-			$parks = Parks::where('id', $park->id)->orderBy('name')->pluck('name', 'id')->toArray();
-		}
 
-		//get territories
-		$territoriesObjs = Territories::whereBetween('row', [$park->capital->row - 10, $park->capital->row + 10])
-			->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
-			->get();
-		foreach($territoriesObjs as $tObj){
-			$territories[$tObj->id] = $tObj->displayname;
+			$park = Auth::user()->persona->park;
+			$parks = Parks::where('id', $park->id)->orderBy('name')->pluck('name', 'id')->toArray();
+
+			//get territories
+			$territoriesObjs = Territories::whereBetween('row', [$park->capital->row - 10, $park->capital->row + 10])
+				->whereBetween('column', [$park->capital->column - 10, $park->capital->column + 10])
+				->get();
+			foreach($territoriesObjs as $tObj){
+				$territories[$tObj->id] = $tObj->displayname;
+			}
 		}
 		
 		//get actions
-		$actions = Actions::pluck('name', 'id')->toArray();
+		if(!Auth::guest() && (Auth::user()->is_admin || Auth::user()->persona == null)){
+			$actions = Actions::pluck('name', 'id')->toArray();
+		}else{
+			$actions = Actions::where('is_common', 1)->pluck('name', 'id')->toArray();
+		}
 		
 		//get titles
 		$titles = Titles::pluck('name', 'id')->toArray();
