@@ -117,7 +117,7 @@ class PersonaController extends AppBaseController
 	{
 		
 		//security
-		if(Gate::denies('admin') && Gate::denies('mapKeeper')){
+		if(Gate::denies('admin') && Gate::denies('mapKeeper') && Gate::denies('noPersona')){
 			Flash::error('Permission Denied');
 			return redirect(route('personae.index'));
 		}
@@ -125,8 +125,8 @@ class PersonaController extends AppBaseController
 		//setup
 		$input = $request->all();
 		
-		//make sure the claim email is unique
-		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL)){
+		//make sure the claim email is unique or it's not a self-inductor
+		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL) && Auth::user()->persona != null){
 			$currentUsers = Users::where('email', $input['validClaim'])->get();
 			if($currentUsers->count() > 0){
 				return redirect(route('personae.create'))
@@ -135,11 +135,19 @@ class PersonaController extends AppBaseController
 			}
 		}
 		
+		//if the creator has no Persona, assume this is it
+		if(Auth::user()->persona == null){
+			$input['user_id'] = Auth::user()->id;
+			$input['validClaim'] = 'claimed';
+			$park = Parks::where('id', $input['park_id'])->first();
+			$input['territory_id'] = $park->territory_id;
+		}
+		
 		//make it
 		$persona = $this->personaRepository->create($input);
-
-		//if there's an email, we'll need to send an invite out...
-		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL)){
+		
+		//if there's an email && !user, we'll need to send an invite out...
+		if(filter_var($input['validClaim'], FILTER_VALIDATE_EMAIL) && $persona->user_id == null){
 			Mail::send('emails.invite', ['inviter' => Auth::user()], function ($m) use ($input){
 				$m->from('doNotReply@interquestonline.com', 'InterQuest');
 				$m->to($input['validClaim'], $input['name']);
