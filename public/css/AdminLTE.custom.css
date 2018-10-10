@@ -192,6 +192,41 @@ div.dataTables_wrapper div.dataTables_processing {
 	stroke-width: 3px;
 }
 
+.fiefdomBorder{
+	fill: none;
+	stroke-width: 5px;
+}
+.fiefdom1{
+	stroke: white;
+}
+.fiefdom2{
+	stroke: violet;
+}
+.fiefdom3{
+	stroke: indigo;
+}
+.fiefdom4{
+	stroke: blue;
+}
+.fiefdom5{
+	stroke: teal;
+}
+.fiefdom6{
+	stroke: green;
+}
+.fiefdom7{
+	stroke: yellow;
+}
+.fiefdom8{
+	stroke: orange;
+}
+.fiefdom9{
+	stroke: red;
+}
+.fiefdom10{
+	stroke: darkred;
+}
+
 /*
 * Top
 */
