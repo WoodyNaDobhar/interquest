@@ -85,6 +85,11 @@ class Fief extends Model
 		$this->attributes['steward_type'] = $value != '' ? $value : null;
 	}
 
+	public function setNameAttribute($value)
+	{
+		$this->attributes['name'] = $value == '' ? NULL : $value;
+	}
+	
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 **/

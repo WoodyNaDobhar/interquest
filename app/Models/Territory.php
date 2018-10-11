@@ -118,6 +118,11 @@ class Territory extends Model
 				(Park::where('territory_id', $this->id)->exists() ? ' (Capital)' : '')
 			;
 	}
+	
+	public function setNameAttribute($value)
+	{
+		$this->attributes['name'] = $value == '' ? NULL : $value;
+	}
 
 	/**
 	 * Relationship Appending

@@ -55,9 +55,19 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 						(data.hasOwnProperty(column+'-'+row) ? ' ' + data[column+'-'+row]['terrain'] : 'Undiscovered'),
 					tabindex:1,
 					'data-toggle':"tooltip",
-					'title': data[column+'-'+row]['name']
+					'title': (data[column+'-'+row]['fiefdom'] != null ?
+								(data[column+'-'+row]['fiefdom']['name'] != null ? 
+									data[column+'-'+row]['fiefdom']['name'] + ((data[column+'-'+row]['fief'] && data[column+'-'+row]['fief']['name'] != null) || data[column+'-'+row]['name'] != null ? ': ' : '') :
+									'')
+								: '') +
+							(data[column+'-'+row]['fief'] != null && data[column+'-'+row]['fief']['name'] != null ? 
+								(data[column+'-'+row]['fief']['name'] + (data[column+'-'+row]['name'] != null ? ': ' : '')) : 
+								'') +
+							(data[column+'-'+row]['name'] != null ? 
+								data[column+'-'+row]['name'] : 
+								'')
 				})
-				.html(data.hasOwnProperty(column+'-'+row) ? "<title>" + column + "x" + row + ": " + (data[column+'-'+row]['fief'] && data[column+'-'+row]['fief']['name'] != null ? data[column+'-'+row]['fief']['name'] + ': ' : '') + (data[column+'-'+row]['fiefdom'] && data[column+'-'+row]['fiefdom']['name'] != null ? data[column+'-'+row]['fiefdom']['name'] : '') + "</title>" : "<title>" + column + "x" + row + "</title>")
+				.html("<title>" + (data[column+'-'+row]['id'] != '' ? data[column+'-'+row]['id'] + ' - ' : '') + 'Long: ' + column + " x Lat: " + row + "</title>")
 				.appendTo(svgParent)
 				.data({center:center, row:row, column:column, territory_id:data[column+'-'+row]['id']})
 				.on('click', hexClick)
@@ -144,6 +154,8 @@ function traceHex(fiefdom){
 	//do the things
 	fiefdomLoop(fiefdom);
 	
+	return points;
+	
 	//init this mess
 	function fiefdomLoop(fiefdom){
 		
@@ -171,16 +183,15 @@ function traceHex(fiefdom){
 
 	//check points for collisions w/ other fiefs in fiefdom
 	function pointLoop(fiefdom){
+
+		//add it
+		points.push(fiefdom[fiefKey][pointKey]);
 		
 		//check point against all other fief points
 		var check = checkPoint(fiefdom[fiefKey][pointKey], fiefKey, fiefdom);
 		
 		//if found in another hex
 		if(check){
-
-			//add it
-			points.push(fiefdom[fiefKey][pointKey]);
-			points.push(fiefdom[check[0]][check[1]]);
 			
 			//reorganize fiefdom[check[0]] array so that check1 is at point 0, and the order is maintainted
 			var newStart = fiefdom[check[0]][check[1]];
@@ -194,9 +205,6 @@ function traceHex(fiefdom){
 
 		//if not
 		}else{
-			
-			//add it to final
-			points.push(fiefdom[fiefKey][pointKey]);
 			
 			//next
 			pointKey++;
@@ -235,6 +243,4 @@ function traceHex(fiefdom){
 		}
 		return false;
 	}
-	
-	return points;
 }

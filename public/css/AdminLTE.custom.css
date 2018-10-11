@@ -194,7 +194,8 @@ div.dataTables_wrapper div.dataTables_processing {
 
 .fiefdomBorder{
 	fill: none;
-	stroke-width: 5px;
+	stroke-width: 3px;
+	stroke-dasharray: 4 3;
 }
 .fiefdom1{
 	stroke: white;
