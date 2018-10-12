@@ -106,7 +106,7 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 			//add points
 			fiefdoms[$(this).attr('fiefdom')].push($(this).attr('points').split(" "));
 		});
-		
+
 		//iterate fiefdoms
 		for(var fiefdomKey in fiefdoms){
 			
@@ -220,6 +220,10 @@ function traceHex(fiefdom){
 		var checkForC = checkForPre[0] + ',' + (parseInt(checkForPre[1]) - 1);
 		var checkForD = (parseInt(checkForPre[0]) + 1) + ',' + checkForPre[1];
 		var checkForE = (parseInt(checkForPre[0]) - 1) + ',' + checkForPre[1];
+		var checkForF = (parseInt(checkForPre[0]) + 1) + ',' + (parseInt(checkForPre[1]) + 1);
+		var checkForG = (parseInt(checkForPre[0]) + 1) + ',' + (parseInt(checkForPre[1]) - 1);
+		var checkForH = (parseInt(checkForPre[0]) - 1) + ',' + (parseInt(checkForPre[1]) + 1);
+		var checkForI = (parseInt(checkForPre[0]) - 1) + ',' + (parseInt(checkForPre[1]) - 1);
 		
 		//iterate, excluding given Fief
 		for(var fiefKey in fiefdom){
@@ -233,7 +237,11 @@ function traceHex(fiefdom){
 				fiefdom[fiefKey][pointKey] == checkForB || 
 				fiefdom[fiefKey][pointKey] == checkForC || 
 				fiefdom[fiefKey][pointKey] == checkForD || 
-				fiefdom[fiefKey][pointKey] == checkForE){
+				fiefdom[fiefKey][pointKey] == checkForE || 
+				fiefdom[fiefKey][pointKey] == checkForF || 
+				fiefdom[fiefKey][pointKey] == checkForG || 
+				fiefdom[fiefKey][pointKey] == checkForH || 
+				fiefdom[fiefKey][pointKey] == checkForI){
 					return [
 					    fiefKey,
 					    pointKey
