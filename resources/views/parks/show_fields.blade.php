@@ -45,7 +45,7 @@
 									</div>
 								</div>
 								<div class="col-md-7">
-									<div id="mapContainer" data-center="{!! $park->territory_id !!}" data-column="" data-row="" data-zoom="{!! $park->zoom !!}"></div>
+									<div id="mapContainer" data-center="{!! $park->territory_id !!}" data-column="{!! $park->capital->column !!}" data-row="{!! $park->capital->row !!}" data-zoom="{!! $park->zoom !!}"></div>
 								</div>
 							</div>
 						</div>

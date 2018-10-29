@@ -160,7 +160,13 @@
 								<div id="mapContainer" data-center="{!! 
 								$persona->territory_id ? 
 									$persona->territory_id : 
-									$persona->park->territory_id !!}" data-column="" data-row="" data-zoom="{!! 
+									$persona->park->territory_id !!}" data-column="{!! 
+								$persona->territory_id ? 
+									$persona->home->column :
+									$persona->park->column !!}" data-row="{!! 
+								$persona->territory_id ? 
+									$persona->home->row :
+									$persona->park->row !!}" data-zoom="{!! 
 								$persona->territory_id ? 
 									$persona->home->fief->fiefdom->zoom : 
 									$persona->park->zoom !!}"></div>

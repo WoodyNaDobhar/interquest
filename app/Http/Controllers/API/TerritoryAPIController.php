@@ -292,7 +292,18 @@ class TerritoryAPIController extends AppBaseController
 				'terrain'	=> Terrain::where('id', $territory->terrain_id)->first()->toArray()
 			]
 		;
-		if($fief && $fief->fiefdom->ruler->exists){
+		if($fief && 
+			(
+				(
+					$fief->fiefdom && 
+					$fief->fiefdom->ruler->exists
+				) || 
+				(
+					$fief->park && 
+					$fief->park->ruler->exists
+				)
+			)
+		){
 			$response['fief']['fiefdom']['ruler'] = $fief->fiefdom->ruler->toArray();
 		}
 		

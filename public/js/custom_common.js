@@ -1042,14 +1042,6 @@ function postPostFileWidgetForm(context, files, callback){
 		
 		//close up
 		context.dialog('destroy').detach().remove();
-
-		//callback?
-		if(callback && typeof callback !== typeof undefined){
-			callback(jsonData);
-		}else{
-			//just dump it, I guess
-			return jsonData;
-		}
 	}
 }
 
