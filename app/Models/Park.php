@@ -92,6 +92,34 @@ class Park extends Model
 			return null;
 		}
 	}
+	
+	public function getZoomAttribute()
+	{
+		
+		//set borders
+		$xMin = 3500;
+		$xMax = 0;
+		$yMin = 7500;
+		$yMax = 0;
+		
+		//determine x and y ranges
+		foreach($this->fiefs as $fief){
+			$xMin = $fief->territory->row < $xMin ? $fief->territory->row : $xMin;
+			$xMax = $fief->territory->row > $xMax ? $fief->territory->row : $xMax;
+			$yMin = $fief->territory->column < $yMin ? $fief->territory->column : $yMin;
+			$yMax = $fief->territory->column > $yMax ? $fief->territory->column : $yMax;
+		}
+
+		//work out the distance
+		$xDiff = $xMax - $xMin;
+		$yDiff = $yMax - $yMin;
+		
+		//total is greater of them, plus a border
+		$total = ($xDiff > $yDiff ? $xDiff : $yDiff) + 1 + 2;
+		
+		//round to odd
+		return $total % 2 == 0 ? $total + 1 : $total;
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

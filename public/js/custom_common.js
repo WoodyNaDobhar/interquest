@@ -423,23 +423,22 @@ $(document).ready(function(){
 
 /**
  * Draw a Sector Map
- * @param {string}	center Territory id
- * @param {int}	column width of map
- * @param {int}	row height of map
+ * @param {int}	territoryId center Territory id
+ * @param {int}	column x position of Territory if no id
+ * @param {int}	row y position of Territory if no id
+ * @param {int}	zoom width/height of map
  */
-function drawMap(territoryId, columns, rows){
-	
-	//default hex grid...start with radius
-	var radius = $('#mapContainer').parent().width() / 15.5;
-	var territoryId = typeof territoryId != typeof undefined ? territoryId : ($('#mapContainer').data('center') && $('#mapContainer').data('center') != '' ? $('#mapContainer').data('center') : null);
-	var columns = typeof columns != typeof undefined ? columns : $('#mapContainer').data('columns');
-	var rows = typeof rows != typeof undefined ? rows : $('#mapContainer').data('rows');
-	
+function drawMap(territoryId, column, row, zoom){
+
+	//default hex grid
+	var territoryId = (typeof territoryId != typeof undefined || territoryId != null) ? territoryId : ($('#mapContainer').data('center') && $('#mapContainer').data('center') != '' ? $('#mapContainer').data('center') : null);
+	var column = (typeof column != typeof undefined || column != null) ? column : ($('#mapContainer').data('column') && $('#mapContainer').data('column') != '' ? $('#mapContainer').data('column') : null);
+	var row = (typeof row != typeof undefined || row != null) ? row : ($('#mapContainer').data('row') && $('#mapContainer').data('row') != '' ? $('#mapContainer').data('row') : null);
+	var zoom = (typeof zoom != typeof undefined || zoom != null) ? zoom : ($('#mapContainer').data('zoom') && $('#mapContainer').data('zoom') != '' ? $('#mapContainer').data('zoom') : 10);
+	var radius = $('#mapContainer').parent().width() / (1.6 * zoom);
+
 	//if we have a center...
-	if(territoryId){
-		
-		//clear out the container
-		$('#mapContainer').empty().off();
+	if(territoryId || (column && row)){
 		
 		//spinner up
 		var target = document.getElementById('mapContainer');
@@ -451,7 +450,7 @@ function drawMap(territoryId, columns, rows){
 			//get the requisite data
 			$.ajax({
 				type:		"GET",
-				url:		"/api/v1/territories/map/" + territoryId,
+				url:		"/api/v1/territories/map/" + (territoryId ? territoryId : (column + ':' + row)) + "/" + zoom,
 				dataType:	"json",
 				error: function(error){
 					
@@ -468,9 +467,12 @@ function drawMap(territoryId, columns, rows){
 				var rowMod = preTerritories['data']['rowMod'];
 				var colMod = preTerritories['data']['colMod'];
 				
+				//clear out the container
+				$('#mapContainer').empty().off();
+				
 				//do it
 				$('#mapContainer')
-					.hexGridWidget(radius, columns ? columns : 10, colMod, rows ? rows : 10, rowMod, 'hex', territories)
+					.hexGridWidget(radius, zoom, colMod, rowMod, 'hex', territories)
 					.on('hexclick', 
 						function(e){
 							

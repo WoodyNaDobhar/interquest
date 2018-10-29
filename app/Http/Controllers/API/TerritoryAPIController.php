@@ -329,56 +329,72 @@ class TerritoryAPIController extends AppBaseController
 	 *
 	 * @return Response
 	 */
-	public function map($id)
+	public function map($center, $zoom = 10)
 	{
 		
-		//get the territory
-		$territory = $this->territoryRepository->findWithoutFail($id);
-		
-		//check
-		if(empty($territory)){
-			return $this->sendError('Territory not found');
+		//setup
+		$id = null;
+		$column = null;
+		$row = null;
+		if(!strpos($center, ':')){
+			$id = $center;
 		}else{
-			
+			$posArray = explode(':', $center);
+			$column = $posArray[0];
+			$row = $posArray[1];
+		}
+		
+		//get the territory
+		if($id){
+			$territory = $this->territoryRepository->findWithoutFail($id);
+			if(empty($territory)){
+				return $this->sendError('Territory not found');
+			}
+		
 			//define borders
-			$colMod = $territory->column - 4;
-			$rowMod = $territory->row - 4;
-			
-			//build array
-			$responseData = [
-				'colMod'		=> $colMod,
-				'rowMod'		=> $rowMod,
-				'territories'	=> []
-			];
-			for($row = 0; $row < 10; $row++){
-				for($column = 0; $column < 10; $column++){
-					$tt = \App\Models\Territory::where('column', $colMod + $column)->where('row', $rowMod + $row)->first();
-					if($tt){
-						$responseData['territories'] = [
-							$tt->column . '-' . $tt->row => [
-								'id'		=> $tt->id,
-								'name'		=> $tt->name,
-								'terrain'	=> $tt->terrain->name,
-								'cs'		=> $tt->castle_strength,
-								'fief'		=> $tt->fief ? $tt->fief : null,
-								'fiefdom'	=> $tt->fief ? $tt->fief->fiefdom : null
-							]
-						] + $responseData['territories'];
-					}else{
-						$responseData['territories'] = [
-							($colMod + $column) . '-' . ($rowMod + $row) => [
-								'id'		=> '',
-								'name'		=> 'Undiscovered',
-								'terrain'	=> 'Undiscovered',
-								'cs'		=> 0,
-								'fief_id'	=> null,
-								'fiefdom_id'=> null
-							]
-						] + $responseData['territories'];
-					}
+			$colMod = round($territory->column - ($zoom/2));
+			$rowMod = round($territory->row - ($zoom/2));
+		}else{
+
+			//define borders
+			$colMod = round($column - ($zoom/2));
+			$rowMod = round($row - ($zoom/2));
+		}
+		
+		//build array
+		$responseData = [
+			'colMod'		=> $colMod,
+			'rowMod'		=> $rowMod,
+			'territories'	=> []
+		];
+		for($row = 0; $row < $zoom; $row++){
+			for($column = 0; $column < $zoom; $column++){
+				$tt = \App\Models\Territory::where('column', $colMod + $column)->where('row', $rowMod + $row)->first();
+				if($tt){
+					$responseData['territories'] = [
+						$tt->column . '-' . $tt->row => [
+							'id'		=> $tt->id,
+							'name'		=> $tt->name,
+							'terrain'	=> $tt->terrain->name,
+							'cs'		=> $tt->castle_strength,
+							'fief'		=> $tt->fief ? $tt->fief : null,
+							'fiefdom'	=> $tt->fief ? $tt->fief->fiefdom : null
+						]
+					] + $responseData['territories'];
+				}else{
+					$responseData['territories'] = [
+						($colMod + $column) . '-' . ($rowMod + $row) => [
+							'id'		=> '',
+							'name'		=> 'Undiscovered',
+							'terrain'	=> 'Undiscovered',
+							'cs'		=> 0,
+							'fief_id'	=> null,
+							'fiefdom_id'=> null
+						]
+					] + $responseData['territories'];
 				}
 			}
-			return $this->sendResponse($responseData, 'Territory Sector retrieved successfully');
 		}
+		return $this->sendResponse($responseData, 'Territory Sector retrieved successfully');
 	}
 }

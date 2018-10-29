@@ -45,7 +45,7 @@
 										@include('personae.table')
 									</div>
 									<div class="col-md-7">
-										<div id="mapContainer" data-center="{!! Auth::user()->persona ? Auth::user()->persona->park->territory_id : 848 !!}" data-columns="10" data-rows="10"></div>
+										<div id="mapContainer" data-center="{!! Auth::user()->persona ? Auth::user()->persona->park->territory_id : '' !!}" data-column="" data-row="" data-zoom="11"></div>
 									</div>
 								</div>
 							</div>

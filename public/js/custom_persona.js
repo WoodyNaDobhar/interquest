@@ -8,19 +8,17 @@ $(document).ready(function(){
 	
 	//showFiefdom
 	$('.showFiefdom').on('click', function(){
-		
-		//only if collapsed
-		if($(this).hasClass('collapsed')){
-			
-			//only if has center
-			if($(this).data('center') && $(this).data('center') != ''){
-				drawMap($(this).data('center'));
-			}
-		}else{
-			
-			//remove map instead
-			$('#mapContainer').empty();
+
+		//only if has center
+		if($(this).data('center') && $(this).data('center') != ''){
+			drawMap($(this).data('center'), null, null, $(this).data('zoom'));
 		}
+	});
+	
+	//showFief
+	$('.showFief').on('click', function(){
+		$('#mapContainer').attr('data-zoom', 3);
+		drawMap($(this).data('center'), null, null, 3);
 	});
 	
 	//mapkeeper toggle

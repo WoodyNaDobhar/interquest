@@ -1,7 +1,7 @@
 /*
 * Wherever
 */
-.deleteMe, .mapZoom{
+.deleteMe, .showFief{
 	cursor: pointer;
 }
 .btn-default {
@@ -88,7 +88,7 @@ div.dataTables_wrapper div.dataTables_processing {
 */
 #mapContainer {
 	width: 100%;
-	background-color: black;
+/* 	background-color: black; */
 	overflow: hidden;
 }
 .hex {
@@ -226,6 +226,31 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 .fiefdom10{
 	stroke: darkred;
+}
+
+.compass {
+	position: absolute;
+	top: 0;
+	height: 80px;
+	left: 16px;
+}
+
+.zoomPlus {
+	position: absolute;
+	top: 1px;
+	height: 20px;
+	left: 67px;
+}
+
+.zoomMinus {
+	position: absolute;
+	top: 1px;
+	height: 20px;
+	left: 16px;
+}
+
+.zoomPlus:hover, .zoomMinus:hover {
+	cursor: pointer;
 }
 
 /*

@@ -28,7 +28,7 @@
 									<b>Mapkeeper: </b>{!! $fiefdom->ruler->park->mapkeeper->name !!}
 								</div>
 								<div class="col-md-8">
-									<div id="mapContainer" data-center="{!! $fiefdom->capital->territory->id !!}" data-columns="10" data-rows="10"></div>
+									<div id="mapContainer" data-center="{!! $fiefdom->capital->territory->id !!}" data-column="" data-row="" data-zoom="{!! $fiefdom->zoom !!}"></div>
 								</div>
 							</div>
 						</div>

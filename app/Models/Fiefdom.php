@@ -97,14 +97,19 @@ class Fiefdom extends Model
 			$xMax = $fief->territory->row > $xMax ? $fief->territory->row : $xMax;
 			$yMin = $fief->territory->column < $yMin ? $fief->territory->column : $yMin;
 			$yMax = $fief->territory->column > $yMax ? $fief->territory->column : $yMax;
-}
+		}
 
 		//work out the distance
 		$xDiff = $xMax - $xMin;
 		$yDiff = $yMax - $yMin;
 		
-		//return the greater of them
-		return ($xDiff > $yDiff ? $xDiff : $yDiff) + 1;
+		//total is greater of them + 1
+		$total = ($xDiff > $yDiff ? $xDiff : $yDiff) + 1;
+		
+		//add a border, rounding to odd
+		$total = $total + 2;
+		
+		return $total;
 	}
 	
 	public function getPopulationAttribute()

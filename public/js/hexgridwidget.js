@@ -1,12 +1,13 @@
 /*global $, document*/
-$.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, data) {
+$.fn.hexGridWidget = function (radius, zoom, colMod, rowMod, cssClass, data) {
 	'use strict';
 	var createSVG = function (tag) {
 		return $(document.createElementNS('http://www.w3.org/2000/svg', tag || 'svg'));
 	};
 
 	return $(this).each(function () {
-		var element = $(this),
+		var element = $(this)
+		var evenStagger = false,
 		hexClick = function () {
 			var hex = $(this);
 			element.trigger($.Event('hexclick', hex.data()));
@@ -21,8 +22,8 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 		},
 		height = Math.sqrt(3) / 2 * radius,
 		svgParent = createSVG('svg').attr('tabindex', 1).appendTo(element).css({
-			width: (1.5 * columns  +  0.5) * radius,
-			height: (2 * rows  +  1) * height
+			width: (1.5 * zoom  +  0.5) * radius,
+			height: (2 * zoom  +  1) * height
 		}),
 		column,
 		thisColumn,
@@ -33,13 +34,33 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 			return Math.round(dx + center.x) + ',' + Math.round(dy + center.y);
 		};
 
-		for(row = rowMod + rows - 1; row >= rowMod; row--){
+		for(row = rowMod + zoom - 1; row >= rowMod; row--){
 			thisRow = row - rowMod;
-			for(column = colMod + columns -1; column >= colMod; column--){
+			for(column = colMod + zoom - 1; column >= colMod; column--){
+				
+				//first iteration & column is even? set evenStagger
+				if(
+					column == (colMod + zoom - 1) && 
+					row == (rowMod + zoom - 1) && 
+					column % 2 == 0
+				){
+					evenStagger = true;
+				}
 
 				//setup
 				thisColumn = column - colMod;
-				center = {x:Math.round((-.45 + 1.49 * (columns - thisColumn)) * radius), y: Math.round(height * (-.90 + (rows - thisRow) * 2 + ((columns - thisColumn) % 2)))};
+				var columnOffset = zoom - thisColumn;
+				var rowOffset = zoom - thisRow;
+				
+				//center
+				center = {
+					x: Math.round(
+						(-.45 + 1.49 * columnOffset) * radius
+					), 
+					y: Math.round(
+						height * (-.90 + rowOffset * 2 + ((evenStagger ? columnOffset + 1 : columnOffset) % 2))
+					)
+				};
 
 				//make the SVG
 				createSVG('polygon').attr({
@@ -122,6 +143,16 @@ $.fn.hexGridWidget = function (radius, columns, colMod, rows, rowMod, cssClass, 
 			})
 			.appendTo(svgParent);
 		};
+		
+		//add map controls
+		$(this).append('<img src="/img/compass.png" class="compass" usemap="#compassMap">');
+		$(this).append('<map name="compassMap"><area shape="poly" coords="0, 0, 40, 40, 80, 0" onclick="mapNorth();" href="#"><area shape="poly" coords="80, 0, 40, 40, 80, 80" onclick="mapEast();" href="#"><area shape="poly" coords="0, 80, 40, 40, 80, 80" onclick="mapSouth();" href="#"><area shape="poly" coords="0, 0, 40, 40, 0, 80" onclick="mapWest();" href="#"></map>');
+		if(zoom > 3){
+			$(this).append('<img src="/img/zoomPlus.png" class="zoomPlus">');
+		}
+		if(zoom < 32){
+			$(this).append('<img src="/img/zoomMinus.png" class="zoomMinus">');
+		}
 	});
 };
 
@@ -224,6 +255,14 @@ function traceHex(fiefdom){
 		var checkForG = (parseInt(checkForPre[0]) + 1) + ',' + (parseInt(checkForPre[1]) - 1);
 		var checkForH = (parseInt(checkForPre[0]) - 1) + ',' + (parseInt(checkForPre[1]) + 1);
 		var checkForI = (parseInt(checkForPre[0]) - 1) + ',' + (parseInt(checkForPre[1]) - 1);
+		var checkForJ = checkForPre[0] + ',' + (parseInt(checkForPre[1]) + 2);
+		var checkForK = checkForPre[0] + ',' + (parseInt(checkForPre[1]) - 2);
+		var checkForL = (parseInt(checkForPre[0]) + 2) + ',' + checkForPre[1];
+		var checkForM = (parseInt(checkForPre[0]) - 2) + ',' + checkForPre[1];
+		var checkForN = (parseInt(checkForPre[0]) + 2) + ',' + (parseInt(checkForPre[1]) + 2);
+		var checkForO = (parseInt(checkForPre[0]) + 2) + ',' + (parseInt(checkForPre[1]) - 2);
+		var checkForP = (parseInt(checkForPre[0]) - 2) + ',' + (parseInt(checkForPre[1]) + 2);
+		var checkForQ = (parseInt(checkForPre[0]) - 2) + ',' + (parseInt(checkForPre[1]) - 2);
 		
 		//iterate, excluding given Fief
 		for(var fiefKey in fiefdom){
@@ -231,7 +270,7 @@ function traceHex(fiefdom){
 				continue;
 			}
 			
-			//see if x,y or x,y-1 or x,y+1 exists
+			//see if x,y or x-1,y or x+1,y or x,y-1 or x,y+1 exists
 			for(var pointKey in fiefdom[fiefKey]){
 				if(fiefdom[fiefKey][pointKey] == checkForA || 
 				fiefdom[fiefKey][pointKey] == checkForB || 
@@ -241,7 +280,15 @@ function traceHex(fiefdom){
 				fiefdom[fiefKey][pointKey] == checkForF || 
 				fiefdom[fiefKey][pointKey] == checkForG || 
 				fiefdom[fiefKey][pointKey] == checkForH || 
-				fiefdom[fiefKey][pointKey] == checkForI){
+				fiefdom[fiefKey][pointKey] == checkForI || 
+				fiefdom[fiefKey][pointKey] == checkForJ || 
+				fiefdom[fiefKey][pointKey] == checkForK || 
+				fiefdom[fiefKey][pointKey] == checkForL || 
+				fiefdom[fiefKey][pointKey] == checkForM || 
+				fiefdom[fiefKey][pointKey] == checkForN || 
+				fiefdom[fiefKey][pointKey] == checkForO || 
+				fiefdom[fiefKey][pointKey] == checkForP || 
+				fiefdom[fiefKey][pointKey] == checkForQ){
 					return [
 					    fiefKey,
 					    pointKey
@@ -252,3 +299,97 @@ function traceHex(fiefdom){
 		return false;
 	}
 }
+
+function mapNorth(){
+	
+	//update the parent SVG's data
+	var newColumn = $('#mapContainer').data('column');
+	var newRow = $('#mapContainer').data('row') + 5;
+	$('#mapContainer')
+		.data('center', '')
+		.data('column', newColumn)
+		.data('row', newRow);
+	
+	//redraw the map
+	drawMap();
+}
+
+function mapEast(){
+	
+	//update the parent SVG's data
+	var newColumn = $('#mapContainer').data('column') - 5;
+	var newRow = $('#mapContainer').data('row');
+	$('#mapContainer')
+		.data('center', '')
+		.data('row', newRow)
+		.data('column', newColumn);
+	
+	//redraw the map
+	drawMap();
+}
+
+function mapSouth(){
+	
+	//update the parent SVG's data
+	var newColumn = $('#mapContainer').data('column');
+	var newRow = $('#mapContainer').data('row') - 5;
+	$('#mapContainer')
+		.data('center', '')
+		.data('row', newRow)
+		.data('column', newColumn);
+	
+	//redraw the map
+	drawMap();
+}
+
+function mapWest(){
+	
+	//update the parent SVG's data
+	var newColumn = $('#mapContainer').data('column') + 5;
+	var newRow = $('#mapContainer').data('row');
+	$('#mapContainer')
+		.data('center', '')
+		.data('row', newRow)
+		.data('column', newColumn);
+	
+	//redraw the map
+	drawMap();
+}
+
+$('body').on('click', '.zoomPlus', function(e){
+	
+	//no submit
+	e.preventDefault();
+	
+	//setup
+	var context = $(this);
+
+	//figure out newDim
+	var newDim = $('#mapContainer').data('zoom') - 2;
+	
+	//update the parent SVG's data
+	if(newDim > 2){
+		$('#mapContainer').data('zoom', newDim);
+	
+		//redraw the map
+		drawMap();
+	}
+
+	//no clicky!
+	return false;
+});
+
+$('body').on('click', '.zoomMinus', function(e){
+	
+	//figure out newDim
+	var newDim = $('#mapContainer').data('zoom') + 2;
+	
+	//update the parent SVG's data
+	$('#mapContainer').data('zoom', newDim);
+	
+	//redraw the map
+	drawMap();
+
+	//no clicky!
+	return false;
+});

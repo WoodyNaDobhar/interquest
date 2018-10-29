@@ -26,7 +26,7 @@ Route::get('metatypes', 'MetatypeAPIController@index');
 Route::get('metatypes/{id}', 'MetatypeAPIController@show');
 Route::get('terrains', 'TerrainAPIController@index');
 Route::get('terrains/{id}', 'TerrainAPIController@show');
-Route::get('/territories/map/{id}', 'TerritoryAPIController@map');
+Route::get('/territories/map/{center}/{dim?}', 'TerritoryAPIController@map');
 Route::get('titles', 'TitleAPIController@index');
 Route::get('titles/{id}', 'TitleAPIController@show');
 Route::get('vocations', 'VocationAPIController@index');

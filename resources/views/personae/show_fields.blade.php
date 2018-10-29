@@ -123,14 +123,14 @@
 									<div class="panel box box-primary">
 										<div class="box-header with-border">
 											<h4 class="box-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseHome" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $persona->territory_id !!}">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseHome" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $persona->territory_id !!}" data-zoom="{!! $persona->home->fief ? $persona->home->fief->fiefdom->zoom : 1 !!}">
 													Home
 												</a>
 											</h4>
 										</div>
 										<div id="collapseHome" class="panel-collapse collapse in" aria-expanded="false">
 											<div class="box-body">
-												<h3>{!! $persona->home ? $persona->home->name : 'Homeless! ' !!}</h3>
+												<h3>{!! $persona->home ? $persona->home->displayname : 'Homeless! ' !!}</h3>
 											</div>
 										</div>
 									</div>
@@ -138,7 +138,7 @@
 									<div class="panel box box-primary">
 										<div class="box-header with-border">
 											<h4 class="box-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capital ? $fiefdom->capital->territory_id : $persona->park->territory_id !!}">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapse{!! $i !!}" aria-expanded="false" class="collapsed showFiefdom" data-center="{!! $fiefdom->capital ? $fiefdom->capital->territory_id : $persona->park->territory_id !!}" data-zoom="{!! $fiefdom->zoom !!}">
 													{!! $fiefdom->name !!} ({!! $fiefdom->fiefs ? $fiefdom->fiefs->count() : 'No Fiefs' !!})
 												</a>
 											</h4>
@@ -147,7 +147,7 @@
 											<div class="box-body">
 											@if($fiefdom->fiefs)
 												@foreach($fiefdom->fiefs as $i => $fief)
-												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-trash deleteMe pull-right" data-model="fief" data-id="{!! $fief->id !!}"></i><i class="fa fa-eye mapZoom pull-right" data-center="{!! $fiefdom->capital->id !!}" data-zoom="{!! $fiefdom->zoom !!}"></i></h3>
+												<h3>{!! $fief->name ? $fief->name : 'Territory ' . ($i + 1) !!} <i class="fa fa-eye showFief pull-right" data-center="{!! $fief->territory_id !!}"></i></h3>
 												@endforeach
 											@endif
 											</div>
@@ -157,7 +157,13 @@
 								</div>
 							</div>
 							<div class="col-md-7">
-								<div id="mapContainer" data-center="{!! $persona->territory_id ? $persona->territory_id : $persona->park->territory_id !!}" data-columns="10" data-rows="10"></div>
+								<div id="mapContainer" data-center="{!! 
+								$persona->territory_id ? 
+									$persona->territory_id : 
+									$persona->park->territory_id !!}" data-column="" data-row="" data-zoom="{!! 
+								$persona->territory_id ? 
+									$persona->home->fief->fiefdom->zoom : 
+									$persona->park->zoom !!}"></div>
 							</div>
 						</div>
 					</div>
