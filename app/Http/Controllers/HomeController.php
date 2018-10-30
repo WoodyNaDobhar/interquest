@@ -70,7 +70,7 @@ class HomeController extends Controller
 		
 		//setup
 		$wikontent = '';
-		$html = 'http://www.interquestonline.com/wiki/' . $pageId;
+		$html = 'https://www.interquestonline.com/wiki/' . $pageId;
 		
 		// Create a new DOM Document to hold our webpage structure
 		$xml = new DOMDocument();

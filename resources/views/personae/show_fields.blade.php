@@ -33,7 +33,7 @@
 									</a>
 									@endif
 									@if($persona->user && $persona->user->social->provider_user_id)
-									<a href="http://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}" target="_blank">
+									<a href="https://www.facebook.com/{!! $persona->user->social->provider_user_id !!}}" target="_blank">
 										<img src="/img/linkFacebook.png" width="50" height="50" alt="Facebook">
 									</a>
 									@endif

@@ -2,7 +2,7 @@
 $.fn.hexGridWidget = function (radius, zoom, colMod, rowMod, cssClass, data) {
 	'use strict';
 	var createSVG = function (tag) {
-		return $(document.createElementNS('http://www.w3.org/2000/svg', tag || 'svg'));
+		return $(document.createElementNS('https://www.w3.org/2000/svg', tag || 'svg'));
 	};
 
 	return $(this).each(function () {

@@ -182,9 +182,9 @@ class Persona extends Model
 		$value = $this->image && $this->image != '' ? $this->image : null;
 		if($value){
 			if($value == 'facebook'){
-				return "http://graph.facebook.com/" . $this->user->social->provider_user_id . "/picture?type=square";
+				return "https://graph.facebook.com/" . $this->user->social->provider_user_id . "/picture?type=square";
 			}else if($value == 'ork'){
-				return "http://amtgard.com/ork/assets/players/" . str_pad($this->orkID, 6, '0', STR_PAD_LEFT) . ".jpg";
+				return "https://amtgard.com/ork/assets/players/" . str_pad($this->orkID, 6, '0', STR_PAD_LEFT) . ".jpg";
 			}else if($value == 'file'){
 				if(Storage::disk('public')->exists('/personas/' . $this->id . '.jpg')){
 					return '/storage/personas/' . $this->id . '.jpg';

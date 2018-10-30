@@ -110,19 +110,19 @@ div[class='hide-for-mobile'],
 									<td>
 									<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
-										<div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>" target="_blank"><img src="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/img/emailHeader.png" border="0" width="609" height="81" alt="InterQuest" /></a></div>
+										<div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>" target="_blank"><img src="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/img/emailHeader.png" border="0" width="609" height="81" alt="InterQuest" /></a></div>
 										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 
 										<div class="hide-for-mobile">
 											<div class="text-nav" style="color:#ffffff; font-family:Arial, sans-serif; min-width:auto !important; font-size:12px; line-height:22px; text-align:center">
-													<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">HOME</span></a>
+													<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">HOME</span></a>
 													&nbsp;&nbsp;|&nbsp;&nbsp;
-													<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/parks" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">SETTLEMENTS</span></a>
+													<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/parks" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">SETTLEMENTS</span></a>
 															&nbsp;&nbsp;|&nbsp;&nbsp;
-															<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/personae" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">PERSONAE</span></a>
+															<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/personae" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">PERSONAE</span></a>
 															&nbsp;&nbsp;|&nbsp;&nbsp;
-												<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/contact" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CONTACT US</span></a>
+												<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/contact" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CONTACT US</span></a>
 												</div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="20" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
@@ -211,7 +211,7 @@ div[class='hide-for-mobile'],
 																<div class="text-center" style="color:#1e1e1e; font-family:Arial, sans-serif; min-width:auto !important; font-size:14px; line-height:20px; text-align:center">
 																	<em>
 																		InterQuest is a system to provide a framework around which both local and inter-group quests, battlegames, story arcs, and raids can take place. Its goal is to set a feudal environment in which to provide the motives required to increase role play, friendly rivalries, guile, tactics, intrigue, and put titles, fighting companies and households in the game. With little effort, the generic weekly schedule of ‘ditch, Battlegame, ditch’ is expanded to a larger storyline encompassing every member of the park.<br><br>
-																		<?php echo $inviter->persona->name; ?> has sent you this invite to take control over your Persona on <a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>" target="_blank">InterQuestOnline.com</a>.  Along with being able to customize your Persona, you'll gain access to a number of tools and maps that will help you navigate your way thru the wilds around <?php echo $inviter->persona->park->name; ?>!  Click the button below to accept, or if that doesn't work, you can copy/paste the url below that into your browser.
+																		<?php echo $inviter->persona->name; ?> has sent you this invite to take control over your Persona on <a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>" target="_blank">InterQuestOnline.com</a>.  Along with being able to customize your Persona, you'll gain access to a number of tools and maps that will help you navigate your way thru the wilds around <?php echo $inviter->persona->park->name; ?>!  Click the button below to accept, or if that doesn't work, you can copy/paste the url below that into your browser.
 																	</em>
 																</div>
 																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="25" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
@@ -230,7 +230,7 @@ div[class='hide-for-mobile'],
 </td>
 																								<td bgcolor="#605ca8">
 																									<div class="text-btn" style="color:#ffffff; font-family:Arial, sans-serif; min-width:auto !important; font-size:16px; line-height:20px; text-align:center">
-																										<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/signin" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">SIGN UP</span></a>
+																										<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/signin" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">SIGN UP</span></a>
 																									</div>
 																								</td>
 																								<td class="img" style="font-size:0pt; line-height:0pt; text-align:left" width="15"></td>
@@ -252,7 +252,7 @@ div[class='hide-for-mobile'],
 													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="35" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 
-													<div class="h5-2-center" style="color:#1e1e1e; font-family:Arial, sans-serif; min-width:auto !important; font-size:16px; line-height:26px; text-align:center"><?php echo env('APP_URL', 'http://www.interquest.com'); ?>/signin</div>
+													<div class="h5-2-center" style="color:#1e1e1e; font-family:Arial, sans-serif; min-width:auto !important; font-size:16px; line-height:26px; text-align:center"><?php echo env('APP_URL', 'https://www.interquest.com'); ?>/signin</div>
 													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="25" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 
@@ -261,9 +261,9 @@ div[class='hide-for-mobile'],
 															<th class="column-top" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top; Margin:0" valign="top" width="260">
 																<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																	<tr>
-																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/img/iconQuiver.png" border="0" width="110" height="110" alt="" /></td>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/img/iconQuiver.png" border="0" width="110" height="110" alt="" /></td>
 																		<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="40"></td>
-																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/img/iconScroll.png" border="0" width="110" height="110" alt="" /></td>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/img/iconScroll.png" border="0" width="110" height="110" alt="" /></td>
 																	</tr>
 																</table>
 															</th>
@@ -278,9 +278,9 @@ div[class='hide-for-mobile'],
 															<th class="column-top" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top; Margin:0" valign="top" width="260">
 																<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																	<tr>
-																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/img/iconShield.png" border="0" width="110" height="110" alt="" /></td>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/img/iconShield.png" border="0" width="110" height="110" alt="" /></td>
 																		<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="40"></td>
-																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>/img/iconSwords.png" border="0" width="110" height="110" alt="" /></td>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left" width="110"><img src="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>/img/iconSwords.png" border="0" width="110" height="110" alt="" /></td>
 																	</tr>
 																</table>
 															</th>
@@ -366,7 +366,7 @@ div[class='hide-for-mobile'],
 										<div class="text-footer" style="color:#666666; font-family:Arial, sans-serif; min-width:auto !important; font-size:12px; line-height:18px; text-align:center">
 											123 Fake St<span class="mobile-block"></span> Seattle,<span class="mobile-block"></span> WA
 											<br />
-											<a href="<?php echo env('APP_URL', 'http://www.interquest.com'); ?>" target="_blank" class="link-1" style="color:#666666; text-decoration:none"><span class="link-1" style="color:#666666; text-decoration:none">www.interquestonline.com</span></a>
+											<a href="<?php echo env('APP_URL', 'https://www.interquest.com'); ?>" target="_blank" class="link-1" style="color:#666666; text-decoration:none"><span class="link-1" style="color:#666666; text-decoration:none">www.interquestonline.com</span></a>
 											<span class="mobile-block"><span class="hide-for-mobile">|</span></span>
 											<a href="mailto:hello@interquestonline.com" target="_blank" class="link-1" style="color:#666666; text-decoration:none"><span class="link-1" style="color:#666666; text-decoration:none">hello@interquestonline.com</span></a>
 										</div>

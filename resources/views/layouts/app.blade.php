@@ -6,13 +6,13 @@
 	<title>InterQuest - Living the Dream</title>
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 @if (Request::segment(1) == 'rules')
-	<link rel="stylesheet" href="http://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=mediawiki.legacy.commonPrint,shared|mediawiki.sectionAnchor|mediawiki.skinning.content.externallinks|mediawiki.skinning.interface|skins.monobook.styles&only=styles&skin=monobook"/>
-	<script async="" src="http://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=startup&only=scripts&skin=monobook"></script>
+	<link rel="stylesheet" href="https://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=mediawiki.legacy.commonPrint,shared|mediawiki.sectionAnchor|mediawiki.skinning.content.externallinks|mediawiki.skinning.interface|skins.monobook.styles&only=styles&skin=monobook"/>
+	<script async="" src="https://www.interquestonline.com/w/load.php?debug=false&lang=en&modules=startup&only=scripts&skin=monobook"></script>
 	<!--[if IE 6]>
-		<link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE60Fixes.css?303" media="screen"/>
+		<link rel="stylesheet" href="https://www.interquestonline.com/w/skins/MonoBook/resources/IE60Fixes.css?303" media="screen"/>
 	<![endif]-->
 	<!--[if IE 7]>
-		<link rel="stylesheet" href="http://www.interquestonline.com/w/skins/MonoBook/resources/IE70Fixes.css?303" media="screen"/>
+		<link rel="stylesheet" href="https://www.interquestonline.com/w/skins/MonoBook/resources/IE70Fixes.css?303" media="screen"/>
 	<![endif]-->
 @endif
 @if (Request::segment(1) != 'sparse')
