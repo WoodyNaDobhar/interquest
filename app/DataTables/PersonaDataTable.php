@@ -61,6 +61,7 @@ class PersonaDataTable extends DataTable
 			->addAction(['width' => $actionWidth ? $actionWidth : '10%'])
 			->ajax('')
 			->parameters([
+            	'responsive' => true,
 				'dom' => 'Bfrtip',
 				'scrollX' => false,
 				'buttons' => $buttons ? $buttons : $this->getButtons()

@@ -44,6 +44,7 @@ class TitleDataTable extends DataTable
             ->addAction(['width' => '10%'])
             ->ajax('')
             ->parameters([
+            	'responsive' => true,
                 'dom' => 'Bfrtip',
                 'scrollX' => false,
                 'buttons' => [

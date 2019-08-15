@@ -296,10 +296,12 @@ class TerritoryAPIController extends AppBaseController
 			(
 				(
 					$fief->fiefdom && 
+					$fief->fiefdom->ruler && 
 					$fief->fiefdom->ruler->exists
 				) || 
 				(
 					$fief->park && 
+					$fief->park->ruler && 
 					$fief->park->ruler->exists
 				)
 			)

@@ -44,6 +44,7 @@ class VocationDataTable extends DataTable
             ->addAction(['width' => '10%'])
             ->ajax('')
             ->parameters([
+            	'responsive' => true,
                 'dom' => 'Bfrtip',
                 'scrollX' => false,
                 'buttons' => [
